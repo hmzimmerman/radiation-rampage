@@ -36,9 +36,9 @@ bool View::update(const Logic& logic){
     while (SDL_PollEvent(&event)!=0){
         if (event.key.keysym.sym == SDLK_q) running = false;
         if (event.window.event == SDL_WINDOWEVENT_MINIMIZED) {
-            // logic->setPaused();
-        } else if (e.window.event == SDL_WINDOWEVENT_RESTORED) {
-            // logic->setUnpaused();
+            logic.setPaused();
+        } else if (event.window.event == SDL_WINDOWEVENT_RESTORED) {
+            logic.setUnpaused();
         } 
     }
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );

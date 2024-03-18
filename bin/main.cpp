@@ -14,7 +14,7 @@ int main(int argc, char** argv)
   SDL_Init( SDL_INIT_VIDEO );
   
   Logic logic = Logic();
-  View view = view();
+  View view = View();
       
 
   /*** Main Loop ***/
@@ -36,7 +36,7 @@ int main(int argc, char** argv)
 
     //run updates
     logic.update(time);
-    running = view.update();
+    running = view.update(logic);
 
     //delay so it isnt too fast
     SDL_Delay(10);
