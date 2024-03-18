@@ -21,7 +21,7 @@ class Logic {
 
     public:
         //constructor, create the wave manager and set game_over and paused to false
-        Logic();
+        Logic() = default;
 
         int getScore();
 
@@ -41,7 +41,7 @@ class Logic {
         //reset the game for new session
         void reset();
 
-}
+};
 
 
 #endif

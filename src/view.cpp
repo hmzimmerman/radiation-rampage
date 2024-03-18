@@ -2,6 +2,7 @@
 #include "logic.h"
 #include <SDL.h>
 #include <SDL2_gfxPrimitives.h>
+#include <SDL_image.h>
 #include <stdio.h>
 #include <iostream>
 
@@ -27,7 +28,7 @@ View::View(){
     };
 }
 
-bool View::update(const Logic& logic){
+bool View::update(Logic logic){
 
     // running is returned to update and is updated when player hits x or quits 
     // at the end return running 
@@ -35,15 +36,23 @@ bool View::update(const Logic& logic){
     bool running = true;
     while (SDL_PollEvent(&event)!=0){
         if (event.key.keysym.sym == SDLK_q) running = false;
-        if (event.window.event == SDL_WINDOWEVENT_MINIMIZED) {
-            logic.setPaused();
-        } else if (event.window.event == SDL_WINDOWEVENT_RESTORED) {
-            logic.setUnpaused();
-        } 
+        // if (event.window.event == SDL_WINDOWEVENT_MINIMIZED) {
+        //     logic.setPaused();
+        // } else if (event.window.event == SDL_WINDOWEVENT_RESTORED) {
+        //     logic.setUnpaused();
+        // } 
     }
-    SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
     SDL_RenderClear(renderer);
+    SDL_Texture* texture = IMG_LoadTexture(renderer, "../resource/Map.png");
+    SDL_Rect destination;
+    destination.x = 0;
+    destination.y = 0;
+    destination.w = SCREEN_WIDTH;
+    destination.h = SCREEN_HEIGHT;
+
+    SDL_RenderCopy(renderer, texture, NULL, &destination);
     SDL_RenderPresent(renderer);
+    SDL_DestroyTexture(texture);
     return running;
 }
 

@@ -20,7 +20,7 @@ class WaveManager {
 
     public:
         //constructor, create the first 10 waves and add them to the enemy waves, and set time bwtween waves
-        WaveManager();
+        WaveManager() = default;
 
         //update called in logic
         //moves time until next wave down and sends enemy out if it hits 0
