@@ -3,13 +3,13 @@
 
 #include <string>
 
-enum class damageType {
+enum class DamageType {
     NORMAL,
     ARCHER,
     BOMB
 };
 
-class enemy {
+class Enemy {
 private:
     std::string name;
     int health;
@@ -17,11 +17,15 @@ private:
     int x;
     int y;
     int damage; 
-    damageType weakness;
-    damageType strength;
+    DamageType weakness;
+    DamageType strength;
 
 public:
-    enemy(std::string name, int health, int speed, DamageType weakness, DamageType strength);
+	// Constructor
+    Enemy(std::string name, int health, int speed, int x, int y, int damage, DamageType weakness, DamageType strength);
+    
+    // Deconstructor
+    ~Enemy();
 
     // Enemy takes damage
     void takeDamage(int damage);
@@ -30,14 +34,14 @@ public:
     bool isAlive() const;
     
     // Getters
-    std::string getName() const;
-    int getHealth() const;
-    int getSpeed() const;
-    int getX() const;
-    int getY() const;
-    int getDamage() const;
-    damageType getWeakness() const;
-    damageType getStrength() const;
+    std::string getName() const { return name; }
+    int getHealth() const { return health; }
+    int getSpeed() const { return speed; }
+    int getX() const { return x; }
+    int getY() const { return y; }
+    int getDamage() const { return damage; }
+    DamageType getWeakness() const { return weakness; }
+    DamageType getStrength() const { return strength; }
 
     // Setters
     void setName(std::string n) { name = n; }
@@ -46,8 +50,8 @@ public:
     void setX(int x1) { x = x1; }
     void setY(int y1) { y = y1; }
     void setDamage(int d) { damage = d; }
-    void setWeakness(damageType w) { weakness = w; }
-    void setStrength(damageType s) { strength = s; }
+    void setWeakness(DamageType w) { weakness = w; }
+    void setStrength(DamageType s) { strength = s; }
 };
 
 #endif // ENEMY_H
