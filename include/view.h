@@ -1,7 +1,11 @@
+#ifndef VIEW_H
+#define VIEW_H
+
 #include <SDL.h>
 #include <stdio.h>
 #include <sdl_ttf.h>
 #include <SDL2_gfxPrimitives.h>
+#include "logic.h"
 
 
 const int SCREEN_HEIGHT = 720;
@@ -15,7 +19,7 @@ class View{
     public:
         View();
         ~View();
-        //TODO pass in game logic here 
-        void update();
+        bool update(const Logic& logic);
 
 };
+#endif
