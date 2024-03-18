@@ -1,5 +1,5 @@
 #ifndef WAVEMANAGER_H
-#define EAVEMANAGER_H
+#define WAVEMANAGER_H
 
 #include "enemy.h"
 
@@ -32,7 +32,7 @@ class WaveManager {
 
 
 
-}
+};
 
 
 #endif
