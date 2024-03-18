@@ -16,6 +16,7 @@ class View{
         SDL_Window* window;
         SDL_Renderer* renderer;
 
+
     public:
         View();
         ~View();
