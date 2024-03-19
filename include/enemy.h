@@ -67,4 +67,4 @@ public:
     void setStrength(DamageType s) { strength = s; }
 };
 
-#endif // ENEMY_H
+#endif
