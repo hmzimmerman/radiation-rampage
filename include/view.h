@@ -20,7 +20,7 @@ class View{
     public:
         View();
         ~View();
-        bool update(const Logic& logic);
+        bool update(Logic logic);
 
 };
 #endif
