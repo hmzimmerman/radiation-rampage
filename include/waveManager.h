@@ -16,11 +16,15 @@ class WaveManager {
         std::vector<std::vector<Enemy>> enemy_waves;
 
         //how many seconds between waves
-        int time_between_waves;
+        const int time_between_waves = 90;
+        int time_til_next_wave;
 
     public:
         //constructor, create the first 10 waves and add them to the enemy waves, and set time bwtween waves
-        WaveManager() = default;
+        WaveManager();
+
+        //gives list of enemies on the field
+        std::vector<Enemy> getActiveEnemies();
 
         //update called in logic
         //moves time until next wave down and sends enemy out if it hits 0

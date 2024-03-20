@@ -7,21 +7,19 @@
 #include <iostream>
 #include <stdio.h>
 #include <vector>
-#include <vector>
 
 class Logic {
     private:
         int score;
-        bool lost;//tells view if the game is over
         double time;
         bool game_over; //tells view if the game is over
         bool paused;//tells other views if the game is paused
 
-        WaveManager wave_manger;
+        WaveManager *wave_manger;
 
     public:
         //constructor, create the wave manager and set game_over and paused to false
-        Logic() = default;
+        Logic();
 
         int getScore();
 
