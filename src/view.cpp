@@ -36,6 +36,10 @@ bool View::update(Logic logic){
     bool running = true;
     while (SDL_PollEvent(&event)!=0){
         if (event.key.keysym.sym == SDLK_q) running = false;
+        if (event.type == SDL_QUIT) {
+            running = false;
+        }
+
         // if (event.window.event == SDL_WINDOWEVENT_MINIMIZED) {
         //     logic.setPaused();
         // } else if (event.window.event == SDL_WINDOWEVENT_RESTORED) {
