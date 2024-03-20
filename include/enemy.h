@@ -5,7 +5,7 @@
 
 enum class DamageType {
     NORMAL,
-    ARCHER,
+    LASER,
     BOMB
 };
 

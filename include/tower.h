@@ -5,7 +5,7 @@
 
 enum class DamageType {
     NORMAL,
-    ARCHER,
+    LASER,
     BOMB
 };
 
@@ -49,13 +49,13 @@ class Tower {
         void setYCoord(int newY) { y = newY; }
 };
 
-class ArcherTower : public Tower {
+class LaserTower : public Tower {
     private:
         int fireRate;
 
     public:
         // Constructor
-        ArcherTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, int x, int y, int fireRate);
+        LaserTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, int x, int y, int fireRate);
 
         // Methods
         void attack();
