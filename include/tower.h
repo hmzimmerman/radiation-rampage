@@ -12,7 +12,7 @@ struct TowerLocation {
     int size; // Size of the square plot
     bool occupied; // Indicate if a tower is already placed here
 
-    TowerLocation(int x, int y) : x(x), y(y), size(76), occupied(false) {} // Constructor
+    TowerLocation(int x, int y) : x(x), y(y), size(80), occupied(false) {}
 };
 
 extern std::vector<TowerLocation> towerLocations;

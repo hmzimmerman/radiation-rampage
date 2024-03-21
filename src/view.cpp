@@ -71,15 +71,16 @@ bool View::update(Logic logic){
 void View::renderTowerLocations() {
     for (const auto& location : towerLocations) {
         if (location.occupied) {
-            // Draw a green square if the location is occupied by a tower
-            boxRGBA(renderer, location.x, location.y,
-                    location.x + location.size, location.y + location.size,
-                    0, 255, 0, 255);
-        } else {
-            // Draw an empty square if the location is not occupied
-            rectangleRGBA(renderer, location.x, location.y,
-                          location.x + location.size, location.y + location.size,
-                          0, 255, 0, 255);
+            SDL_Texture* towerTexture = IMG_LoadTexture(renderer, "../resource/Tower.png");
+            if (towerTexture == nullptr) {
+                std::cerr << "Failed to load tower image texture: " << IMG_GetError() << std::endl;
+                return;
+            }
+
+            SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
+            SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
+
+            SDL_DestroyTexture(towerTexture);
         }
     }
 }
