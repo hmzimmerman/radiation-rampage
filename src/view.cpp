@@ -35,13 +35,24 @@ bool View::update(Logic logic){
     SDL_Event event; 
     bool running = true;
     while (SDL_PollEvent(&event)!=0){
-        if (event.key.keysym.sym == SDLK_q) running = false;
+        if (event.type == SDL_QUIT) {
+            running = false;
+        }
+        else if (event.type == SDL_KEYDOWN) {
+            if (event.key.keysym.sym == SDLK_q) {
+                running = false;
+            }
+        }
+        else if (event.type == SDL_MOUSEBUTTONDOWN) {
+            handleTowerPlacement(event);
+        }
         // if (event.window.event == SDL_WINDOWEVENT_MINIMIZED) {
         //     logic.setPaused();
         // } else if (event.window.event == SDL_WINDOWEVENT_RESTORED) {
         //     logic.setUnpaused();
-        // } 
+        // }
     }
+
     SDL_RenderClear(renderer);
     SDL_Texture* texture = IMG_LoadTexture(renderer, "../resource/Map.png");
     SDL_Rect destination;
@@ -51,10 +62,42 @@ bool View::update(Logic logic){
     destination.h = SCREEN_HEIGHT;
 
     SDL_RenderCopy(renderer, texture, NULL, &destination);
+    renderTowerLocations();
     SDL_RenderPresent(renderer);
     SDL_DestroyTexture(texture);
     return running;
 }
+
+void View::renderTowerLocations() {
+    for (const auto& location : towerLocations) {
+        if (location.occupied) {
+            SDL_Texture* towerTexture = IMG_LoadTexture(renderer, "../resource/Tower.png");
+            if (towerTexture == nullptr) {
+                std::cerr << "Failed to load tower image texture: " << IMG_GetError() << std::endl;
+                return;
+            }
+
+            SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
+            SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
+
+            SDL_DestroyTexture(towerTexture);
+        }
+    }
+}
+
+
+void View::handleTowerPlacement(SDL_Event event) {
+    for (auto& location : towerLocations) {
+        if (!location.occupied &&
+            event.button.x >= location.x && event.button.x <= location.x + location.size &&
+            event.button.y >= location.y && event.button.y <= location.y + location.size) {
+            location.occupied = true;
+            // TODO Add tower placement logic
+            break;
+        }
+    }
+}
+
 
 View::~View(){
     SDL_DestroyRenderer(renderer);

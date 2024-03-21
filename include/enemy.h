@@ -1,13 +1,8 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
+#include "damage_type.h"
 #include <string>
-
-enum class DamageType {
-    NORMAL,
-    ARCHER,
-    BOMB
-};
 
 enum class Direction {
 	NORTH,
