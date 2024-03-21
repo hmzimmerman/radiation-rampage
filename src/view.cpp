@@ -12,7 +12,7 @@ View::View(){
         cout << "Error. SDL could not initialize" << endl;
     };
 
-    window = SDL_CreateWindow("player",
+    window = SDL_CreateWindow("Radiation Rampage",
                               SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH,
                               SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
