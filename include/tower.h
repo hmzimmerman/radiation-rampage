@@ -1,13 +1,21 @@
 #ifndef TOWER_H
 #define TOWER_H
 
+#include "damage_type.h"
+#include "view.h"
 #include <string>
+#include <vector>
 
-enum class DamageType {
-    NORMAL,
-    LASER,
-    BOMB
+struct TowerLocation {
+    int x;
+    int y;
+    int size; // Size of the square plot
+    bool occupied; // Indicate if a tower is already placed here
+
+    TowerLocation(int x, int y) : x(x), y(y), size(76), occupied(false) {} // Constructor
 };
+
+extern std::vector<TowerLocation> towerLocations;
 
 class Tower {
     private:
@@ -19,6 +27,7 @@ class Tower {
         DamageType damageType;
         int x; // X coordinate of tower
         int y; // Y coordinate of tower
+        static std::vector<TowerLocation> towerLocations;
 
     public:
         // Constructor
