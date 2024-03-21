@@ -1,5 +1,6 @@
 #include "waveManager.h"
 #include "enemy.h"
+#include "logic.h"
 
 #include <iostream>
 #include <stdio.h>
@@ -8,6 +9,7 @@
 //constructor
 Logic::Logic() {
     score = 0;
+    health = 20;
     game_over = false;
     paused = false;
     wave_manager = new WaveManager();

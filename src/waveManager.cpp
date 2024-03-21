@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include "waveManager.h"
 
 #include <iostream>
 #include <stdio.h>
@@ -10,17 +11,17 @@ WaveManager::WaveManager() {
     time_til_next_wave = time_between_waves;
 
     //create first 10 waves of enemies
-    std::vector<enemy> wave1;
+    std::vector<Enemy> wave1;
         //wave1.push_back(human raider);
-    std::vector<enemy> wave2;
-    std::vector<enemy> wave3;
-    std::vector<enemy> wave4;
-    std::vector<enemy> wave5;
-    std::vector<enemy> wave6;
-    std::vector<enemy> wave7;
-    std::vector<enemy> wave8;
-    std::vector<enemy> wave9;
-    std::vector<enemy> wave10;
+    std::vector<Enemy> wave2;
+    std::vector<Enemy> wave3;
+    std::vector<Enemy> wave4;
+    std::vector<Enemy> wave5;
+    std::vector<Enemy> wave6;
+    std::vector<Enemy> wave7;
+    std::vector<Enemy> wave8;
+    std::vector<Enemy> wave9;
+    std::vector<Enemy> wave10;
 
     //push back waves in reverse order so they can easily be poped off
     enemy_waves.push_back(wave10);
@@ -44,7 +45,7 @@ void WaveManager::update() {
     //between rounds)
     //I am going to leave this for now but hopefully I will remember to bring this up at our 
     //next meeting
-    time_til_next_wave -= 1
+    time_til_next_wave -= 1;
     if (time_between_waves < 1) {
 
         // Pop the last element from enemy waves
@@ -60,7 +61,7 @@ void WaveManager::update() {
             //not sure how to do this
         }
         //reset clock
-        time_til_next_wave = time_bewteen_waves;
+        time_til_next_wave = time_between_waves;
     }
 
 }
