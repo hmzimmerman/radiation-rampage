@@ -55,6 +55,8 @@ class Tower {
         void setHealth(int h) { health = h; }
         void setXCoord(int newX) { x = newX; }
         void setYCoord(int newY) { y = newY; }
+
+        static Tower* createTower(const std::string& towerType, int x, int y);
 };
 
 class LaserTower : public Tower {
