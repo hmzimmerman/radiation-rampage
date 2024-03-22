@@ -27,7 +27,6 @@ class Tower {
         DamageType damageType;
         int x; // X coordinate of tower
         int y; // Y coordinate of tower
-        static std::vector<TowerLocation> towerLocations;
 
     public:
         // Constructor
