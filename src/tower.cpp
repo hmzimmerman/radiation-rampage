@@ -1,4 +1,6 @@
+#include <vector>
 #include "tower.h"
+#include "gui.h"
 
 std::vector<TowerLocation> towerLocations = {
     TowerLocation(275, 71),

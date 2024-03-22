@@ -1,10 +1,10 @@
-#include "view.h"
-#include "logic.h"
 #include <SDL.h>
 #include <SDL2_gfxPrimitives.h>
 #include <SDL_image.h>
 #include <stdio.h>
 #include <iostream>
+#include "view.h"
+#include "logic.h"
 #include "gui.h"
 
 using namespace std;
