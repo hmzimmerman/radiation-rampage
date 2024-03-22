@@ -2,7 +2,7 @@
 #include <iostream>
 
 GUI::GUI(SDL_Renderer* renderer) : renderer(renderer), visible(false), location(0, 0) {
-    options = { "Barracks Tower", "Bomb Tower", "Laser Tower" };
+    options = { "Barracks", "Bomb", "Laser" };
 }
 
 GUI::~GUI() {}
@@ -15,18 +15,22 @@ void GUI::show(const TowerLocation& towerLocation) {
 void GUI::render() {
     if (!visible) return;
 
-    int adjustedY = location.y - 75; // Render GUI above tower
+    int adjustedY = location.y - 30; // Render GUI above tower
+    int rectHeight = 25;
+    int rectWidth = 195;
+    int centerX = location.x - 55; // Center GUI above tower
 
     // Render GUI background
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 200);
-    SDL_Rect guiRect = { location.x, adjustedY, 200, 75 };
+    SDL_Rect guiRect = { centerX, adjustedY, rectWidth, rectHeight };
     SDL_RenderFillRect(renderer, &guiRect);
+
+    int optionWidth = rectWidth / options.size();
 
     // Render GUI options
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_Rect optionRect = { location.x, adjustedY, 200, 25 };
     for (int i = 0; i < options.size(); ++i) {
-        optionRect.y = adjustedY + i * 25;
+        SDL_Rect optionRect = { centerX + i * optionWidth, adjustedY, optionWidth, rectHeight };
         SDL_RenderDrawRect(renderer, &optionRect);
 
         // Render option text
