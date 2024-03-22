@@ -5,6 +5,7 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <iostream>
+#include "gui.h"
 
 using namespace std;
 View::View(){
@@ -26,6 +27,13 @@ View::View(){
     if (renderer == NULL){
         cout << "Error creating renderer" << endl;
     };
+
+    if (TTF_Init() < 0) {
+    std::cerr << "Error. Failed to initialize SDL_ttf: " << TTF_GetError() << std::endl;
+    }
+
+    logic = new Logic();
+    gui = new GUI(renderer);
 }
 
 bool View::update(Logic logic){
@@ -63,6 +71,7 @@ bool View::update(Logic logic){
 
     SDL_RenderCopy(renderer, texture, NULL, &destination);
     renderTowerLocations();
+    renderGUI();
     SDL_RenderPresent(renderer);
     SDL_DestroyTexture(texture);
     return running;
@@ -92,14 +101,20 @@ void View::handleTowerPlacement(SDL_Event event) {
             event.button.x >= location.x && event.button.x <= location.x + location.size &&
             event.button.y >= location.y && event.button.y <= location.y + location.size) {
             location.occupied = true;
+            gui->show(location);
             // TODO Add tower placement logic
             break;
         }
     }
 }
 
+void View::renderGUI() {
+    gui->render();
+}
 
 View::~View(){
+    delete logic;
+    delete gui; 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
