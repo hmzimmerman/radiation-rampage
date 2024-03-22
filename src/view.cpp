@@ -5,7 +5,7 @@
 #include <iostream>
 #include "view.h"
 #include "logic.h"
-#include "gui.h"
+#include "tower_gui.h"
 
 using namespace std;
 View::View(){
@@ -107,7 +107,7 @@ void View::handleTowerPlacement(SDL_Event event) {
     }
 }
 
-// Pass mouse coordinates to GUI
+// Pass mouse coordinates to GUI for option selection
 void View::handleTowerTypeSelection(SDL_Event event) {
     gui->selectTowerType(event.button.x, event.button.y);
 }

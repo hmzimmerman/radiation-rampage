@@ -1,5 +1,5 @@
-#ifndef GUI_H
-#define GUI_H
+#ifndef TOWER_GUI_H
+#define TOWER_GUI_H
 
 #include <SDL.h>
 #include <vector>

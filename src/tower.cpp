@@ -1,6 +1,6 @@
 #include <vector>
 #include "tower.h"
-#include "gui.h"
+#include "tower_gui.h"
 
 Tower::Tower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, int x, int y)
     : name(name), health(health), damage(damage), range(range), areaOfEffect(areaOfEffect), damageType(damageType), x(x), y(y) {}

@@ -1,4 +1,4 @@
-#include "gui.h"
+#include "tower_gui.h"
 #include <iostream>
 
 GUI::GUI(SDL_Renderer* renderer) : renderer(renderer), visible(false), location(0, 0) {
