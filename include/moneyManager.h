@@ -7,7 +7,11 @@ class MoneyManager{
     
     public:
         MoneyManager();
-        void spendMoney(int amount);
+
+        // Decreases money by amount.
+        // Returns true if transaction is successful (sufficient funds), false otherwise.
+        bool spendMoney(int amount);
+
         void gainMoney(int amount);
         int getMoney();
 };
