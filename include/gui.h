@@ -19,5 +19,6 @@ public:
     void show(const TowerLocation& towerLocation);
     void render();
     void hide();
+    void selectTowerType(int mouseX, int mouseY);
 };
 #endif

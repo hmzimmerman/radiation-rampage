@@ -18,7 +18,7 @@ void GUI::render() {
     int adjustedY = location.y - 30; // Render GUI above tower
     int rectHeight = 25;
     int rectWidth = 195;
-    int centerX = location.x - 55; // Center GUI above tower
+    int centerX = location.x - rectWidth / 2; // Center GUI above tower
 
     // Render GUI background
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 200);
@@ -39,7 +39,9 @@ void GUI::render() {
         SDL_Surface* textSurface = TTF_RenderText_Solid(font, options[i].c_str(), textColor);
         
         SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-        SDL_Rect textRect = { optionRect.x + 5, optionRect.y + 5, textSurface->w, textSurface->h };
+        int textWidth, textHeight;
+        SDL_QueryTexture(textTexture, NULL, NULL, &textWidth, &textHeight);
+        SDL_Rect textRect = { optionRect.x + (optionWidth - textWidth) / 2, optionRect.y + (rectHeight - textHeight) / 2, textWidth, textHeight };
         SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
         SDL_FreeSurface(textSurface);
@@ -50,4 +52,22 @@ void GUI::render() {
 
 void GUI::hide() {
     visible = false;
+}
+
+void GUI::selectTowerType(int mouseX, int mouseY) {
+    // Check if mouse is within bounds of any option
+    for (int i = 0; i < options.size(); ++i) {
+        int rectWidth = 195;
+        int optionX = location.x - rectWidth / 2 + i * (rectWidth / options.size());
+        int optionY = location.y - 30;
+        int optionWidth = rectWidth / options.size();
+        int optionHeight = 25;
+
+        if (mouseX >= optionX && mouseX <= optionX + optionWidth &&
+            mouseY >= optionY && mouseY <= optionY + optionHeight) {
+            std::string selectedTowerType = options[i];
+            std::cout << "Tower type selected: " << selectedTowerType << std::endl;
+            return;
+        }
+    }
 }

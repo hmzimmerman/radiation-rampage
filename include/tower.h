@@ -11,6 +11,7 @@ struct TowerLocation {
     int y;
     int size; // Size of the square plot
     bool occupied; // Indicate if a tower is already placed here
+    std::string towerType;
 
     TowerLocation(int x, int y) : x(x), y(y), size(80), occupied(false) {}
 };

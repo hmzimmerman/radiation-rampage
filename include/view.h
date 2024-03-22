@@ -27,5 +27,7 @@ class View{
         void renderTowerLocations();
         void handleTowerPlacement(SDL_Event event);
         void renderGUI();
+        void createTower(const std::string& towerType);
+        void handleTowerTypeSelection(SDL_Event event);
 };
 #endif
