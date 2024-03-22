@@ -27,10 +27,11 @@ class Tower {
         DamageType damageType;
         int x; // X coordinate of tower
         int y; // Y coordinate of tower
+        int buildCost;
 
     public:
         // Constructor
-        Tower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, int x, int y);
+        Tower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, int x, int y, int buildCost);
 
         // Destructor
         ~Tower();
@@ -50,11 +51,13 @@ class Tower {
         DamageType getDamageType() const { return damageType; }
         int getX() const { return x; }
         int getY() const { return y; }
+        int getBuildCost() const { return buildCost; }
 
         // Setters
         void setHealth(int h) { health = h; }
         void setXCoord(int newX) { x = newX; }
         void setYCoord(int newY) { y = newY; }
+        void setBuildCost(int newBuildCost) { buildCost = newBuildCost;}
 };
 
 class LaserTower : public Tower {
@@ -63,7 +66,7 @@ class LaserTower : public Tower {
 
     public:
         // Constructor
-        LaserTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, int x, int y, int fireRate);
+        LaserTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, int x, int y, int buildCost, int fireRate);
 
         // Methods
         void attack();
@@ -78,7 +81,7 @@ class BombTower : public Tower {
 
     public:
         // Constructor
-        BombTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, int x, int y, int rateOfFire);
+        BombTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, int x, int y, int buildCost, int rateOfFire);
 
         // Methods
         void attack();
@@ -90,7 +93,7 @@ class BombTower : public Tower {
 class Barracks : public Tower {
     public:
         // Constructor
-        Barracks(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, int x, int y);
+        Barracks(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, int x, int y, int buildCost);
 
         // Methods
         void attack();
