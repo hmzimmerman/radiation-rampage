@@ -71,28 +71,11 @@ bool View::update(Logic logic){
     destination.h = SCREEN_HEIGHT;
 
     SDL_RenderCopy(renderer, texture, NULL, &destination);
-    renderTowerLocations();
     renderGUI();
+    renderTowerLocations();
     SDL_RenderPresent(renderer);
     SDL_DestroyTexture(texture);
     return running;
-}
-
-void View::renderTowerLocations() {
-    for (const auto& location : towerLocations) {
-        if (location.occupied) {
-            SDL_Texture* towerTexture = IMG_LoadTexture(renderer, "../resource/Tower.png");
-            if (towerTexture == nullptr) {
-                std::cerr << "Failed to load tower image texture: " << IMG_GetError() << std::endl;
-                return;
-            }
-
-            SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
-            SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
-
-            SDL_DestroyTexture(towerTexture);
-        }
-    }
 }
 
 // Show GUI for tower if mouse click occurs within tower region
@@ -101,7 +84,6 @@ void View::handleTowerPlacement(SDL_Event event) {
         if (!location.occupied &&
             event.button.x >= location.x && event.button.x <= location.x + location.size &&
             event.button.y >= location.y && event.button.y <= location.y + location.size) {
-            location.occupied = true;
             gui->show(location);
         }
     }
@@ -110,6 +92,29 @@ void View::handleTowerPlacement(SDL_Event event) {
 // Pass mouse coordinates to GUI for option selection
 void View::handleTowerTypeSelection(SDL_Event event) {
     gui->selectTowerType(event.button.x, event.button.y);
+}
+
+void View::renderTowerLocations() {
+    for (const auto& location : towerLocations) {
+        if (location.occupied) {
+            SDL_Texture* towerTexture = nullptr;
+            std::string textureName;
+            if (location.towerType.compare("Barracks") == 0) {
+                towerTexture = IMG_LoadTexture(renderer, "../resource/barrackstower.png");
+                textureName = "Barracks";
+            } else if (location.towerType.compare("Bomb") == 0) {
+                towerTexture = IMG_LoadTexture(renderer, "../resource/bombtower.png");
+                textureName = "Bomb";
+            } else if (location.towerType.compare("Laser") == 0) {
+                towerTexture = IMG_LoadTexture(renderer, "../resource/lasertower.png");
+                textureName = "Laser";
+            }
+
+            gui->addTowerTexture(towerTexture, textureName);
+            SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
+            SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
+        }
+    }
 }
 
 void View::renderGUI() {

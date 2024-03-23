@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include <vector>
+#include <unordered_map>
 #include "tower.h"
 
 struct TowerLocation;
@@ -13,6 +14,7 @@ private:
     bool visible;
     TowerLocation location;
     std::vector<std::string> options;
+    std::unordered_map<std::string, SDL_Texture*> towerTextures;
 public:
     GUI(SDL_Renderer* renderer);
     ~GUI();
@@ -20,5 +22,6 @@ public:
     void render();
     void hide();
     void selectTowerType(int mouseX, int mouseY);
+    void addTowerTexture(SDL_Texture* texture, const std::string& name);
 };
 #endif

@@ -5,7 +5,11 @@ GUI::GUI(SDL_Renderer* renderer) : renderer(renderer), visible(false), location(
     options = { "Barracks", "Bomb", "Laser" };
 }
 
-GUI::~GUI() {}
+GUI::~GUI() {
+    for (auto& pair : towerTextures) {
+        SDL_DestroyTexture(pair.second);
+    }
+}
 
 void GUI::show(const TowerLocation& towerLocation) {
     visible = true;
@@ -65,9 +69,20 @@ void GUI::selectTowerType(int mouseX, int mouseY) {
 
         if (mouseX >= optionX && mouseX <= optionX + optionWidth &&
             mouseY >= optionY && mouseY <= optionY + optionHeight) {
-            std::string selectedTowerType = options[i];
-            std::cout << "Tower type selected: " << selectedTowerType << std::endl;
+            // Create tower and store it in that location
+            Tower* tower = Tower::createTower(options[i], location.x, location.y);
+            location.occupied = true;
+            location.towerType = options[i];
+            if (tower) {
+                towerLocations.push_back(location);
+                towerLocations.back().occupied = true;
+            }
+            //std::cout << "Tower type selected: " << options[i] << std::endl;
             return;
         }
     }
+}
+
+void GUI::addTowerTexture(SDL_Texture* texture, const std::string& name) {
+    towerTextures.insert({ name, texture });
 }
