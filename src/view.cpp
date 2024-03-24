@@ -52,7 +52,7 @@ bool View::update(Logic logic){
             }
         }
         else if (event.type == SDL_MOUSEBUTTONDOWN) {
-            handleTowerPlacement(event);
+            handleTowerClick(event);
             handleTowerTypeSelection(event);
         }
         // if (event.window.event == SDL_WINDOWEVENT_MINIMIZED) {
@@ -79,12 +79,13 @@ bool View::update(Logic logic){
 }
 
 // Show GUI for tower if mouse click occurs within tower region
-void View::handleTowerPlacement(SDL_Event event) {
+void View::handleTowerClick(SDL_Event event) {
     for (auto& location : towerLocations) {
         if (!location.occupied &&
             event.button.x >= location.x && event.button.x <= location.x + location.size &&
             event.button.y >= location.y && event.button.y <= location.y + location.size) {
             gui->show(location);
+            return;
         }
     }
 }
@@ -94,6 +95,7 @@ void View::handleTowerTypeSelection(SDL_Event event) {
     gui->selectTowerType(event.button.x, event.button.y);
 }
 
+// Render respective tower images
 void View::renderTowerLocations() {
     for (const auto& location : towerLocations) {
         if (location.occupied) {

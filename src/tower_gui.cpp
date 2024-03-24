@@ -78,6 +78,7 @@ void GUI::selectTowerType(int mouseX, int mouseY) {
                 towerLocations.back().occupied = true;
             }
             //std::cout << "Tower type selected: " << options[i] << std::endl;
+            hide();
             return;
         }
     }

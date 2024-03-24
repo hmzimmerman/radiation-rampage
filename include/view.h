@@ -25,7 +25,7 @@ class View{
         bool update(Logic logic);
 
         void renderTowerLocations();
-        void handleTowerPlacement(SDL_Event event);
+        void handleTowerClick(SDL_Event event);
         void renderGUI();
         void handleTowerTypeSelection(SDL_Event event);
 };
