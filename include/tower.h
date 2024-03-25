@@ -31,7 +31,7 @@ class Tower {
 
     public:
         // Constructor
-        Tower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int buildCost );
+        Tower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int buildCost);
 
         // Destructor
         ~Tower();
@@ -64,7 +64,7 @@ class LaserTower : public Tower {
 
     public:
         // Constructor
-        LaserTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int fireRate, int buildCost);
+        LaserTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location,int buildCost, int fireRate);
 
         // Methods
         void attack();
@@ -79,7 +79,7 @@ class BombTower : public Tower {
 
     public:
         // Constructor
-        BombTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int rateOfFire, int buildCost);
+        BombTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int buildCost, int rateOfFire);
 
         // Methods
         void attack();
