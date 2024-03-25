@@ -35,6 +35,7 @@ View::View(){
 
     logic = new Logic();
     tower_gui = new TOWER_GUI(renderer);
+    update_tower_gui = new TOWER_GUI(renderer);
 }
 
 bool View::update(Logic logic){
@@ -82,10 +83,15 @@ bool View::update(Logic logic){
 // Show GUI for tower if mouse click occurs within tower region
 void View::handleTowerClick(SDL_Event event) {
     for (auto& location : towerLocations) {
-        if (!location.occupied &&
-            event.button.x >= location.x && event.button.x <= location.x + location.size &&
+        if (!location.occupied && event.button.x >= location.x && event.button.x <= location.x + location.size &&
             event.button.y >= location.y && event.button.y <= location.y + location.size) {
             tower_gui->show(location);
+            update_tower_gui->hide();
+            return;
+        } else if (location.occupied && event.button.x >= location.x && event.button.x <= location.x + location.size &&
+                 event.button.y >= location.y && event.button.y <= location.y + location.size) {
+            update_tower_gui->show(location);
+            tower_gui->hide();
             return;
         }
     }
@@ -93,7 +99,11 @@ void View::handleTowerClick(SDL_Event event) {
 
 // Pass mouse coordinates to GUI for option selection
 void View::handleTowerTypeSelection(SDL_Event event) {
-    tower_gui->selectTowerType(event.button.x, event.button.y);
+    if (tower_gui->isVisible()) {
+        tower_gui->selectTowerType(event.button.x, event.button.y);
+    } else if (update_tower_gui->isVisible()) {
+        update_tower_gui->selectTowerType(event.button.x, event.button.y);
+    }
 }
 
 // Render respective tower images
@@ -122,11 +132,13 @@ void View::renderTowerLocations() {
 
 void View::renderGUI() {
     tower_gui->render();
+    update_tower_gui->render();
 }
 
 View::~View(){
     delete logic;
-    delete tower_gui; 
+    delete tower_gui;
+    delete update_tower_gui;
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

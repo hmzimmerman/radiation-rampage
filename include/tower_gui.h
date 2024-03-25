@@ -26,5 +26,8 @@ public:
     void addTowerTexture(SDL_Texture* texture, const std::string& name);
     void handleTowerAction(const std::string& action);
     //void printTowerInfo();
+
+    //Getters
+    bool isVisible() const { return visible; }
 };
 #endif

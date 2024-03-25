@@ -18,14 +18,15 @@ class View{
         SDL_Renderer* renderer;
         Logic* logic;
         TOWER_GUI* tower_gui;
+        TOWER_GUI* update_tower_gui;
     public:
         View();
         ~View();
         bool update(Logic logic);
 
+        void renderGUI();
         void renderTowerLocations();
         void handleTowerClick(SDL_Event event);
-        void renderGUI();
         void handleTowerTypeSelection(SDL_Event event);
 };
 #endif
