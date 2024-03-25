@@ -34,6 +34,7 @@ View::View(){
 
     logic = new Logic();
     tower_gui = new TOWER_GUI(renderer);
+
 }
 
 bool View::update(Logic logic){
@@ -73,6 +74,19 @@ bool View::update(Logic logic){
     SDL_RenderCopy(renderer, texture, NULL, &destination);
     renderGUI();
     renderTowerLocations();
+
+    std::vector<Enemy> enemies = logic.getEnemiesOnField();
+    for (int i = 0; i < enemies.size(); i++){
+        SDL_Texture* raiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
+        SDL_Rect raiderDestination;
+        raiderDestination.x = enemies[i].getX();
+        raiderDestination.y = enemies[i].getY();
+        cout << raiderDestination.x << "," << raiderDestination.y << endl;
+        raiderDestination.w = 100;
+        raiderDestination.h = 100;
+        SDL_RenderCopy(renderer, raiderTexture, NULL, &raiderDestination);
+    }
+
     SDL_RenderPresent(renderer);
     SDL_DestroyTexture(texture);
     return running;
