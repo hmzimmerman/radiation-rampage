@@ -1,10 +1,11 @@
-#include "view.h"
-#include "logic.h"
 #include <SDL.h>
 #include <SDL2_gfxPrimitives.h>
 #include <SDL_image.h>
 #include <stdio.h>
 #include <iostream>
+#include "view.h"
+#include "logic.h"
+#include "tower_gui.h"
 
 using namespace std;
 View::View(){
@@ -26,6 +27,13 @@ View::View(){
     if (renderer == NULL){
         cout << "Error creating renderer" << endl;
     };
+
+    if (TTF_Init() < 0) {
+    std::cerr << "Error. Failed to initialize SDL_ttf: " << TTF_GetError() << std::endl;
+    }
+
+    logic = new Logic();
+    tower_gui = new TOWER_GUI(renderer);
 }
 
 bool View::update(Logic logic){
@@ -44,7 +52,8 @@ bool View::update(Logic logic){
             }
         }
         else if (event.type == SDL_MOUSEBUTTONDOWN) {
-            handleTowerPlacement(event);
+            handleTowerClick(event);
+            handleTowerTypeSelection(event);
         }
         // if (event.window.event == SDL_WINDOWEVENT_MINIMIZED) {
         //     logic.setPaused();
@@ -62,44 +71,61 @@ bool View::update(Logic logic){
     destination.h = SCREEN_HEIGHT;
 
     SDL_RenderCopy(renderer, texture, NULL, &destination);
+    renderGUI();
     renderTowerLocations();
     SDL_RenderPresent(renderer);
     SDL_DestroyTexture(texture);
     return running;
 }
 
-void View::renderTowerLocations() {
-    for (const auto& location : towerLocations) {
-        if (location.occupied) {
-            SDL_Texture* towerTexture = IMG_LoadTexture(renderer, "../resource/Tower.png");
-            if (towerTexture == nullptr) {
-                std::cerr << "Failed to load tower image texture: " << IMG_GetError() << std::endl;
-                return;
-            }
-
-            SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
-            SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
-
-            SDL_DestroyTexture(towerTexture);
-        }
-    }
-}
-
-
-void View::handleTowerPlacement(SDL_Event event) {
+// Show GUI for tower if mouse click occurs within tower region
+void View::handleTowerClick(SDL_Event event) {
     for (auto& location : towerLocations) {
         if (!location.occupied &&
             event.button.x >= location.x && event.button.x <= location.x + location.size &&
             event.button.y >= location.y && event.button.y <= location.y + location.size) {
-            location.occupied = true;
-            // TODO Add tower placement logic
-            break;
+            tower_gui->show(location);
+            return;
         }
     }
 }
 
+// Pass mouse coordinates to GUI for option selection
+void View::handleTowerTypeSelection(SDL_Event event) {
+    tower_gui->selectTowerType(event.button.x, event.button.y);
+}
+
+// Render respective tower images
+void View::renderTowerLocations() {
+    for (const auto& location : towerLocations) {
+        if (location.occupied) {
+            SDL_Texture* towerTexture = nullptr;
+            std::string textureName;
+            if (location.towerType.compare("Barracks") == 0) {
+                towerTexture = IMG_LoadTexture(renderer, "../resource/barrackstower.png");
+                textureName = "Barracks";
+            } else if (location.towerType.compare("Bomb") == 0) {
+                towerTexture = IMG_LoadTexture(renderer, "../resource/bombtower.png");
+                textureName = "Bomb";
+            } else if (location.towerType.compare("Laser") == 0) {
+                towerTexture = IMG_LoadTexture(renderer, "../resource/lasertower.png");
+                textureName = "Laser";
+            }
+
+            tower_gui->addTowerTexture(towerTexture, textureName);
+            SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
+            SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
+        }
+    }
+}
+
+void View::renderGUI() {
+    tower_gui->render();
+}
 
 View::~View(){
+    delete logic;
+    delete tower_gui; 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
