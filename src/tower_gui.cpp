@@ -1,5 +1,4 @@
 #include "tower_gui.h"
-#include <iostream>
 
 GUI::GUI(SDL_Renderer* renderer) : renderer(renderer), visible(false), location(0, 0) {
     options = { "Barracks", "Bomb", "Laser" };
@@ -59,27 +58,32 @@ void GUI::hide() {
 }
 
 void GUI::selectTowerType(int mouseX, int mouseY) {
-    // Check if mouse is within bounds of any option
-    for (int i = 0; i < options.size(); ++i) {
+    for (int i = 0; i < towerLocations.size(); ++i) {
+        TowerLocation& location = towerLocations[i];
+
+        // Check if mouse is within bounds of any option
         int rectWidth = 195;
-        int optionX = location.x - rectWidth / 2 + i * (rectWidth / options.size());
-        int optionY = location.y - 30;
         int optionWidth = rectWidth / options.size();
         int optionHeight = 25;
+        for (int j = 0; j < options.size(); ++j) {
+            int optionX = location.x - rectWidth / 2 + j * optionWidth;
+            int optionY = location.y - 30;
 
-        if (mouseX >= optionX && mouseX <= optionX + optionWidth &&
-            mouseY >= optionY && mouseY <= optionY + optionHeight) {
-            // Create tower and store it in that location
-            Tower* tower = Tower::createTower(options[i], location.x, location.y);
-            location.occupied = true;
-            location.towerType = options[i];
-            if (tower) {
-                towerLocations.push_back(location);
-                towerLocations.back().occupied = true;
+            if (mouseX >= optionX && mouseX <= optionX + optionWidth &&
+                mouseY >= optionY && mouseY <= optionY + optionHeight) {
+                
+                // If the location is not occupied, create and store the tower
+                if (!location.occupied) {
+                    Tower* tower = Tower::createTower(options[j], location);
+                    if (tower) {
+                        location.occupied = true;
+                        location.towerType = options[j];
+                        //printTowerInfo();
+                    }
+                }
+                hide();
+                return;
             }
-            //std::cout << "Tower type selected: " << options[i] << std::endl;
-            hide();
-            return;
         }
     }
 }
@@ -87,3 +91,17 @@ void GUI::selectTowerType(int mouseX, int mouseY) {
 void GUI::addTowerTexture(SDL_Texture* texture, const std::string& name) {
     towerTextures.insert({ name, texture });
 }
+
+// Uncomment for testing
+/* void GUI::printTowerInfo() {
+    std::cout << "---------------------------------------" << std::endl;
+    std::cout << "Tower Information:" << std::endl;
+    for (const auto& location : towerLocations) {
+        std::cout << "Location: (" << location.x << ", " << location.y << ")" << std::endl;
+        if (location.occupied) {
+            std::cout << "Tower Type: " << location.towerType << std::endl;
+        } else {
+            std::cout << "Empty" << std::endl;
+        }
+    }
+} */
