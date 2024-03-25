@@ -13,7 +13,7 @@ class MoneyManager{
         bool spendMoney(int amount);
 
         void gainMoney(int amount);
-        int getMoney();
+        int getMoney() const;
 };
 
 #endif

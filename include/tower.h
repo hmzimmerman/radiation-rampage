@@ -27,10 +27,11 @@ class Tower {
         int areaOfEffect;
         DamageType damageType;
         TowerLocation location;
+        int buildCost;
 
     public:
         // Constructor
-        Tower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location);
+        Tower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int buildCost );
 
         // Destructor
         ~Tower();
@@ -52,6 +53,7 @@ class Tower {
 
         // Setters
         void setHealth(int h) { health = h; }
+        void setBuildCost(int newBuildCost) { buildCost = newBuildCost;}
 
         static Tower* createTower(const std::string& type, const TowerLocation& location);
 };
@@ -62,7 +64,7 @@ class LaserTower : public Tower {
 
     public:
         // Constructor
-        LaserTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int fireRate);
+        LaserTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int fireRate, int buildCost);
 
         // Methods
         void attack();
@@ -77,7 +79,7 @@ class BombTower : public Tower {
 
     public:
         // Constructor
-        BombTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int fireRate);
+        BombTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int rateOfFire, int buildCost);
 
         // Methods
         void attack();
@@ -89,7 +91,7 @@ class BombTower : public Tower {
 class Barracks : public Tower {
     public:
         // Constructor
-        Barracks(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location);
+        Barracks(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location,int buildCost);
 
         // Methods
         void attack();
