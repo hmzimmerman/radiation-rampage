@@ -3,7 +3,7 @@
 #include "tower_gui.h"
 
 Tower::Tower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int buildCost)
-    : name(name), health(health), damage(damage), range(range), areaOfEffect(areaOfEffect), damageType(damageType), location(location) {}
+    : name(name), health(health), damage(damage), range(range), areaOfEffect(areaOfEffect), damageType(damageType), location(location), buildCost(buildCost) {}
 
 Tower::~Tower() {}
 
@@ -32,12 +32,13 @@ void Barracks::attack() {
 }
 
 Tower* Tower::createTower(const std::string& type, const TowerLocation& location) {
+    //TODO MAKE TOWER COSTS AND FIRE RATE CONSTANTS + CHANGE THEM 
     if (type == "Barracks") {
-        return new Barracks("Barracks", 100, 100, 0, 0, DamageType::NORMAL, location,100);
+        return new Barracks("Barracks", 100, 100, 0, 0, DamageType::NORMAL, location, 50);
     } else if (type == "Bomb") {
-        return new BombTower("BombTower", 100, 100, 100, 100, DamageType::BOMB, location, 1,100);
+        return new BombTower("BombTower", 100, 100, 100, 100, DamageType::BOMB, location, 10, 50);
     } else if (type == "Laser") {
-        return new LaserTower("LaserTower", 100, 100, 100, 0, DamageType::LASER, location, 1,100);
+        return new LaserTower("LaserTower", 100, 100, 100, 0, DamageType::LASER, location, 10, 50);
     }
     return nullptr;
 }
