@@ -11,6 +11,7 @@ struct TowerLocation {
     int y;
     int size; // Size of the square plot
     bool occupied; // Indicate if a tower is already placed here
+    std::string towerType;
 
     TowerLocation(int x, int y) : x(x), y(y), size(80), occupied(false) {}
 };
@@ -25,13 +26,12 @@ class Tower {
         int range;
         int areaOfEffect;
         DamageType damageType;
-        int x; // X coordinate of tower
-        int y; // Y coordinate of tower
+        TowerLocation location;
         int buildCost;
 
     public:
         // Constructor
-        Tower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, int x, int y, int buildCost);
+        Tower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int buildCost );
 
         // Destructor
         ~Tower();
@@ -49,15 +49,13 @@ class Tower {
         int getRange() const { return range; }
         int getAreaOfEffect() const { return areaOfEffect; }
         DamageType getDamageType() const { return damageType; }
-        int getX() const { return x; }
-        int getY() const { return y; }
-        int getBuildCost() const { return buildCost; }
+        const TowerLocation& getLocation() const { return location; }
 
         // Setters
         void setHealth(int h) { health = h; }
-        void setXCoord(int newX) { x = newX; }
-        void setYCoord(int newY) { y = newY; }
         void setBuildCost(int newBuildCost) { buildCost = newBuildCost;}
+
+        static Tower* createTower(const std::string& type, const TowerLocation& location);
 };
 
 class LaserTower : public Tower {
@@ -66,7 +64,7 @@ class LaserTower : public Tower {
 
     public:
         // Constructor
-        LaserTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, int x, int y, int buildCost, int fireRate);
+        LaserTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int fireRate, int buildCost);
 
         // Methods
         void attack();
@@ -81,19 +79,19 @@ class BombTower : public Tower {
 
     public:
         // Constructor
-        BombTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, int x, int y, int buildCost, int rateOfFire);
+        BombTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int rateOfFire, int buildCost);
 
         // Methods
         void attack();
 
         // Getters
-        int getfireRate() const { return fireRate; }
+        int getFireRate() const { return fireRate; }
 };
 
 class Barracks : public Tower {
     public:
         // Constructor
-        Barracks(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, int x, int y, int buildCost);
+        Barracks(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location,int buildCost);
 
         // Methods
         void attack();
