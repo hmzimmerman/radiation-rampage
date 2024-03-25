@@ -2,6 +2,7 @@
 
 TOWER_GUI::TOWER_GUI(SDL_Renderer* renderer) : renderer(renderer), visible(false), location(0, 0) {
     options = { "Barracks", "Bomb", "Laser" };
+    updateOptions = { "Upgrade", "Repair", "Sell" };
 }
 
 TOWER_GUI::~TOWER_GUI() {
@@ -28,18 +29,21 @@ void TOWER_GUI::render() {
     SDL_Rect guiRect = { centerX, adjustedY, rectWidth, rectHeight };
     SDL_RenderFillRect(renderer, &guiRect);
 
-    int optionWidth = rectWidth / options.size();
+    // Determine options based on if the location is occupied
+    const auto& currentOptions = (location.occupied) ? updateOptions : options;
+
+    int optionWidth = rectWidth / currentOptions.size();
 
     // Render GUI options
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    for (int i = 0; i < options.size(); ++i) {
+    for (int i = 0; i < currentOptions.size(); ++i) {
         SDL_Rect optionRect = { centerX + i * optionWidth, adjustedY, optionWidth, rectHeight };
         SDL_RenderDrawRect(renderer, &optionRect);
 
         // Render option text
         SDL_Color textColor = { 0, 0, 0 };
         TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 12);
-        SDL_Surface* textSurface = TTF_RenderText_Solid(font, options[i].c_str(), textColor);
+        SDL_Surface* textSurface = TTF_RenderText_Solid(font, currentOptions[i].c_str(), textColor);
         
         SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
         int textWidth, textHeight;
@@ -65,7 +69,11 @@ void TOWER_GUI::selectTowerType(int mouseX, int mouseY) {
         int rectWidth = 195;
         int optionWidth = rectWidth / options.size();
         int optionHeight = 25;
-        for (int j = 0; j < options.size(); ++j) {
+
+        // Determine options based on if the location is occupied
+        const auto& currentOptions = (location.occupied) ? updateOptions : options;
+
+        for (int j = 0; j < currentOptions.size(); ++j) {
             int optionX = location.x - rectWidth / 2 + j * optionWidth;
             int optionY = location.y - 30;
 
@@ -74,12 +82,15 @@ void TOWER_GUI::selectTowerType(int mouseX, int mouseY) {
                 
                 // If the location is not occupied, create and store the tower
                 if (!location.occupied) {
-                    Tower* tower = Tower::createTower(options[j], location);
+                    Tower* tower = Tower::createTower(currentOptions[j], location);
                     if (tower) {
                         location.occupied = true;
-                        location.towerType = options[j];
+                        location.towerType = currentOptions[j];
                         //printTowerInfo();
                     }
+                } else {
+                    // If the location is occupied, handle tower action
+                    handleTowerAction(currentOptions[j]);
                 }
                 hide();
                 return;
@@ -90,6 +101,16 @@ void TOWER_GUI::selectTowerType(int mouseX, int mouseY) {
 
 void TOWER_GUI::addTowerTexture(SDL_Texture* texture, const std::string& name) {
     towerTextures.insert({ name, texture });
+}
+
+void TOWER_GUI::handleTowerAction(const std::string& action) {
+    if (action == "Upgrade") {
+        std::cout << "Upgraded" << std::endl; // TODO
+    } else if (action == "Repair") {
+        std::cout << "Repaired" << std::endl; // TODO
+    } else if (action == "Sell") {
+        std::cout << "Sold" << std::endl; // TODO
+    }
 }
 
 // Uncomment for testing
