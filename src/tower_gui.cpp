@@ -2,6 +2,7 @@
 
 TOWER_GUI::TOWER_GUI(SDL_Renderer* renderer) : renderer(renderer), visible(false), location(0, 0) {
     options = { "Barracks", "Bomb", "Laser" };
+    updateOptions = { "Upgrade", "Repair", "Sell" };
 }
 
 TOWER_GUI::~TOWER_GUI() {
@@ -90,6 +91,16 @@ void TOWER_GUI::selectTowerType(int mouseX, int mouseY) {
 
 void TOWER_GUI::addTowerTexture(SDL_Texture* texture, const std::string& name) {
     towerTextures.insert({ name, texture });
+}
+
+void TOWER_GUI::handleTowerAction(const std::string& action) {
+    if (action == "Upgrade") {
+        ;// TODO
+    } else if (action == "Repair") {
+        ;// TODO
+    } else if (action == "Sell") {
+        ;// TODO
+    }
 }
 
 // Uncomment for testing

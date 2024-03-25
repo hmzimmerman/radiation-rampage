@@ -6,7 +6,6 @@
 #include <SDL_ttf.h>
 #include <SDL2_gfxPrimitives.h>
 #include "logic.h"
-#include "tower.h"
 
 class TOWER_GUI;
 

@@ -8,6 +8,7 @@
 #include "tower_gui.h"
 
 using namespace std;
+
 View::View(){
     if( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
         cout << "Error. SDL could not initialize" << endl;

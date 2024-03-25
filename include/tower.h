@@ -35,10 +35,14 @@ class Tower {
         // Destructor
         ~Tower();
 
-        // Attack enemies
         void attack(int damage);
 
-        // Repair the tower
+        void upgrade();
+
+        void repair();
+
+        void sell();
+
         int repairCost();
 
         // Getters
