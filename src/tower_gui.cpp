@@ -93,7 +93,7 @@ void TOWER_GUI::addTowerTexture(SDL_Texture* texture, const std::string& name) {
 }
 
 // Uncomment for testing
-/* void GUI::printTowerInfo() {
+/* void TOWER_GUI::printTowerInfo() {
     std::cout << "---------------------------------------" << std::endl;
     std::cout << "Tower Information:" << std::endl;
     for (const auto& location : towerLocations) {

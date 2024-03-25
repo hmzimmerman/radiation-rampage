@@ -18,6 +18,6 @@ void MoneyManager::gainMoney(int amount){
     money+=amount;
 }
 
-void MoneyManager::getMoney(){
+int MoneyManager::getMoney(){
     return money;
 }
