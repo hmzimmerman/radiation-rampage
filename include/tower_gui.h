@@ -8,7 +8,7 @@
 
 struct TowerLocation;
 
-class GUI {
+class TOWER_GUI {
 private:
     SDL_Renderer* renderer;
     bool visible;
@@ -16,8 +16,8 @@ private:
     std::vector<std::string> options;
     std::unordered_map<std::string, SDL_Texture*> towerTextures;
 public:
-    GUI(SDL_Renderer* renderer);
-    ~GUI();
+    TOWER_GUI(SDL_Renderer* renderer);
+    ~TOWER_GUI();
     void show(const TowerLocation& towerLocation);
     void render();
     void hide();

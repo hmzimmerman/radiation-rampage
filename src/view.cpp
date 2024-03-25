@@ -33,7 +33,7 @@ View::View(){
     }
 
     logic = new Logic();
-    gui = new GUI(renderer);
+    tower_gui = new TOWER_GUI(renderer);
 }
 
 bool View::update(Logic logic){
@@ -84,7 +84,7 @@ void View::handleTowerClick(SDL_Event event) {
         if (!location.occupied &&
             event.button.x >= location.x && event.button.x <= location.x + location.size &&
             event.button.y >= location.y && event.button.y <= location.y + location.size) {
-            gui->show(location);
+            tower_gui->show(location);
             return;
         }
     }
@@ -92,7 +92,7 @@ void View::handleTowerClick(SDL_Event event) {
 
 // Pass mouse coordinates to GUI for option selection
 void View::handleTowerTypeSelection(SDL_Event event) {
-    gui->selectTowerType(event.button.x, event.button.y);
+    tower_gui->selectTowerType(event.button.x, event.button.y);
 }
 
 // Render respective tower images
@@ -112,7 +112,7 @@ void View::renderTowerLocations() {
                 textureName = "Laser";
             }
 
-            gui->addTowerTexture(towerTexture, textureName);
+            tower_gui->addTowerTexture(towerTexture, textureName);
             SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
             SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
         }
@@ -120,12 +120,12 @@ void View::renderTowerLocations() {
 }
 
 void View::renderGUI() {
-    gui->render();
+    tower_gui->render();
 }
 
 View::~View(){
     delete logic;
-    delete gui; 
+    delete tower_gui; 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

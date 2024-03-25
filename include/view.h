@@ -8,7 +8,7 @@
 #include "logic.h"
 #include "tower.h"
 
-class GUI;
+class TOWER_GUI;
 
 const int SCREEN_HEIGHT = 720;
 const int SCREEN_WIDTH = 1280;
@@ -18,7 +18,7 @@ class View{
         SDL_Window* window;
         SDL_Renderer* renderer;
         Logic* logic;
-        GUI* gui;
+        TOWER_GUI* tower_gui;
     public:
         View();
         ~View();
