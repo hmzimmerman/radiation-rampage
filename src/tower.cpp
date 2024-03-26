@@ -7,13 +7,15 @@ Tower::Tower(std::string name, int health, int damage, int range, int areaOfEffe
 
 Tower::~Tower() {}
 
-LaserTower::LaserTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int fireRate, int buildCost)
-    : Tower(name, health, damage, range, areaOfEffect, damageType, location, buildCost), fireRate(fireRate) {
+
+Barracks::Barracks(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int buildCost)
+    : Tower(name, health, damage, range, areaOfEffect, damageType, location, buildCost) {
 }
 
-void LaserTower::attack() {
+void Barracks::attack() {
     // TODO
 }
+
 
 BombTower::BombTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int fireRate, int buildCost)
     : Tower(name, health, damage, range, areaOfEffect, damageType, location, buildCost), fireRate(fireRate) {
@@ -23,13 +25,15 @@ void BombTower::attack() {
     // TODO
 }
 
-Barracks::Barracks(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int buildCost)
-    : Tower(name, health, damage, range, areaOfEffect, damageType, location, buildCost) {
+
+LaserTower::LaserTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int fireRate, int buildCost)
+    : Tower(name, health, damage, range, areaOfEffect, damageType, location, buildCost), fireRate(fireRate) {
 }
 
-void Barracks::attack() {
+void LaserTower::attack() {
     // TODO
 }
+
 
 Tower* Tower::createTower(const std::string& type, const TowerLocation& location) {
     //TODO MAKE TOWER COSTS AND FIRE RATE CONSTANTS + CHANGE THEM 
