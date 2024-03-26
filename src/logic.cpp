@@ -85,3 +85,7 @@ std::vector<Enemy> Logic::createEnemies(){
     
     return enemies;
 }
+
+std::vector<Enemy> Logic::getEnemies(){
+	return enemies;
+}

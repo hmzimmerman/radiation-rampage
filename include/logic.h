@@ -47,6 +47,9 @@ class Logic {
 		//assist in parsing text to enums
 		Direction stringToDirection(const std::string& str);
 		DamageType stringToDamageType(const std::string& str);
+		
+		//get method for enemies
+		std::vector<Enemy> getEnemies();
 };
 
 #endif
