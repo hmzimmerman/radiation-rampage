@@ -27,7 +27,7 @@ class View{
 
         void renderGUI();
         void renderTowerLocations();
-        void renderTowerCircle(const TowerLocation& location);
+        void renderTowerRadius(const TowerLocation& location);
         void handleTowerClick(SDL_Event event);
         void handleTowerTypeSelection(SDL_Event event);
 };

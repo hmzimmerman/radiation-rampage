@@ -36,9 +36,9 @@ Tower* Tower::createTower(const std::string& type, const TowerLocation& location
     if (type == "Barracks") {
         return new Barracks("Barracks", 100, 100, 0, 0, DamageType::NORMAL, location, 50);
     } else if (type == "Bomb") {
-        return new BombTower("BombTower", 100, 100, 100, 100, DamageType::BOMB, location, 10, 50);
+        return new BombTower("BombTower", 100, 100, 200, 100, DamageType::BOMB, location, 10, 50);
     } else if (type == "Laser") {
-        return new LaserTower("LaserTower", 100, 100, 100, 0, DamageType::LASER, location, 10, 50);
+        return new LaserTower("LaserTower", 100, 100, 300, 0, DamageType::LASER, location, 10, 50);
     }
     return nullptr;
 }

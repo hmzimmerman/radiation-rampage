@@ -1,10 +1,12 @@
 #ifndef TOWER_H
 #define TOWER_H
 
-#include "damage_type.h"
-#include "view.h"
 #include <string>
 #include <vector>
+#include "damage_type.h"
+#include "view.h"
+
+class Tower;
 
 struct TowerLocation {
     int x;
@@ -12,8 +14,9 @@ struct TowerLocation {
     int size; // Size of the square plot
     bool occupied; // Indicate if a tower is already placed here
     std::string towerType;
+    Tower* tower;
 
-    TowerLocation(int x, int y) : x(x), y(y), size(80), occupied(false) {}
+    TowerLocation(int x, int y) : x(x), y(y), size(80), occupied(false), tower(nullptr) {}
 };
 
 extern std::vector<TowerLocation> towerLocations;

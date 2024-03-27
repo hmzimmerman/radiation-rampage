@@ -11,7 +11,7 @@ TOWER_GUI::~TOWER_GUI() {
     }
 }
 
-void TOWER_GUI::show(const TowerLocation& towerLocation) {
+void TOWER_GUI::show(const TowerLocation& towerLocation, Tower* tower) {
     visible = true;
     location = towerLocation;
 }
@@ -90,6 +90,7 @@ void TOWER_GUI::selectTowerType(int mouseX, int mouseY) {
                     if (tower) {
                         location.occupied = true;
                         location.towerType = currentOptions[j];
+                        location.tower = tower;
                         //printTowerInfo();
                     }
                 } else {
