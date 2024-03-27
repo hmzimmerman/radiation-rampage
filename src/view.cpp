@@ -130,9 +130,23 @@ void View::renderTowerLocations() {
     }
 }
 
+void View::renderTowerCircle(const TowerLocation& location) {
+    if (location.occupied) {
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        int circleX = location.x + location.size / 2;
+        int circleY = location.y + location.size / 2;
+        int radius = location.size;
+
+        ellipseRGBA(renderer, circleX, circleY, radius, radius, 255, 0, 0, 255);
+    }
+}
+
 void View::renderGUI() {
     tower_gui->render();
     update_tower_gui->render();
+    if (update_tower_gui->isVisible()) {
+        renderTowerCircle(update_tower_gui->getLocation());
+    }
 }
 
 View::~View(){

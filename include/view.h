@@ -8,6 +8,7 @@
 #include "logic.h"
 
 class TOWER_GUI;
+struct TowerLocation;
 
 const int SCREEN_HEIGHT = 720;
 const int SCREEN_WIDTH = 1280;
@@ -26,6 +27,7 @@ class View{
 
         void renderGUI();
         void renderTowerLocations();
+        void renderTowerCircle(const TowerLocation& location);
         void handleTowerClick(SDL_Event event);
         void handleTowerTypeSelection(SDL_Event event);
 };
