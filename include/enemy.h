@@ -16,12 +16,14 @@ private:
     std::string name;
     int health;
     int speed;
-    int x;
-    int y;
+    int x; // center x coordinate of the enemy
+    int y; // center y coordinate of the enemy
     Direction dir;
     int damage; 
     DamageType weakness;
     DamageType strength;
+    void pathCornerCollision(); // updates enemy direction when an enemy collides with a path corner 
+    bool inPathCornerRange(int cornerX1, int cornerY1, int cornerX2, int cornerY2); // helper function for pathCornerCollision(), checks if enemy is in range of a path corner
 
 public:
 	// Constructor

@@ -74,6 +74,8 @@ bool View::update(Logic logic){
     SDL_RenderCopy(renderer, texture, NULL, &destination);
     renderGUI();
     renderTowerLocations();
+
+
     SDL_RenderPresent(renderer);
     SDL_DestroyTexture(texture);
     return running;

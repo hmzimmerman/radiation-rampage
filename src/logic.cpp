@@ -36,6 +36,7 @@ void Logic::setUnpaused() {
 
 std::vector<Enemy> Logic::getEnemiesOnField() {
     return wave_manager->getActiveEnemies();
+
 }
 
 Direction Logic::stringToDirection(const std::string& str) {

@@ -19,6 +19,8 @@ class Logic {
         WaveManager *wave_manager;
 		std::vector<Enemy> enemies;
 
+
+
     public:
         //constructor, create the wave manager and set game_over and paused to false
         Logic();
