@@ -8,6 +8,7 @@
 #include "tower_gui.h"
 
 using namespace std;
+
 View::View(){
     if( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
         cout << "Error. SDL could not initialize" << endl;
@@ -34,13 +35,12 @@ View::View(){
 
     logic = new Logic();
     tower_gui = new TOWER_GUI(renderer);
-
+    update_tower_gui = new TOWER_GUI(renderer);
 }
 
 bool View::update(Logic logic){
-
-    // running is returned to update and is updated when player hits x or quits 
-    // at the end return running 
+    // Running is returned to update and is updated when player hits x or quits
+    // At the end return running
     SDL_Event event; 
     bool running = true;
     while (SDL_PollEvent(&event)!=0){
@@ -84,10 +84,15 @@ bool View::update(Logic logic){
 // Show GUI for tower if mouse click occurs within tower region
 void View::handleTowerClick(SDL_Event event) {
     for (auto& location : towerLocations) {
-        if (!location.occupied &&
-            event.button.x >= location.x && event.button.x <= location.x + location.size &&
+        if (!location.occupied && event.button.x >= location.x && event.button.x <= location.x + location.size &&
             event.button.y >= location.y && event.button.y <= location.y + location.size) {
             tower_gui->show(location);
+            update_tower_gui->hide();
+            return;
+        } else if (location.occupied && event.button.x >= location.x && event.button.x <= location.x + location.size &&
+                 event.button.y >= location.y && event.button.y <= location.y + location.size) {
+            update_tower_gui->show(location);
+            tower_gui->hide();
             return;
         }
     }
@@ -95,7 +100,11 @@ void View::handleTowerClick(SDL_Event event) {
 
 // Pass mouse coordinates to GUI for option selection
 void View::handleTowerTypeSelection(SDL_Event event) {
-    tower_gui->selectTowerType(event.button.x, event.button.y);
+    if (tower_gui->isVisible()) {
+        tower_gui->selectTowerType(event.button.x, event.button.y);
+    } else if (update_tower_gui->isVisible()) {
+        update_tower_gui->selectTowerType(event.button.x, event.button.y);
+    }
 }
 
 // Render respective tower images
@@ -118,17 +127,34 @@ void View::renderTowerLocations() {
             tower_gui->addTowerTexture(towerTexture, textureName);
             SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
             SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
+
+            //Render tower range radius
+            if (update_tower_gui->isVisible()) {
+                renderTowerRadius(update_tower_gui->getLocation());
+            }
         }
+    }
+}
+
+void View::renderTowerRadius(const TowerLocation& location) {
+    if (location.occupied) {
+        int circleX = location.x + location.size / 2;
+        int circleY = location.y + location.size / 2;
+        int radius = location.tower->getRange();
+
+        ellipseRGBA(renderer, circleX, circleY, radius, radius, 255, 0, 0, 255);
     }
 }
 
 void View::renderGUI() {
     tower_gui->render();
+    update_tower_gui->render();
 }
 
 View::~View(){
     delete logic;
-    delete tower_gui; 
+    delete tower_gui;
+    delete update_tower_gui;
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

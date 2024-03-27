@@ -6,9 +6,9 @@
 #include <SDL_ttf.h>
 #include <SDL2_gfxPrimitives.h>
 #include "logic.h"
-#include "tower.h"
 
 class TOWER_GUI;
+struct TowerLocation;
 
 const int SCREEN_HEIGHT = 720;
 const int SCREEN_WIDTH = 1280;
@@ -19,14 +19,16 @@ class View{
         SDL_Renderer* renderer;
         Logic* logic;
         TOWER_GUI* tower_gui;
+        TOWER_GUI* update_tower_gui;
     public:
         View();
         ~View();
         bool update(Logic logic);
 
-        void renderTowerLocations();
-        void handleTowerClick(SDL_Event event);
         void renderGUI();
+        void renderTowerLocations();
+        void renderTowerRadius(const TowerLocation& location);
+        void handleTowerClick(SDL_Event event);
         void handleTowerTypeSelection(SDL_Event event);
 };
 #endif

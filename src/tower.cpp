@@ -3,29 +3,29 @@
 #include "tower_gui.h"
 #include "constant.h"
 
-Tower::Tower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int buildCost)
-    : name(name), health(health), damage(damage), range(range), areaOfEffect(areaOfEffect), damageType(damageType), location(location), buildCost(buildCost) {}
+Tower::Tower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost)
+    : name(name), health(health), damage(damage), range(range), damageType(damageType), location(location), buildCost(buildCost) {}
 
 Tower::~Tower() {}
 
-LaserTower::LaserTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int fireRate, int buildCost)
-    : Tower(name, health, damage, range, areaOfEffect, damageType, location, buildCost), fireRate(fireRate) {
+LaserTower::LaserTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int fireRate, int buildCost)
+    : Tower(name, health, damage, range, damageType, location, buildCost), fireRate(fireRate) {
 }
 
 void LaserTower::attack() {
     // TODO
 }
 
-BombTower::BombTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int fireRate, int buildCost)
-    : Tower(name, health, damage, range, areaOfEffect, damageType, location, buildCost), fireRate(fireRate) {
+BombTower::BombTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int fireRate, int buildCost)
+    : Tower(name, health, damage, range, damageType, location, buildCost), fireRate(fireRate) {
 }
 
 void BombTower::attack() {
     // TODO
 }
 
-Barracks::Barracks(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int buildCost)
-    : Tower(name, health, damage, range, areaOfEffect, damageType, location, buildCost) {
+Barracks::Barracks(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost)
+    : Tower(name, health, damage, range, damageType, location, buildCost) {
 }
 
 void Barracks::attack() {
