@@ -20,8 +20,6 @@ class Logic {
 		std::vector<Enemy> enemies;
 
 
-        //TODO REMOVE. JUST FOR TESTING 
-        std::vector<Enemy> enemies;
 
     public:
         //constructor, create the wave manager and set game_over and paused to false
