@@ -12,16 +12,8 @@ Logic::Logic() {
     health = 20;
     game_over = false;
     paused = false;
-    //TODO UNCOMMENT. CHANGES JUST FOR TESTING
-    // wave_manager = new WaveManager();
+    wave_manager = new WaveManager();
 
-    enemies.push_back(Enemy("Human Raider", 100, 3, 172, 0, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    enemies.push_back(Enemy("Human Raider", 100, 3, 172, -50, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    enemies.push_back(Enemy("Human Raider", 100, 3, 172, -100, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    enemies.push_back(Enemy("Human Raider", 100, 3, 172, -150, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    enemies.push_back(Enemy("Human Raider", 100, 3, 172, -200, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    // enemies.push_back(Enemy("Human Raider", 100, 3, 210, -99, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    // enemies.push_back(Enemy("Human Raider", 100, 3, 220, -99, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
 }
 
 int Logic::getScore() {
@@ -40,14 +32,7 @@ void Logic::setUnpaused() {
 }
 
 std::vector<Enemy> Logic::getEnemiesOnField() {
-    //TODO CHANGE BACK
-    // return wave_manager->getActiveEnemies();
+    return wave_manager->getActiveEnemies();
 
-    return enemies;
 }
 
-void Logic::update(double inTime){
-    for (int i = 0; i < enemies.size(); i ++){
-        enemies[i].move();
-    }
-}

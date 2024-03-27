@@ -75,24 +75,6 @@ bool View::update(Logic logic){
     renderGUI();
     renderTowerLocations();
 
-    std::vector<Enemy> enemies = logic.getEnemiesOnField();
-    for (int i = 0; i < enemies.size(); i++){
-        SDL_Texture* raiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
-        SDL_Rect raiderDestination;
-        raiderDestination.w = 70;
-        raiderDestination.h = 70;
-
-        // when we render the enemies, we want the enemies coordinate to be the center of the enemy 
-        raiderDestination.x = enemies[i].getX() - raiderDestination.w/2;
-        raiderDestination.y = enemies[i].getY() - raiderDestination.h/2;
-        SDL_RenderCopy(renderer, raiderTexture, NULL, &raiderDestination);
-    }
-    SDL_RenderDrawLine(renderer, 100, 635, 245, 505);
-    SDL_RenderDrawLine(renderer, 870, 635, 720, 505);
-    SDL_RenderDrawLine(renderer, 870, 230, 720, 125);
-    SDL_RenderDrawLine(renderer, 1035, 230, 1180, 125);
-    SDL_RenderDrawLine(renderer, 1035, 370, 1180, 265);
-
 
     SDL_RenderPresent(renderer);
     SDL_DestroyTexture(texture);
