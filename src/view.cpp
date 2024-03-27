@@ -39,9 +39,8 @@ View::View(){
 }
 
 bool View::update(Logic logic){
-
-    // running is returned to update and is updated when player hits x or quits 
-    // at the end return running 
+    // Running is returned to update and is updated when player hits x or quits
+    // At the end return running
     SDL_Event event; 
     bool running = true;
     while (SDL_PollEvent(&event)!=0){
@@ -126,7 +125,22 @@ void View::renderTowerLocations() {
             tower_gui->addTowerTexture(towerTexture, textureName);
             SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
             SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
+
+            //Render tower range radius
+            if (update_tower_gui->isVisible()) {
+                renderTowerRadius(update_tower_gui->getLocation());
+            }
         }
+    }
+}
+
+void View::renderTowerRadius(const TowerLocation& location) {
+    if (location.occupied) {
+        int circleX = location.x + location.size / 2;
+        int circleY = location.y + location.size / 2;
+        int radius = location.tower->getRange();
+
+        ellipseRGBA(renderer, circleX, circleY, radius, radius, 255, 0, 0, 255);
     }
 }
 

@@ -19,6 +19,7 @@ private:
 public:
     TOWER_GUI(SDL_Renderer* renderer);
     ~TOWER_GUI();
+    TowerLocation getLocation();
     void show(const TowerLocation& towerLocation);
     void render();
     void hide();
