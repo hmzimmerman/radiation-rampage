@@ -49,14 +49,12 @@ namespace tower{
     constexpr int barracksHealth {100};
     constexpr int barracksDamage {100};
     constexpr int barracksRange {0};
-    constexpr int barracksAreaOfEffect {0};
     constexpr enum DamageType barracksDamageType {DamageType::NORMAL};
     constexpr int barracksBuildCost {100};
 
     constexpr int bombHealth {100};
     constexpr int bombDamage {100};
     constexpr int bombRange {100};
-    constexpr int bombAreaOfEffect {100};
     constexpr enum DamageType bombDamageType {DamageType::BOMB};
     constexpr int bombBuildCost {100};
     constexpr int bombFireRate {50};
@@ -64,7 +62,6 @@ namespace tower{
     constexpr int laserHealth {100};
     constexpr int laserDamage {100};
     constexpr int laserRange {100};
-    constexpr int laserAreaOfEffect {100};
     constexpr enum DamageType laserDamageType {DamageType::LASER};
     constexpr int laserBuildCost {100};
     constexpr int laserFireRate {50};
