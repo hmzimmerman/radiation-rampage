@@ -27,14 +27,13 @@ class Tower {
         int health;
         int damage;
         int range;
-        int areaOfEffect;
         DamageType damageType;
         TowerLocation location;
         int buildCost;
 
     public:
         // Constructor
-        Tower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int buildCost);
+        Tower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost);
 
         // Destructor
         ~Tower();
@@ -54,7 +53,6 @@ class Tower {
         int getHealth() const { return health; }
         int getDamage() const { return damage; }
         int getRange() const { return range; }
-        int getAreaOfEffect() const { return areaOfEffect; }
         DamageType getDamageType() const { return damageType; }
         const TowerLocation& getLocation() const { return location; }
 
@@ -65,19 +63,13 @@ class Tower {
         static Tower* createTower(const std::string& type, const TowerLocation& location);
 };
 
-class LaserTower : public Tower {
-    private:
-        int fireRate;
-
+class Barracks : public Tower {
     public:
         // Constructor
-        LaserTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location,int buildCost, int fireRate);
+        Barracks(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location,int buildCost);
 
         // Methods
         void attack();
-
-        // Getters
-        int getFireRate() const { return fireRate; }
 };
 
 class BombTower : public Tower {
@@ -86,7 +78,7 @@ class BombTower : public Tower {
 
     public:
         // Constructor
-        BombTower(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location, int buildCost, int rateOfFire);
+        BombTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, int fireRate);
 
         // Methods
         void attack();
@@ -95,13 +87,19 @@ class BombTower : public Tower {
         int getFireRate() const { return fireRate; }
 };
 
-class Barracks : public Tower {
+class LaserTower : public Tower {
+    private:
+        int fireRate;
+
     public:
         // Constructor
-        Barracks(std::string name, int health, int damage, int range, int areaOfEffect, DamageType damageType, const TowerLocation& location,int buildCost);
+        LaserTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location,int buildCost, int fireRate);
 
         // Methods
         void attack();
+
+        // Getters
+        int getFireRate() const { return fireRate; }
 };
 
 #endif

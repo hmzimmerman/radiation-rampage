@@ -20,7 +20,7 @@ public:
     TOWER_GUI(SDL_Renderer* renderer);
     ~TOWER_GUI();
     TowerLocation getLocation();
-    void show(const TowerLocation& towerLocation, Tower* tower);
+    void show(const TowerLocation& towerLocation);
     void render();
     void hide();
     void selectTowerType(int mouseX, int mouseY);

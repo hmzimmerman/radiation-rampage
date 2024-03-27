@@ -11,7 +11,7 @@ TOWER_GUI::~TOWER_GUI() {
     }
 }
 
-void TOWER_GUI::show(const TowerLocation& towerLocation, Tower* tower) {
+void TOWER_GUI::show(const TowerLocation& towerLocation) {
     visible = true;
     location = towerLocation;
 }

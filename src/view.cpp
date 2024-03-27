@@ -39,9 +39,8 @@ View::View(){
 }
 
 bool View::update(Logic logic){
-
-    // running is returned to update and is updated when player hits x or quits 
-    // at the end return running 
+    // Running is returned to update and is updated when player hits x or quits
+    // At the end return running
     SDL_Event event; 
     bool running = true;
     while (SDL_PollEvent(&event)!=0){
@@ -85,12 +84,12 @@ void View::handleTowerClick(SDL_Event event) {
     for (auto& location : towerLocations) {
         if (!location.occupied && event.button.x >= location.x && event.button.x <= location.x + location.size &&
             event.button.y >= location.y && event.button.y <= location.y + location.size) {
-            tower_gui->show(location, nullptr);
+            tower_gui->show(location);
             update_tower_gui->hide();
             return;
         } else if (location.occupied && event.button.x >= location.x && event.button.x <= location.x + location.size &&
                  event.button.y >= location.y && event.button.y <= location.y + location.size) {
-            update_tower_gui->show(location, location.tower);
+            update_tower_gui->show(location);
             tower_gui->hide();
             return;
         }
@@ -127,7 +126,7 @@ void View::renderTowerLocations() {
             SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
             SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
 
-            //Render tower radius
+            //Render tower range radius
             if (update_tower_gui->isVisible()) {
                 renderTowerRadius(update_tower_gui->getLocation());
             }
@@ -137,7 +136,6 @@ void View::renderTowerLocations() {
 
 void View::renderTowerRadius(const TowerLocation& location) {
     if (location.occupied) {
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
         int circleX = location.x + location.size / 2;
         int circleY = location.y + location.size / 2;
         int radius = location.tower->getRange();
