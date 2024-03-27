@@ -15,8 +15,13 @@ Logic::Logic() {
     //TODO UNCOMMENT. CHANGES JUST FOR TESTING
     // wave_manager = new WaveManager();
 
-    enemies.push_back(Enemy("Human Raider", 100, 3, 125, -99, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    enemies.push_back(Enemy("Human Raider", 100, 3, 135, -99, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 100, 3, 172, 0, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 100, 3, 172, -50, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 100, 3, 172, -100, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 100, 3, 172, -150, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 100, 3, 172, -200, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    // enemies.push_back(Enemy("Human Raider", 100, 3, 210, -99, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    // enemies.push_back(Enemy("Human Raider", 100, 3, 220, -99, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
 }
 
 int Logic::getScore() {

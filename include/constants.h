@@ -2,21 +2,50 @@
 #define CONSTANTS_H
 
 namespace enemy{
-    // x,y pixel coordinates for the corners of the path
-    constexpr int corner1X {125};
-    constexpr int corner1Y {525};
+    // x,y pixel coordinate, slopes, y-intercept of the diagonal line segment for path corners 
+    constexpr int corner1X1 {100};
+    constexpr int corner1Y1 {635};
+    constexpr int corner1X2 {245};
+    constexpr int corner1Y2 {505};
+    constexpr float corner1Slope {-0.896552};
+    constexpr float corner1YIntercept {724.655};
 
-    constexpr int corner2X {743};
-    constexpr int corner2Y {525};
+    constexpr int corner2X1 {870};
+    constexpr int corner2Y1 {635};
+    constexpr int corner2X2 {720};
+    constexpr int corner2Y2 {505};
+    constexpr float corner2Slope {0.866667};
+    constexpr float corner2YIntercept {-119};
 
-    constexpr int corner3X {743};
-    constexpr int corner3Y {129};
+    constexpr int corner3X1 {870};
+    constexpr int corner3Y1 {230};
+    constexpr int corner3X2 {720};
+    constexpr int corner3Y2 {125};
+    constexpr float corner3Slope {0.7};
+    constexpr float corner3YIntercept {-379};
 
-    constexpr int corner4X {1058};
-    constexpr int corner4Y {129};
+    constexpr int corner4X1 {1035};
+    constexpr int corner4Y1 {230};
+    constexpr int corner4X2 {1180};
+    constexpr int corner4Y2 {125};
+    constexpr float corner4Slope {-0.724138};
+    constexpr float corner4YIntercept {979.483};
 
-    constexpr int corner5X {1058};
-    constexpr int corner5Y {276};
+    constexpr int corner5X1 {1035};
+    constexpr int corner5Y1 {370};
+    constexpr int corner5X2 {1180};
+    constexpr int corner5Y2 {265};
+    constexpr float corner5Slope {-0.724138};
+    constexpr float corner5YIntercept {1119.48};
+
+
+
+    
+
+
+    
+
+    
 }
 
 #endif
