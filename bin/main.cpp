@@ -35,7 +35,10 @@ int main(int argc, char** argv)
     time = ticks/1000.0;
 
     //run updates
+
+    // TODO uncommoment once update is implemented 
     // logic.update(time);
+
     running = view.update(logic);
 
     //delay so it isnt too fast

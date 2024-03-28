@@ -1,8 +1,9 @@
 #include "moneyManager.h"
+#include "constants.h"
 
 MoneyManager::MoneyManager(){
-    //TODO make this a constant
-    money = 100;
+    using namespace moneyManager;
+    money = moneyManager::startAmount;
 }
 
 bool MoneyManager::spendMoney(int amount){

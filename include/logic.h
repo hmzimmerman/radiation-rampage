@@ -19,6 +19,8 @@ class Logic {
         WaveManager *wave_manager;
 		std::vector<Enemy> enemies;
 
+
+
     public:
         //constructor, create the wave manager and set game_over and paused to false
         Logic();
@@ -47,6 +49,9 @@ class Logic {
 		//assist in parsing text to enums
 		Direction stringToDirection(const std::string& str);
 		DamageType stringToDamageType(const std::string& str);
+		
+		//get method for enemies
+		std::vector<Enemy> getEnemies();
 };
 
 #endif
