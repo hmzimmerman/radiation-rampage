@@ -15,7 +15,6 @@ int main(int argc, char** argv)
   
   Logic logic = Logic();
   View view = View();
-      
 
   /*** Main Loop ***/
   bool running = true;
@@ -36,8 +35,7 @@ int main(int argc, char** argv)
 
     //run updates
 
-    // TODO uncommoment once update is implemented 
-    // logic.update(time);
+    logic.update(time);
 
     running = view.update(logic);
 

@@ -5,6 +5,7 @@
 #include <vector>
 #include "damage_type.h"
 #include "view.h"
+#include "enemy.h"
 
 class Tower;
 
@@ -30,6 +31,7 @@ class Tower {
         DamageType damageType;
         TowerLocation location;
         int buildCost;
+        Enemy* target;
 
     public:
         // Constructor
@@ -42,9 +44,7 @@ class Tower {
 
         bool isInRange(int x, int y) const;
 
-        virtual void updateTarget(const std::vector<Enemy>& enemies) {}
-
-        void attack(int damage);
+        virtual void updateTarget(const std::vector<Enemy>& enemies);
 
         void upgrade();
 
@@ -57,7 +57,7 @@ class Tower {
         // Getters
         std::string getName() const { return name; }
         int getHealth() const { return health; }
-        int getDamage() const { return damage; }
+        virtual int getDamage() const { return damage; }
         int getRange() const { return range; }
         DamageType getDamageType() const { return damageType; }
         const TowerLocation& getLocation() const { return location; }
