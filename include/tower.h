@@ -36,7 +36,13 @@ class Tower {
         Tower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost);
 
         // Destructor
-        ~Tower();
+        virtual ~Tower();
+
+        virtual void attack() = 0;
+
+        bool isInRange(int x, int y) const;
+
+        virtual void updateTarget(const std::vector<Enemy>& enemies) {}
 
         void attack(int damage);
 
@@ -61,45 +67,6 @@ class Tower {
         void setBuildCost(int newBuildCost) { buildCost = newBuildCost;}
 
         static Tower* createTower(const std::string& type, const TowerLocation& location);
-};
-
-class Barracks : public Tower {
-    public:
-        // Constructor
-        Barracks(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location,int buildCost);
-
-        // Methods
-        void attack();
-};
-
-class BombTower : public Tower {
-    private:
-        int fireRate;
-
-    public:
-        // Constructor
-        BombTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, int fireRate);
-
-        // Methods
-        void attack();
-
-        // Getters
-        int getFireRate() const { return fireRate; }
-};
-
-class LaserTower : public Tower {
-    private:
-        int fireRate;
-
-    public:
-        // Constructor
-        LaserTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location,int buildCost, int fireRate);
-
-        // Methods
-        void attack();
-
-        // Getters
-        int getFireRate() const { return fireRate; }
 };
 
 #endif

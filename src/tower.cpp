@@ -1,5 +1,8 @@
 #include <vector>
 #include "tower.h"
+#include "barracks.h"
+#include "bombTower.h"
+#include "laserTower.h"
 #include "tower_gui.h"
 #include "constants.h"
 
@@ -7,30 +10,6 @@ Tower::Tower(std::string name, int health, int damage, int range, DamageType dam
     : name(name), health(health), damage(damage), range(range), damageType(damageType), location(location), buildCost(buildCost) {}
 
 Tower::~Tower() {}
-
-Barracks::Barracks(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost)
-    : Tower(name, health, damage, range, damageType, location, buildCost) {
-}
-
-void Barracks::attack() {
-    // TODO
-}
-
-BombTower::BombTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int fireRate, int buildCost)
-    : Tower(name, health, damage, range, damageType, location, buildCost), fireRate(fireRate) {
-}
-
-void BombTower::attack() {
-    // TODO
-}
-
-LaserTower::LaserTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int fireRate, int buildCost)
-    : Tower(name, health, damage, range, damageType, location, buildCost), fireRate(fireRate) {
-}
-
-void LaserTower::attack() {
-    // TODO
-}
 
 Tower* Tower::createTower(const std::string& type, const TowerLocation& location) {
     using namespace tower;
@@ -48,6 +27,14 @@ Tower* Tower::createTower(const std::string& type, const TowerLocation& location
                             tower::laserBuildCost, tower::laserFireRate);
     }
     return nullptr;
+}
+
+bool Tower::isInRange(int x, int y) const {
+    int towerX = location.x + location.size / 2;
+    int towerY = location.y + location.size / 2;
+    int distanceSquared = (x - towerX) * (x - towerX) + (y - towerY) * (y - towerY);
+    int rangeSquared = range * range;
+    return distanceSquared <= rangeSquared;
 }
 
 std::vector<TowerLocation> towerLocations = {
