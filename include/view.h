@@ -7,7 +7,7 @@
 #include <SDL2_gfxPrimitives.h>
 #include "logic.h"
 
-class TOWER_GUI;
+class TOWERGUI;
 struct TowerLocation;
 
 const int SCREEN_HEIGHT = 720;
@@ -18,8 +18,8 @@ class View{
         SDL_Window* window;
         SDL_Renderer* renderer;
         Logic* logic;
-        TOWER_GUI* tower_gui;
-        TOWER_GUI* update_tower_gui;
+        TOWERGUI* tower_gui;
+        TOWERGUI* update_tower_gui;
     public:
         View();
         ~View();

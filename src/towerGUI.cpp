@@ -1,26 +1,26 @@
-#include "tower_gui.h"
+#include "towerGUI.h"
 
-TOWER_GUI::TOWER_GUI(SDL_Renderer* renderer) : renderer(renderer), visible(false), location(0, 0) {
+TOWERGUI::TOWERGUI(SDL_Renderer* renderer) : renderer(renderer), visible(false), location(0, 0) {
     options = { "Barracks", "Bomb", "Laser" };
     updateOptions = { "Upgrade", "Repair", "Sell" };
 }
 
-TOWER_GUI::~TOWER_GUI() {
+TOWERGUI::~TOWERGUI() {
     for (auto& pair : towerTextures) {
         SDL_DestroyTexture(pair.second);
     }
 }
 
-void TOWER_GUI::show(const TowerLocation& towerLocation) {
+void TOWERGUI::show(const TowerLocation& towerLocation) {
     visible = true;
     location = towerLocation;
 }
 
-TowerLocation TOWER_GUI::getLocation() {
+TowerLocation TOWERGUI::getLocation() {
     return location;
 }
 
-void TOWER_GUI::render() {
+void TOWERGUI::render() {
     if (!visible) return;
 
     int adjustedY = location.y - 30; // Render GUI above tower
@@ -61,11 +61,11 @@ void TOWER_GUI::render() {
     }
 }
 
-void TOWER_GUI::hide() {
+void TOWERGUI::hide() {
     visible = false;
 }
 
-void TOWER_GUI::selectTowerType(int mouseX, int mouseY) {
+void TOWERGUI::selectTowerType(int mouseX, int mouseY) {
     for (int i = 0; i < towerLocations.size(); ++i) {
         TowerLocation& location = towerLocations[i];
 
@@ -104,11 +104,11 @@ void TOWER_GUI::selectTowerType(int mouseX, int mouseY) {
     }
 }
 
-void TOWER_GUI::addTowerTexture(SDL_Texture* texture, const std::string& name) {
+void TOWERGUI::addTowerTexture(SDL_Texture* texture, const std::string& name) {
     towerTextures.insert({ name, texture });
 }
 
-void TOWER_GUI::handleTowerAction(const std::string& action) {
+void TOWERGUI::handleTowerAction(const std::string& action) {
     if (action == "Upgrade") {
         std::cout << "Upgraded" << std::endl; // TODO
     } else if (action == "Repair") {
@@ -119,7 +119,7 @@ void TOWER_GUI::handleTowerAction(const std::string& action) {
 }
 
 // Uncomment for testing
-/* void TOWER_GUI::printTowerInfo() {
+/* void TOWERGUI::printTowerInfo() {
     std::cout << "---------------------------------------" << std::endl;
     std::cout << "Tower Information:" << std::endl;
     for (const auto& location : towerLocations) {

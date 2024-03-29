@@ -3,7 +3,7 @@
 #include "barracks.h"
 #include "bombTower.h"
 #include "laserTower.h"
-#include "tower_gui.h"
+#include "towerGUI.h"
 #include "constants.h"
 
 Tower::Tower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost)

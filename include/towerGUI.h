@@ -1,5 +1,5 @@
-#ifndef TOWER_GUI_H
-#define TOWER_GUI_H
+#ifndef TOWERGUI_H
+#define TOWERGUI_H
 
 #include <SDL.h>
 #include <vector>
@@ -8,7 +8,7 @@
 
 struct TowerLocation;
 
-class TOWER_GUI {
+class TOWERGUI {
 private:
     SDL_Renderer* renderer;
     bool visible;
@@ -17,8 +17,8 @@ private:
     std::vector<std::string> updateOptions;
     std::unordered_map<std::string, SDL_Texture*> towerTextures;
 public:
-    TOWER_GUI(SDL_Renderer* renderer);
-    ~TOWER_GUI();
+    TOWERGUI(SDL_Renderer* renderer);
+    ~TOWERGUI();
     TowerLocation getLocation();
     void show(const TowerLocation& towerLocation);
     void render();

@@ -5,7 +5,7 @@
 #include <iostream>
 #include "view.h"
 #include "logic.h"
-#include "tower_gui.h"
+#include "towerGUI.h"
 
 using namespace std;
 
@@ -34,8 +34,8 @@ View::View(){
     }
 
     logic = new Logic();
-    tower_gui = new TOWER_GUI(renderer);
-    update_tower_gui = new TOWER_GUI(renderer);
+    tower_gui = new TOWERGUI(renderer);
+    update_tower_gui = new TOWERGUI(renderer);
 }
 
 bool View::update(Logic logic){
