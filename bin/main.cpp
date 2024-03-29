@@ -27,27 +27,22 @@ int main(int argc, char** argv)
   // While application is running
   while( running )
   {
-    //getting ticks since last loop
+    // Get ticks since last loop
     ticks = SDL_GetTicks() -prevTicks;
     prevTicks = SDL_GetTicks();
-    //turns ticks into seconds
+    // Turn ticks into seconds
     time = ticks/1000.0;
 
-    //run updates
-
+    // Run updates
     logic.update(time);
-
     running = view.update(logic);
 
-    //delay so it isnt too fast
+    // Delay so it isnt too fast
     SDL_Delay(10);
   }
-
-  /*** Clean Up ***/
 
   // Quit SDL subsystems
   SDL_Quit();
   
-  // Done.
   return 0;
 }

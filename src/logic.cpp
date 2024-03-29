@@ -9,16 +9,16 @@
 #include <stdio.h>
 #include <vector>
 
-//constructor
+// Constructor
 Logic::Logic() {
     score = 0;
     health = 20;
     game_over = false;
     paused = false;
-    //wave_manager = new WaveManager();
-    //enemies = createEnemies();
+    wave_manager = new WaveManager();
+    enemies = createEnemies();
 
-    // TODO: Remove before pushing, just for testing
+    // Uncomment for testing
     //enemies.push_back(Enemy("Human Raider", 35, 1, 172, 0, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
     //enemies.push_back(Enemy("Human Raider", 35, 1, 172, -50, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
     //enemies.push_back(Enemy("Human Raider", 35, 1, 172, -100, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
@@ -43,9 +43,9 @@ void Logic::setUnpaused() {
 }
 
 std::vector<Enemy> Logic::getEnemiesOnField() {
-    //return wave_manager->getActiveEnemies();
-    // TODO: Remove before pushing, just for testing
-    return enemies;
+    return wave_manager->getActiveEnemies();
+    // Uncomment for testing
+    //return enemies;
 }
 
 Direction Logic::stringToDirection(const std::string& str) {
@@ -118,6 +118,7 @@ void Logic::update(double elapsedTime){
                         laserTower->attack();
                     }
                 } else {
+                    // Other tower attacks
                     //tower->attack();
                 }
             }
