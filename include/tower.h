@@ -5,6 +5,7 @@
 #include <vector>
 #include "damage_type.h"
 #include "view.h"
+#include "enemy.h"
 
 class Tower;
 
@@ -30,15 +31,20 @@ class Tower {
         DamageType damageType;
         TowerLocation location;
         int buildCost;
+        Enemy* target;
 
     public:
         // Constructor
         Tower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost);
 
         // Destructor
-        ~Tower();
+        virtual ~Tower();
 
-        void attack(int damage);
+        virtual void attack() = 0;
+
+        bool isInRange(int x, int y) const;
+
+        virtual void updateTarget(const std::vector<Enemy>& enemies);
 
         void upgrade();
 
@@ -51,7 +57,7 @@ class Tower {
         // Getters
         std::string getName() const { return name; }
         int getHealth() const { return health; }
-        int getDamage() const { return damage; }
+        virtual int getDamage() const { return damage; }
         int getRange() const { return range; }
         DamageType getDamageType() const { return damageType; }
         const TowerLocation& getLocation() const { return location; }
@@ -61,45 +67,6 @@ class Tower {
         void setBuildCost(int newBuildCost) { buildCost = newBuildCost;}
 
         static Tower* createTower(const std::string& type, const TowerLocation& location);
-};
-
-class Barracks : public Tower {
-    public:
-        // Constructor
-        Barracks(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location,int buildCost);
-
-        // Methods
-        void attack();
-};
-
-class BombTower : public Tower {
-    private:
-        int fireRate;
-
-    public:
-        // Constructor
-        BombTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, int fireRate);
-
-        // Methods
-        void attack();
-
-        // Getters
-        int getFireRate() const { return fireRate; }
-};
-
-class LaserTower : public Tower {
-    private:
-        int fireRate;
-
-    public:
-        // Constructor
-        LaserTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location,int buildCost, int fireRate);
-
-        // Methods
-        void attack();
-
-        // Getters
-        int getFireRate() const { return fireRate; }
 };
 
 #endif

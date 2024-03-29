@@ -1,6 +1,7 @@
 #include "waveManager.h"
 #include "enemy.h"
-#include "logic.h"
+#include "tower.h"
+#include "laserTower.h"
 
 #include <iostream>
 #include <fstream>
@@ -8,7 +9,7 @@
 #include <stdio.h>
 #include <vector>
 
-//constructor
+// Constructor
 Logic::Logic() {
     score = 0;
     health = 20;
@@ -16,6 +17,13 @@ Logic::Logic() {
     paused = false;
     wave_manager = new WaveManager();
     enemies = createEnemies();
+
+    // Uncomment for testing
+    //enemies.push_back(Enemy("Human Raider", 35, 1, 172, 0, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    //enemies.push_back(Enemy("Human Raider", 35, 1, 172, -50, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    //enemies.push_back(Enemy("Human Raider", 35, 1, 172, -100, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    //enemies.push_back(Enemy("Human Raider", 35, 1, 172, -150, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    //enemies.push_back(Enemy("Human Raider", 35, 1, 172, -200, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
 }
 
 int Logic::getScore() {
@@ -36,7 +44,8 @@ void Logic::setUnpaused() {
 
 std::vector<Enemy> Logic::getEnemiesOnField() {
     return wave_manager->getActiveEnemies();
-
+    // Uncomment for testing
+    //return enemies;
 }
 
 Direction Logic::stringToDirection(const std::string& str) {
@@ -89,4 +98,30 @@ std::vector<Enemy> Logic::createEnemies(){
 
 std::vector<Enemy> Logic::getEnemies(){
 	return enemies;
+}
+
+void Logic::update(double elapsedTime){
+    for (int i = 0; i < enemies.size(); i ++){
+        enemies[i].move();
+    }
+
+    // Iterate through towers to update their targets and attack
+    for (const TowerLocation& location : towerLocations) {
+        if (location.occupied) {
+            Tower* tower = location.tower;
+            if (tower) {
+                tower->updateTarget(enemies);
+                
+                // Check if the tower is a LaserTower and if it's ready to attack
+                if (LaserTower* laserTower = dynamic_cast<LaserTower*>(tower)) {
+                    if (laserTower->isReadyToAttack(elapsedTime)) {
+                        laserTower->attack();
+                    }
+                } else {
+                    // Other tower attacks
+                    //tower->attack();
+                }
+            }
+        }
+    }
 }

@@ -13,44 +13,42 @@ class Logic {
         int score;
         int health;
         double time;
-        bool game_over; //tells view if the game is over
-        bool paused;	//tells other views if the game is paused
+        bool game_over; // Tells view if the game is over
+        bool paused;	// Tells other views if the game is paused
 
         WaveManager *wave_manager;
 		std::vector<Enemy> enemies;
 
-
-
     public:
-        //constructor, create the wave manager and set game_over and paused to false
+        // Constructor, create the wave manager and set game_over and paused to false
         Logic();
 
         int getScore();
 
-        //set if game is paused
+        // Set if game is paused
         void setPaused();
         void setUnpaused();
         
-        //get if game is paused
+        // Get if game is paused
         bool isPaused();
 
-        //returns vector of enemies currently on the filed
+        // Return vector of enemies currently on the filed
         std::vector<Enemy> getEnemiesOnField();
 
-        //update method
+        // Update method
         void update(double inTime);
 
-        //reset the game for new session
+        // Reset the game for new session
         void reset();
 
-		//create a vector of all enemy types
+		// Create vector of all enemy types
 		std::vector<Enemy> createEnemies();
 		
-		//assist in parsing text to enums
+		// Assist in parsing text to enums
 		Direction stringToDirection(const std::string& str);
 		DamageType stringToDamageType(const std::string& str);
 		
-		//get method for enemies
+		// Get method for enemies
 		std::vector<Enemy> getEnemies();
 };
 
