@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "tower.h"
+#include "view.h"
 #include "constants.h"
 
 class LaserTower : public Tower {
@@ -10,9 +11,10 @@ private:
     double fireRate;
     double timeSinceLastAttack;
     Enemy* target; // Current target enemy
+    View* view;
 
 public:
-    LaserTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate);
+    LaserTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate, View* view);
 
     void attack() override;
 

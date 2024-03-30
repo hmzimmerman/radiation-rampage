@@ -65,7 +65,7 @@ void TOWERGUI::hide() {
     visible = false;
 }
 
-void TOWERGUI::selectTowerType(int mouseX, int mouseY) {
+void TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view) {
     for (int i = 0; i < towerLocations.size(); ++i) {
         TowerLocation& location = towerLocations[i];
 
@@ -86,7 +86,7 @@ void TOWERGUI::selectTowerType(int mouseX, int mouseY) {
                 
                 // If the location is not occupied, create and store the tower
                 if (!location.occupied) {
-                    Tower* tower = Tower::createTower(currentOptions[j], location);
+                    Tower* tower = Tower::createTower(currentOptions[j], location, view);
                     if (tower) {
                         location.occupied = true;
                         location.towerType = currentOptions[j];

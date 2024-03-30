@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_map>
 #include "tower.h"
+#include "view.h"
 
 struct TowerLocation;
 
@@ -23,7 +24,7 @@ public:
     void show(const TowerLocation& towerLocation);
     void render();
     void hide();
-    void selectTowerType(int mouseX, int mouseY);
+    void selectTowerType(int mouseX, int mouseY, View* view);
     void addTowerTexture(SDL_Texture* texture, const std::string& name);
     void handleTowerAction(const std::string& action);
     //void printTowerInfo();

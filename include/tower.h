@@ -18,6 +18,9 @@ struct TowerLocation {
     Tower* tower;
 
     TowerLocation(int x, int y) : x(x), y(y), size(80), occupied(false), tower(nullptr) {}
+
+    int getX() const { return x; }
+    int getY() const { return y; }
 };
 
 extern std::vector<TowerLocation> towerLocations;
@@ -66,7 +69,7 @@ class Tower {
         void setHealth(int h) { health = h; }
         void setBuildCost(int newBuildCost) { buildCost = newBuildCost;}
 
-        static Tower* createTower(const std::string& type, const TowerLocation& location);
+        static Tower* createTower(const std::string& type, const TowerLocation& location, View* view = nullptr);
 };
 
 #endif

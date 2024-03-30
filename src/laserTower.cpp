@@ -1,7 +1,7 @@
 #include "laserTower.h"
 
-LaserTower::LaserTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate)
-    : Tower(name, health, damage, range, damageType, location, buildCost), fireRate(fireRate), target(nullptr) {
+LaserTower::LaserTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate, View* view)
+    : Tower(name, health, damage, range, damageType, location, buildCost), fireRate(fireRate), target(nullptr), view(view) {
 }
 
 void LaserTower::attack() {
@@ -11,7 +11,9 @@ void LaserTower::attack() {
         std::cout << "Damage: " << getDamage() << std::endl;
         target->takeDamage(getDamage());
 
-        // TODO: Implement laser attack visuals
+        // Render laser beam
+        const TowerLocation& towerLocation = getLocation();
+        view->triggerAttackAnimation(towerLocation.x, towerLocation.y, target->getX(), target->getY());
 
         timeSinceLastAttack = 0.0;
     }

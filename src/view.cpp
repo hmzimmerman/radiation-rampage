@@ -36,6 +36,7 @@ View::View(){
     logic = new Logic();
     tower_gui = new TOWERGUI(renderer);
     update_tower_gui = new TOWERGUI(renderer);
+    attackAnimation.active = false;
 }
 
 bool View::update(Logic logic){
@@ -74,6 +75,17 @@ bool View::update(Logic logic){
     SDL_RenderCopy(renderer, texture, NULL, &destination);
     renderGUI();
     renderTowerLocations();
+
+    if (attackAnimation.active) {
+        thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
+                      attackAnimation.endX, attackAnimation.endY,
+                      4, 255, 255, 0, 255); // Render a yellow line
+
+        // Disable animation again after a short moment
+        if (SDL_GetTicks() - attackAnimation.startTime >= 200) {
+            attackAnimation.active = false;
+        }
+    }
 
     // Uncomment for testing
     /*std::vector<Enemy> enemies = logic.getEnemiesOnField();
@@ -114,9 +126,9 @@ void View::handleTowerClick(SDL_Event event) {
 // Pass mouse coordinates to GUI for option selection
 void View::handleTowerTypeSelection(SDL_Event event) {
     if (tower_gui->isVisible()) {
-        tower_gui->selectTowerType(event.button.x, event.button.y);
+        tower_gui->selectTowerType(event.button.x, event.button.y, this);
     } else if (update_tower_gui->isVisible()) {
-        update_tower_gui->selectTowerType(event.button.x, event.button.y);
+        update_tower_gui->selectTowerType(event.button.x, event.button.y, this);
     }
 }
 
@@ -162,6 +174,15 @@ void View::renderTowerRadius(const TowerLocation& location) {
 void View::renderGUI() {
     tower_gui->render();
     update_tower_gui->render();
+}
+
+void View::triggerAttackAnimation(int startX, int startY, int endX, int endY){
+    attackAnimation.active = true;
+    attackAnimation.startX = startX;
+    attackAnimation.startY = startY;
+    attackAnimation.endX = endX;
+    attackAnimation.endY = endY;
+    attackAnimation.startTime = SDL_GetTicks();
 }
 
 View::~View(){

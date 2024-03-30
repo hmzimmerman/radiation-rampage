@@ -11,7 +11,7 @@ Tower::Tower(std::string name, int health, int damage, int range, DamageType dam
 
 Tower::~Tower() {}
 
-Tower* Tower::createTower(const std::string& type, const TowerLocation& location) {
+Tower* Tower::createTower(const std::string& type, const TowerLocation& location, View* view) {
     using namespace tower;
     if (type == "Barracks") {
         return new Barracks("Barracks", tower::barracksHealth, tower::barracksDamage, tower::barracksRange, 
@@ -21,7 +21,7 @@ Tower* Tower::createTower(const std::string& type, const TowerLocation& location
                             tower::bombDamageType, location, tower::bombBuildCost, tower::bombFireRate);
     } else if (type == "Laser") {
         return new LaserTower("LaserTower", tower::laserHealth, tower::laserDamage, tower::laserRange,
-                            tower::laserDamageType, location, tower::laserBuildCost, tower::laserFireRate);
+                            tower::laserDamageType, location, tower::laserBuildCost, tower::laserFireRate, view);
     }
     return nullptr;
 }

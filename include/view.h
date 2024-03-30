@@ -10,6 +10,15 @@
 class TOWERGUI;
 struct TowerLocation;
 
+struct AttackAnimation {
+    bool active;
+    int startX;
+    int startY;
+    int endX;
+    int endY;
+    Uint32 startTime;
+};
+
 const int SCREEN_HEIGHT = 720;
 const int SCREEN_WIDTH = 1280;
 
@@ -20,6 +29,8 @@ class View{
         Logic* logic;
         TOWERGUI* tower_gui;
         TOWERGUI* update_tower_gui;
+        AttackAnimation attackAnimation;
+        
     public:
         View();
         ~View();
@@ -30,5 +41,6 @@ class View{
         void renderTowerRadius(const TowerLocation& location);
         void handleTowerClick(SDL_Event event);
         void handleTowerTypeSelection(SDL_Event event);
+        void triggerAttackAnimation(int startX, int startY, int endX, int endY);
 };
 #endif
