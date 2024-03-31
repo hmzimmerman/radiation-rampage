@@ -66,6 +66,8 @@ void TOWERGUI::hide() {
 }
 
 void TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view) {
+    bool clickGUI = false;
+
     for (int i = 0; i < towerLocations.size(); ++i) {
         TowerLocation& location = towerLocations[i];
 
@@ -97,10 +99,25 @@ void TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view) {
                     // If the location is occupied, handle tower action
                     handleTowerAction(currentOptions[j]);
                 }
+                clickGUI = true;
                 hide();
-                return;
+                break;
             }
         }
+    }
+    // Check if click occurred within tower area
+    if (!clickGUI) {
+        for (const auto& location : towerLocations) {
+            if (mouseX >= location.x && mouseX <= location.x + location.size &&
+                mouseY >= location.y && mouseY <= location.y + location.size) {
+                clickGUI = true;
+                break;
+            }
+        }
+    }
+    // Otherwise, hide GUI if click occured outside of it
+    if (!clickGUI) {
+        hide();
     }
 }
 
