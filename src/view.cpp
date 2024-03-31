@@ -82,7 +82,7 @@ bool View::update(Logic logic){
                       4, 255, 255, 0, 255); // Render a yellow line
 
         // Disable animation again after a short moment
-        if (SDL_GetTicks() - attackAnimation.startTime >= 200) {
+        if (SDL_GetTicks() - attackAnimation.startTime >= 100) {
             attackAnimation.active = false;
         }
     }
@@ -176,7 +176,7 @@ void View::renderGUI() {
     update_tower_gui->render();
 }
 
-void View::triggerAttackAnimation(int startX, int startY, int endX, int endY){
+void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int endY){
     attackAnimation.active = true;
     attackAnimation.startX = startX;
     attackAnimation.startY = startY;
