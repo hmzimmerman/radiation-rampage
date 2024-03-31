@@ -7,8 +7,17 @@
 #include <SDL2_gfxPrimitives.h>
 #include "logic.h"
 
-class TOWER_GUI;
+class TOWERGUI;
 struct TowerLocation;
+
+struct AttackAnimation {
+    bool active;
+    int startX;
+    int startY;
+    int endX;
+    int endY;
+    Uint32 startTime;
+};
 
 const int SCREEN_HEIGHT = 720;
 const int SCREEN_WIDTH = 1280;
@@ -18,8 +27,10 @@ class View{
         SDL_Window* window;
         SDL_Renderer* renderer;
         Logic* logic;
-        TOWER_GUI* tower_gui;
-        TOWER_GUI* update_tower_gui;
+        TOWERGUI* tower_gui;
+        TOWERGUI* update_tower_gui;
+        AttackAnimation attackAnimation;
+        
     public:
         View();
         ~View();
@@ -30,5 +41,6 @@ class View{
         void renderTowerRadius(const TowerLocation& location);
         void handleTowerClick(SDL_Event event);
         void handleTowerTypeSelection(SDL_Event event);
+        void triggerLaserAttackAnimation(int startX, int startY, int endX, int endY);
 };
 #endif
