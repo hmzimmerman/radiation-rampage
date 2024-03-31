@@ -13,7 +13,9 @@ void LaserTower::attack() {
 
         // Render laser beam
         const TowerLocation& towerLocation = getLocation();
-        view->triggerLaserAttackAnimation(towerLocation.x, towerLocation.y, target->getX(), target->getY());
+        int centerX = towerLocation.x + towerLocation.size / 2;
+        int centerY = towerLocation.y + towerLocation.size / 2;
+        view->triggerLaserAttackAnimation(centerX, centerY, target->getX(), target->getY());
 
         timeSinceLastAttack = 0.0;
     }
