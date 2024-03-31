@@ -4,8 +4,6 @@
 #include "laserTower.h"
 
 #include <iostream>
-#include <fstream>
-#include <sstream>
 #include <stdio.h>
 #include <vector>
 
@@ -16,7 +14,6 @@ Logic::Logic() {
     game_over = false;
     paused = false;
     wave_manager = new WaveManager();
-    enemies = createEnemies();
 
     // Uncomment for testing
     //enemies.push_back(Enemy("Human Raider", 35, 1, 172, 0, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
@@ -44,73 +41,21 @@ void Logic::setUnpaused() {
 
 std::vector<Enemy> Logic::getEnemiesOnField() {
     return wave_manager->getActiveEnemies();
-    // Uncomment for testing
-    //return enemies;
-}
-
-Direction Logic::stringToDirection(const std::string& str) {
-    if (str == "NORTH") return Direction::NORTH;
-    if (str == "SOUTH") return Direction::SOUTH;
-    if (str == "EAST") return Direction::EAST;
-    if (str == "WEST") return Direction::WEST;
-
-    return Direction::SOUTH; // Default value
-}
-
-DamageType Logic::stringToDamageType(const std::string& str) {
-    if (str == "LASER") return DamageType::LASER;
-    if (str == "BOMB") return DamageType::BOMB;
-    if (str == "NORMAL") return DamageType::NORMAL;
-
-    return DamageType::NORMAL; // Default value
-}
-
-std::vector<Enemy> Logic::createEnemies(){
-    std::ifstream inputFile("stats.txt");
-    if (!inputFile) {
-        std::cerr << "Failed to open file." << std::endl;
-    }
-
-    std::vector<Enemy> enemies;
-
-    std::string line;
-    while (std::getline(inputFile, line)) {
-        std::istringstream iss(line);
-        std::string name;
-        int health, speed, x, y, damage;
-        std::string direct_str, weakness_str, strength_str; // Read as strings
-
-        if (!(iss >> name >> health >> speed >> x >> y >> direct_str >> damage >> weakness_str >> strength_str)) {
-            std::cerr << "Error reading line from file." << std::endl;
-            continue;
-        }
-
-        // Convert strings to enums
-        Direction direct = stringToDirection(direct_str);
-        DamageType weakness = stringToDamageType(weakness_str);
-        DamageType strength = stringToDamageType(strength_str);
-
-        enemies.emplace_back(name, health, speed, x, y, direct, damage, weakness, strength);
-    }
-    
-    return enemies;
-}
-
-std::vector<Enemy> Logic::getEnemies(){
-	return enemies;
 }
 
 void Logic::update(double elapsedTime){
-    for (int i = 0; i < enemies.size(); i ++){
-        enemies[i].move();
+    for (int i = 0; i < wave_manager->getActiveEnemies().size(); i ++){
+        wave_manager->getActiveEnemies()[i].move();
     }
+
+    //wave_manager->update();
 
     // Iterate through towers to update their targets and attack
     for (const TowerLocation& location : towerLocations) {
         if (location.occupied) {
             Tower* tower = location.tower;
             if (tower) {
-                tower->updateTarget(enemies);
+                tower->updateTarget(wave_manager->getActiveEnemies());
                 
                 // Check if the tower is a LaserTower and if it's ready to attack
                 if (LaserTower* laserTower = dynamic_cast<LaserTower*>(tower)) {
