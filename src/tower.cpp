@@ -26,7 +26,7 @@ Tower* Tower::createTower(const std::string& type, const TowerLocation& location
     return nullptr;
 }
 
-void Tower::updateTarget(const std::vector<Enemy>& enemies) {}
+void Tower::updateTarget(std::vector<Enemy>& enemies) {}
 
 bool Tower::isInRange(int x, int y) const {
     int towerX = location.x + location.size / 2;

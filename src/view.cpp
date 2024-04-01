@@ -107,7 +107,7 @@ bool View::update(Logic logic){
 }
 
 // Show GUI for tower if mouse click occurs within tower region
-void View::handleTowerClick(SDL_Event event) {
+void View::handleTowerClick(const SDL_Event& event) {
     for (auto& location : towerLocations) {
         if (!location.occupied && event.button.x >= location.x && event.button.x <= location.x + location.size &&
             event.button.y >= location.y && event.button.y <= location.y + location.size) {
@@ -124,7 +124,7 @@ void View::handleTowerClick(SDL_Event event) {
 }
 
 // Pass mouse coordinates to GUI for option selection
-void View::handleTowerTypeSelection(SDL_Event event) {
+void View::handleTowerTypeSelection(const SDL_Event& event) {
     if (tower_gui->isVisible()) {
         tower_gui->selectTowerType(event.button.x, event.button.y, this);
     } else if (update_tower_gui->isVisible()) {

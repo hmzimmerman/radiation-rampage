@@ -17,6 +17,7 @@ private:
     std::vector<std::string> options;
     std::vector<std::string> updateOptions;
     std::unordered_map<std::string, SDL_Texture*> towerTextures;
+    
 public:
     TOWERGUI(SDL_Renderer* renderer);
     ~TOWERGUI();

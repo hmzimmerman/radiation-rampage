@@ -39,8 +39,8 @@ class View{
         void renderGUI();
         void renderTowerLocations();
         void renderTowerRadius(const TowerLocation& location);
-        void handleTowerClick(SDL_Event event);
-        void handleTowerTypeSelection(SDL_Event event);
+        void handleTowerClick(const SDL_Event& event);
+        void handleTowerTypeSelection(const SDL_Event& event);
         void triggerLaserAttackAnimation(int startX, int startY, int endX, int endY);
 };
 #endif

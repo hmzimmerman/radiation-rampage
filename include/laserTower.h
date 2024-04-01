@@ -21,7 +21,7 @@ public:
     bool isReadyToAttack(double elapsedTime);
 
     // Update the tower's target based on enemy positions
-    void updateTarget(const std::vector<Enemy>& enemies) override;
+    void updateTarget(std::vector<Enemy>& enemies) override;
 
     // Getters
     int getDamage() const override { return tower::laserDamage; }

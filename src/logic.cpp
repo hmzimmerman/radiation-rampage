@@ -1,13 +1,12 @@
-#include "waveManager.h"
-#include "enemy.h"
-#include "tower.h"
-#include "laserTower.h"
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <stdio.h>
 #include <vector>
+#include "waveManager.h"
+#include "enemy.h"
+#include "tower.h"
+#include "laserTower.h"
 
 // Constructor
 Logic::Logic() {

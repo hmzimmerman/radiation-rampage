@@ -18,9 +18,6 @@ struct TowerLocation {
     Tower* tower;
 
     TowerLocation(int x, int y) : x(x), y(y), size(80), occupied(false), tower(nullptr) {}
-
-    int getX() const { return x; }
-    int getY() const { return y; }
 };
 
 extern std::vector<TowerLocation> towerLocations;
@@ -47,7 +44,7 @@ class Tower {
 
         bool isInRange(int x, int y) const;
 
-        virtual void updateTarget(const std::vector<Enemy>& enemies);
+        virtual void updateTarget(std::vector<Enemy>& enemies);
 
         void upgrade();
 
@@ -58,11 +55,9 @@ class Tower {
         int repairCost();
 
         // Getters
-        std::string getName() const { return name; }
-        int getHealth() const { return health; }
+        const std::string& getName() const { return name; }
         virtual int getDamage() const { return damage; }
         int getRange() const { return range; }
-        DamageType getDamageType() const { return damageType; }
         const TowerLocation& getLocation() const { return location; }
 
         // Setters
