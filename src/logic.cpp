@@ -101,8 +101,16 @@ std::vector<Enemy> Logic::getEnemies(){
 }
 
 void Logic::update(double elapsedTime){
-    for (int i = 0; i < enemies.size(); i ++){
+    for (int i = 0; i < enemies.size(); i ++) {
         enemies[i].move();
+
+        // Check if enemy is dead and remove from list
+        if (!enemies[i].isAlive()) {
+            enemies.erase(enemies.begin() + i);
+            i--;
+            //score += enemy.getScore(); // Increment score for killing enemy
+            continue;
+        }
     }
 
     // Iterate through towers to update their targets and attack
