@@ -3,10 +3,10 @@
 Barracks::Barracks(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, View* view)
     : Tower(name, health, damage, range, damageType, location, buildCost), view(view), soldierLocations({
         {115, 109},
-        {300, 400},
-        {300, 400},
-        {300, 400},
-        {300, 400}
+        {115, 441},
+        {735, 441},
+        {900, 155},
+        {1060, 290}
     }) {}
 
 void Barracks::attack() {

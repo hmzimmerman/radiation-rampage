@@ -192,17 +192,24 @@ void View::renderSoldiers() {
         if (location.occupied && location.towerType == "Barracks") {
             Barracks* barracksTower = dynamic_cast<Barracks*>(location.tower);
             if (barracksTower) {
+                // Get the tower and soldier locations associated with this barracks tower
+                const TowerLocation& towerLocation = barracksTower->getLocation();
                 const std::vector<std::pair<int, int>>& soldierLocations = barracksTower->getSoldierLocations();
-                if (!soldierLocations.empty()) {
-                    const auto& sLocation = soldierLocations.front(); // Test the first pair of coordinates
-                    //std::cout << "Rendering soldier at: " << sLocation.first << ", " << sLocation.second << std::endl;
-                    
-                    SDL_Texture* soldierTexture = IMG_LoadTexture(renderer, "../resource/BarracksSoldiers.png");
-                    if (!soldierTexture) {
-                        std::cerr << "Error. Could not load soldier texture: " << IMG_GetError() << std::endl;
-                        return;
-                    }
 
+                // Find the index of the tower location
+                int index = -1;
+                for (size_t i = 0; i < towerLocations.size(); ++i) {
+                    if (towerLocations[i] == towerLocation) {
+                        index = static_cast<int>(i);
+                        break;
+                    }
+                }
+
+                // Tower locations and soldier locations have corresponding indices
+                // Render the soldiers at the corresponding location
+                if (index != -1 && index < static_cast<int>(soldierLocations.size())) {
+                    const auto& sLocation = soldierLocations[index];
+                    SDL_Texture* soldierTexture = IMG_LoadTexture(renderer, "../resource/BarracksSoldiers.png");
                     SDL_Rect soldierRect = { sLocation.first, sLocation.second, 120, 50 };
                     SDL_RenderCopy(renderer, soldierTexture, nullptr, &soldierRect);
 
