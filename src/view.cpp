@@ -6,6 +6,7 @@
 #include "view.h"
 #include "logic.h"
 #include "towerGUI.h"
+#include "barracks.h"
 
 using namespace std;
 
@@ -75,6 +76,7 @@ bool View::update(Logic logic){
     SDL_RenderCopy(renderer, texture, NULL, &destination);
     renderGUI();
     renderTowerLocations();
+    renderSoldiers();
 
     if (attackAnimation.active) {
         thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
@@ -88,7 +90,7 @@ bool View::update(Logic logic){
     }
 
     // Uncomment for testing
-    /*std::vector<Enemy> enemies = logic.getEnemiesOnField();
+    std::vector<Enemy> enemies = logic.getEnemiesOnField();
     for (int i = 0; i < enemies.size(); i++){
         SDL_Texture* raiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
         SDL_Rect raiderDestination;
@@ -99,7 +101,7 @@ bool View::update(Logic logic){
         raiderDestination.x = enemies[i].getX() - raiderDestination.w/2;
         raiderDestination.y = enemies[i].getY() - raiderDestination.h/2;
         SDL_RenderCopy(renderer, raiderTexture, NULL, &raiderDestination);
-    }*/
+    }
 
     SDL_RenderPresent(renderer);
     SDL_DestroyTexture(texture);
@@ -183,6 +185,32 @@ void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int end
     attackAnimation.endX = endX;
     attackAnimation.endY = endY;
     attackAnimation.startTime = SDL_GetTicks();
+}
+
+void View::renderSoldiers() {
+    for (const auto& location : towerLocations) {
+        if (location.occupied && location.towerType == "Barracks") {
+            Barracks* barracksTower = dynamic_cast<Barracks*>(location.tower);
+            if (barracksTower) {
+                const std::vector<std::pair<int, int>>& soldierLocations = barracksTower->getSoldierLocations();
+                if (!soldierLocations.empty()) {
+                    const auto& sLocation = soldierLocations.front(); // Test the first pair of coordinates
+                    //std::cout << "Rendering soldier at: " << sLocation.first << ", " << sLocation.second << std::endl;
+                    
+                    SDL_Texture* soldierTexture = IMG_LoadTexture(renderer, "../resource/BarracksSoldiers.png");
+                    if (!soldierTexture) {
+                        std::cerr << "Error. Could not load soldier texture: " << IMG_GetError() << std::endl;
+                        return;
+                    }
+
+                    SDL_Rect soldierRect = { sLocation.first, sLocation.second, 120, 50 };
+                    SDL_RenderCopy(renderer, soldierTexture, nullptr, &soldierRect);
+
+                    SDL_DestroyTexture(soldierTexture);
+                }
+            }
+        }
+    }
 }
 
 View::~View(){

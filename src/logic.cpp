@@ -7,6 +7,7 @@
 #include "enemy.h"
 #include "tower.h"
 #include "laserTower.h"
+#include "barracks.h"
 
 // Constructor
 Logic::Logic() {
@@ -18,11 +19,11 @@ Logic::Logic() {
     enemies = createEnemies();
 
     // Uncomment for testing
-    //enemies.push_back(Enemy("Human Raider", 35, 1, 172, 0, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    //enemies.push_back(Enemy("Human Raider", 35, 1, 172, -50, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    //enemies.push_back(Enemy("Human Raider", 35, 1, 172, -100, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    //enemies.push_back(Enemy("Human Raider", 35, 1, 172, -150, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    //enemies.push_back(Enemy("Human Raider", 35, 1, 172, -200, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 35, 1, 172, 0, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 35, 1, 172, -50, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 35, 1, 172, -100, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 35, 1, 172, -150, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 35, 1, 172, -200, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
 }
 
 int Logic::getScore() {
@@ -42,9 +43,9 @@ void Logic::setUnpaused() {
 }
 
 std::vector<Enemy> Logic::getEnemiesOnField() {
-    return wave_manager->getActiveEnemies();
+    //return wave_manager->getActiveEnemies();
     // Uncomment for testing
-    //return enemies;
+    return enemies;
 }
 
 Direction Logic::stringToDirection(const std::string& str) {
@@ -124,6 +125,8 @@ void Logic::update(double elapsedTime){
                     if (laserTower->isReadyToAttack(elapsedTime)) {
                         laserTower->attack();
                     }
+                } else if (Barracks* barracksTower = dynamic_cast<Barracks*>(tower)) {
+                    barracksTower->attack();
                 } else {
                     // Other tower attacks
                     //tower->attack();
