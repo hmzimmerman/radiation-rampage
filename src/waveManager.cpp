@@ -11,7 +11,7 @@
 //constructor
 WaveManager::WaveManager() {
     //setting timing
-    time_til_next_wave = time_between_waves;
+    time_til_next_wave = 1;
 
     //create list of enemies
     enemies = createEnemies();
@@ -192,7 +192,7 @@ void WaveManager::update() {
     //I am going to leave this for now but hopefully I will remember to bring this up at our 
     //next meeting
     time_til_next_wave -= 1;
-    if (time_between_waves < 1) {
+    if (time_til_next_wave < 1) {
         // Pop the last element from enemy waves
         if (!enemy_waves.empty()) {
         enemies_to_add = enemy_waves.back();
