@@ -36,6 +36,7 @@ View::View(){
     logic = new Logic();
     tower_gui = new TOWERGUI(renderer);
     update_tower_gui = new TOWERGUI(renderer);
+    hud = new HUD(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     attackAnimation.active = false;
 }
 
@@ -75,6 +76,7 @@ bool View::update(Logic logic){
     SDL_RenderCopy(renderer, texture, NULL, &destination);
     renderGUI();
     renderTowerLocations();
+    renderHUD();
 
     if (attackAnimation.active) {
         thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
@@ -176,6 +178,11 @@ void View::renderGUI() {
     update_tower_gui->render();
 }
 
+
+void View::renderHUD(){
+	hud->render();
+}
+
 void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int endY){
     attackAnimation.active = true;
     attackAnimation.startX = startX;
@@ -189,6 +196,7 @@ View::~View(){
     delete logic;
     delete tower_gui;
     delete update_tower_gui;
+    delete hud;
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
