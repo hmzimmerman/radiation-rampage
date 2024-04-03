@@ -6,6 +6,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <vector>
+#include <SDL.h>
 
 class WaveManager {
     private:
@@ -17,6 +18,9 @@ class WaveManager {
 
         //list of every enemy type
         std::vector<Enemy> enemies;
+
+        //this is need to be stored in wave manager because the timer callback needs to be static
+        std::vector<Enemy> enemies_to_add;
 
         //how many miliseconds between waves
         const int time_between_waves = 60000;
@@ -32,6 +36,8 @@ class WaveManager {
 
         //gives list of enemies on the field
         std::vector<Enemy> getActiveEnemies();
+
+        static Uint32 TimerCallback(Uint32 interval, void* wave);
 
         //update called in logic
         //moves time until next wave down and sends enemy out if it hits 0

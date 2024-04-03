@@ -6,6 +6,7 @@
 #include <sstream>
 #include <stdio.h>
 #include <vector>
+#include <SDL.h>
 
 //constructor
 WaveManager::WaveManager() {
@@ -14,6 +15,8 @@ WaveManager::WaveManager() {
 
     //create list of enemies
     enemies = createEnemies();
+
+    SDL_Init( SDL_INIT_TIMER );
 
     //create first 10 waves of enemies
     std::vector<Enemy> wave1;
@@ -172,6 +175,17 @@ std::vector<Enemy> WaveManager::createEnemies(){
     return enemies;
 }
 
+// Callback function to be called by the timer
+Uint32 WaveManager::TimerCallback(Uint32 interval, void* wave) {
+    //case void* back to enemy
+    WaveManager* manager = static_cast<WaveManager*>(wave);
+    manager->active_enemies.push_back(manager->enemies_to_add.back());
+    manager->enemies_to_add.pop_back();
+    
+    // Return 0 to stop the timer from repeating
+    return 0;
+}
+
 void WaveManager::update() {
     //right now this is working on a per tick level, ideally we would want it to work in seconds (or we could just crank up the time
     //between rounds)
@@ -179,18 +193,20 @@ void WaveManager::update() {
     //next meeting
     time_til_next_wave -= 1;
     if (time_between_waves < 1) {
-
         // Pop the last element from enemy waves
-        std::vector<Enemy> wave_to_add = enemy_waves.back();
+        if (!enemy_waves.empty()) {
+        enemies_to_add = enemy_waves.back();
         enemy_waves.pop_back();
 
         //add the popped waves to active enemies
         // Iterate through wave_to_add and add elements to active_enemies with some delay
-        for (const auto& elem : wave_to_add) {
-            active_enemies.push_back(elem);
+        Uint32 delay = 1000;
+        for (Enemy& elem : enemies_to_add) {
+            // Set the timer to trigger after 1000 milliseconds (1 seconds) per enemeny
+            SDL_AddTimer(delay, TimerCallback, this);
+            delay += 1000;
             
-            // TODO Add a delay of 1 second between each addition
-            //not sure how to do this
+        }
         }
         //reset clock
         time_til_next_wave = time_between_waves;

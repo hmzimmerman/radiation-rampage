@@ -88,7 +88,7 @@ bool View::update(Logic logic){
     }
 
     // Uncomment for testing
-    /*std::vector<Enemy> enemies = logic.getEnemiesOnField();
+    std::vector<Enemy> enemies = logic.getEnemiesOnField();
     for (int i = 0; i < enemies.size(); i++){
         SDL_Texture* raiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
         SDL_Rect raiderDestination;
@@ -99,7 +99,7 @@ bool View::update(Logic logic){
         raiderDestination.x = enemies[i].getX() - raiderDestination.w/2;
         raiderDestination.y = enemies[i].getY() - raiderDestination.h/2;
         SDL_RenderCopy(renderer, raiderTexture, NULL, &raiderDestination);
-    }*/
+    }
 
     SDL_RenderPresent(renderer);
     SDL_DestroyTexture(texture);
