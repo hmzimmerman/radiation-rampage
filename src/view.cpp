@@ -54,7 +54,7 @@ void View::loadEnemyTextures() {
     humanRaiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
 }
 
-bool View::update(Logic logic){
+bool View::update(Logic& logic){
     // Running is returned to update and is updated when player hits x or quits
     // At the end return running
     SDL_Event event; 
@@ -197,7 +197,7 @@ void View::renderGUI() {
 
 
 void View::renderHUD(){
-	hud->render(0, 100, 1);
+	hud->render(0, logic->getHealth(), 1);
 }
 
 void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int endY){

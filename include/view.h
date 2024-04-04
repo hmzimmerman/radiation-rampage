@@ -44,7 +44,7 @@ class View{
     public:
         View();
         ~View();
-        bool update(Logic logic);
+        bool update(Logic& logic);
 
         void renderGUI();
         void renderTowerLocations();
