@@ -33,6 +33,14 @@ class View{
         HUD* hud;
         AttackAnimation attackAnimation;
         
+        SDL_Texture* barracksTexture;
+        SDL_Texture* bombTexture;
+        SDL_Texture* laserTexture;
+        SDL_Texture* humanRaiderTexture;
+
+        void loadTowerTextures();
+        void loadEnemyTextures();
+        
     public:
         View();
         ~View();
@@ -42,6 +50,7 @@ class View{
         void renderTowerLocations();
         void renderHUD();
         void renderTowerRadius(const TowerLocation& location);
+        void renderSoldiers();
         void handleTowerClick(const SDL_Event& event);
         void handleTowerTypeSelection(const SDL_Event& event);
         void triggerLaserAttackAnimation(int startX, int startY, int endX, int endY);
