@@ -76,6 +76,7 @@ bool View::update(Logic logic){
     SDL_RenderCopy(renderer, texture, NULL, &destination);
     renderGUI();
     renderTowerLocations();
+    renderSoldiers();
     renderHUD();
 
     if (attackAnimation.active) {
@@ -197,6 +198,10 @@ View::~View(){
     delete tower_gui;
     delete update_tower_gui;
     delete hud;
+    SDL_DestroyTexture(barracksTexture);
+    SDL_DestroyTexture(bombTexture);
+    SDL_DestroyTexture(laserTexture);
+    SDL_DestroyTexture(humanRaiderTexture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
