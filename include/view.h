@@ -31,6 +31,12 @@ class View{
         TOWERGUI* update_tower_gui;
         AttackAnimation attackAnimation;
         
+        SDL_Texture* barracksTexture;
+        SDL_Texture* bombTexture;
+        SDL_Texture* laserTexture;
+
+        void loadTowerTextures();
+        
     public:
         View();
         ~View();

@@ -38,6 +38,14 @@ View::View(){
     tower_gui = new TOWERGUI(renderer);
     update_tower_gui = new TOWERGUI(renderer);
     attackAnimation.active = false;
+
+    loadTowerTextures();
+}
+
+void View::loadTowerTextures() {
+    barracksTexture = IMG_LoadTexture(renderer, "../resource/barrackstower.png");
+    bombTexture = IMG_LoadTexture(renderer, "../resource/bombtower.png");
+    laserTexture = IMG_LoadTexture(renderer, "../resource/lasertower.png");
 }
 
 bool View::update(Logic logic){
@@ -90,7 +98,7 @@ bool View::update(Logic logic){
     }
 
     // Uncomment for testing
-    std::vector<Enemy> enemies = logic.getEnemiesOnField();
+    /*std::vector<Enemy> enemies = logic.getEnemiesOnField();
     for (int i = 0; i < enemies.size(); i++){
         SDL_Texture* raiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
         SDL_Rect raiderDestination;
@@ -101,7 +109,7 @@ bool View::update(Logic logic){
         raiderDestination.x = enemies[i].getX() - raiderDestination.w/2;
         raiderDestination.y = enemies[i].getY() - raiderDestination.h/2;
         SDL_RenderCopy(renderer, raiderTexture, NULL, &raiderDestination);
-    }
+    }*/
 
     SDL_RenderPresent(renderer);
     SDL_DestroyTexture(texture);
@@ -139,25 +147,22 @@ void View::renderTowerLocations() {
     for (const auto& location : towerLocations) {
         if (location.occupied) {
             SDL_Texture* towerTexture = nullptr;
-            std::string textureName;
             if (location.towerType.compare("Barracks") == 0) {
-                towerTexture = IMG_LoadTexture(renderer, "../resource/barrackstower.png");
-                textureName = "Barracks";
+                towerTexture = barracksTexture;
             } else if (location.towerType.compare("Bomb") == 0) {
-                towerTexture = IMG_LoadTexture(renderer, "../resource/bombtower.png");
-                textureName = "Bomb";
+                towerTexture = bombTexture;
             } else if (location.towerType.compare("Laser") == 0) {
-                towerTexture = IMG_LoadTexture(renderer, "../resource/lasertower.png");
-                textureName = "Laser";
+                towerTexture = laserTexture;
             }
 
-            tower_gui->addTowerTexture(towerTexture, textureName);
-            SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
-            SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
+            if (towerTexture != nullptr) {
+                SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
+                SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
 
-            //Render tower range radius
-            if (update_tower_gui->isVisible()) {
-                renderTowerRadius(update_tower_gui->getLocation());
+                //Render tower range radius
+                if (update_tower_gui->isVisible()) {
+                    renderTowerRadius(update_tower_gui->getLocation());
+                }
             }
         }
     }
@@ -224,6 +229,11 @@ View::~View(){
     delete logic;
     delete tower_gui;
     delete update_tower_gui;
+
+    SDL_DestroyTexture(barracksTexture);
+    SDL_DestroyTexture(bombTexture);
+    SDL_DestroyTexture(laserTexture);
+    
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

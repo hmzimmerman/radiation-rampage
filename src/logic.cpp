@@ -19,11 +19,11 @@ Logic::Logic() {
     enemies = createEnemies();
 
     // Uncomment for testing
-    enemies.push_back(Enemy("Human Raider", 35, 2, 172, 0, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    enemies.push_back(Enemy("Human Raider", 35, 2, 172, -50, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    enemies.push_back(Enemy("Human Raider", 35, 2, 172, -100, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    enemies.push_back(Enemy("Human Raider", 35, 2, 172, -150, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    enemies.push_back(Enemy("Human Raider", 35, 2, 172, -200, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, 0, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, -50, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, -100, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, -150, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, -200, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
 }
 
 int Logic::getScore() {
@@ -43,9 +43,9 @@ void Logic::setUnpaused() {
 }
 
 std::vector<Enemy> Logic::getEnemiesOnField() {
-    //return wave_manager->getActiveEnemies();
+    return wave_manager->getActiveEnemies();
     // Uncomment for testing
-    return enemies;
+    //return enemies;
 }
 
 Direction Logic::stringToDirection(const std::string& str) {
