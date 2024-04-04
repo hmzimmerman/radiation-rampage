@@ -91,6 +91,7 @@ bool View::update(Logic logic){
     renderGUI();
     renderTowerLocations();
     renderSoldiers();
+    renderHUD();
 
     if (attackAnimation.active) {
         thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
@@ -239,12 +240,11 @@ View::~View(){
     delete logic;
     delete tower_gui;
     delete update_tower_gui;
-
+    delete hud;
     SDL_DestroyTexture(barracksTexture);
     SDL_DestroyTexture(bombTexture);
     SDL_DestroyTexture(laserTexture);
     SDL_DestroyTexture(humanRaiderTexture);
-    
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
