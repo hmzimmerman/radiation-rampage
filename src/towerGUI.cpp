@@ -121,10 +121,6 @@ void TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view) {
     }
 }
 
-void TOWERGUI::addTowerTexture(SDL_Texture* texture, const std::string& name) {
-    towerTextures.insert({ name, texture });
-}
-
 void TOWERGUI::handleTowerAction(const std::string& action) {
     if (action == "Upgrade") {
         std::cout << "Upgraded" << std::endl; // TODO
