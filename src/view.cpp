@@ -37,6 +37,7 @@ View::View(){
     logic = new Logic();
     tower_gui = new TOWERGUI(renderer);
     update_tower_gui = new TOWERGUI(renderer);
+    hud = new HUD(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     attackAnimation.active = false;
 
     loadTowerTextures();
@@ -185,6 +186,11 @@ void View::renderTowerRadius(const TowerLocation& location) {
 void View::renderGUI() {
     tower_gui->render();
     update_tower_gui->render();
+}
+
+
+void View::renderHUD(){
+	hud->render(0, 100, 1);
 }
 
 void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int endY){
