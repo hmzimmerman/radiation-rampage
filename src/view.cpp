@@ -40,12 +40,17 @@ View::View(){
     attackAnimation.active = false;
 
     loadTowerTextures();
+    loadEnemyTextures();
 }
 
 void View::loadTowerTextures() {
     barracksTexture = IMG_LoadTexture(renderer, "../resource/barrackstower.png");
     bombTexture = IMG_LoadTexture(renderer, "../resource/bombtower.png");
     laserTexture = IMG_LoadTexture(renderer, "../resource/lasertower.png");
+}
+
+void View::loadEnemyTextures() {
+    humanRaiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
 }
 
 bool View::update(Logic logic){
@@ -97,19 +102,18 @@ bool View::update(Logic logic){
         }
     }
 
-    // Uncomment for testing
-    /*std::vector<Enemy> enemies = logic.getEnemiesOnField();
-    for (int i = 0; i < enemies.size(); i++){
-        SDL_Texture* raiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
+    // Render enemies
+    std::vector<Enemy> enemies = logic.getEnemiesOnField();
+    for (int i = 0; i < enemies.size(); i++) {
         SDL_Rect raiderDestination;
         raiderDestination.w = 70;
         raiderDestination.h = 70;
 
-        // When we render the enemies, we want the enemies coordinate to be the center of the enemy 
-        raiderDestination.x = enemies[i].getX() - raiderDestination.w/2;
-        raiderDestination.y = enemies[i].getY() - raiderDestination.h/2;
-        SDL_RenderCopy(renderer, raiderTexture, NULL, &raiderDestination);
-    }*/
+        // Enemy coordinate is the center of the enemy
+        raiderDestination.x = enemies[i].getX() - raiderDestination.w / 2;
+        raiderDestination.y = enemies[i].getY() - raiderDestination.h / 2;
+        SDL_RenderCopy(renderer, humanRaiderTexture, NULL, &raiderDestination);
+    }
 
     SDL_RenderPresent(renderer);
     SDL_DestroyTexture(texture);
@@ -233,6 +237,7 @@ View::~View(){
     SDL_DestroyTexture(barracksTexture);
     SDL_DestroyTexture(bombTexture);
     SDL_DestroyTexture(laserTexture);
+    SDL_DestroyTexture(humanRaiderTexture);
     
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

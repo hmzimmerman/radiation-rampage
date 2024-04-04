@@ -34,8 +34,10 @@ class View{
         SDL_Texture* barracksTexture;
         SDL_Texture* bombTexture;
         SDL_Texture* laserTexture;
+        SDL_Texture* humanRaiderTexture;
 
         void loadTowerTextures();
+        void loadEnemyTextures();
         
     public:
         View();
