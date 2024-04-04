@@ -109,7 +109,7 @@ std::vector<Enemy> Logic::getEnemies(){
 }
 
 void Logic::update(double elapsedTime){
-	std::cerr << isPaused() << std::endl;
+	std::cerr << getHealth() << std::endl;
 	if(isPaused() == false){
 	    for (int i = 0; i < enemies.size(); i ++) {
 	        enemies[i].move();

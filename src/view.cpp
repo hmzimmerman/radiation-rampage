@@ -97,7 +97,11 @@ bool View::update(Logic& logic){
     renderGUI();
     renderTowerLocations();
     renderSoldiers();
-    renderHUD();
+    renderHUD(logic);
+    
+    if(logic.getHealth() <= 0){
+    	renderLost();
+    }
 
     if (attackAnimation.active) {
         thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
@@ -196,8 +200,8 @@ void View::renderGUI() {
 }
 
 
-void View::renderHUD(){
-	hud->render(0, logic->getHealth(), 1);
+void View::renderHUD(Logic& logic){
+	hud->render(0, logic.getHealth(), 1);
 }
 
 void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int endY){
@@ -241,6 +245,54 @@ void View::renderSoldiers() {
         }
     }
 }
+
+void View::renderLost() {
+	logic->setPaused();
+	
+    SDL_Color textColor = { 255, 255, 255, 255 }; // White color
+
+    // Calculate the dimensions and position of the rectangle
+    int rectWidth = 300;
+    int rectHeight = 100;
+    int rectX = (SCREEN_WIDTH - rectWidth) / 2; // Center horizontally
+    int rectY = (SCREEN_HEIGHT - rectHeight) / 2; // Center vertically
+
+    // Render the filled rectangle
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200); // Semi-transparent black color
+    SDL_Rect rect = { rectX, rectY, rectWidth, rectHeight };
+    SDL_RenderFillRect(renderer, &rect);
+
+	// Create a font
+	TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 24); // Replace with the path to your font file
+	
+	// Create a surface containing the rendered text
+	std::string text = "You lost!";
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+	
+	// Create a texture from the surface
+	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+	
+	// Get the dimensions of the rendered text
+	int textWidth = textSurface->w;
+	int textHeight = textSurface->h;
+	
+	// Set the position where you want to render the text
+	int x = (SCREEN_WIDTH - textWidth) / 2; // Center horizontally
+	int y = (SCREEN_HEIGHT - textHeight) / 2; // Center vertically
+	
+	// Render the text texture
+	SDL_Rect renderQuad = {x, y, textWidth, textHeight};
+	SDL_RenderCopy(renderer, textTexture, nullptr, &renderQuad);
+	
+	// Cleanup resources
+	SDL_FreeSurface(textSurface);
+	SDL_DestroyTexture(textTexture);
+	TTF_CloseFont(font);
+
+    // Update the screen
+    SDL_RenderPresent(renderer);
+}
+
 
 View::~View(){
     delete logic;
