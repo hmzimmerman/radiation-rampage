@@ -19,9 +19,9 @@ Logic::Logic() {
     enemies = createEnemies();
 
     // Uncomment for testing
-    enemies.push_back(Enemy("Human Raider", 35, 2, 172, 0, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, -50, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, -100, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 35, 10, 172, 0, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 35, 10, 172, -50, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 35, 10, 172, -100, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
     //enemies.push_back(Enemy("Human Raider", 35, 2, 172, -150, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
     //enemies.push_back(Enemy("Human Raider", 35, 2, 172, -200, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
 }
@@ -116,6 +116,7 @@ void Logic::update(double elapsedTime){
 	        
 	        if(enemies[i].getX() >= SCREEN_WIDTH){
 	        	takeDamage(enemies[i].getDamage());
+	        	enemies[i].takeDamage(enemies[i].getHealth());
 	        }
 	
 	        // Check if enemy is dead and remove from list

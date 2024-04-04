@@ -252,8 +252,8 @@ void View::renderLost() {
     SDL_Color textColor = { 255, 255, 255, 255 }; // White color
 
     // Calculate the dimensions and position of the rectangle
-    int rectWidth = 300;
-    int rectHeight = 100;
+    int rectWidth = 500;
+    int rectHeight = 400;
     int rectX = (SCREEN_WIDTH - rectWidth) / 2; // Center horizontally
     int rectY = (SCREEN_HEIGHT - rectHeight) / 2; // Center vertically
 
@@ -263,20 +263,18 @@ void View::renderLost() {
     SDL_RenderFillRect(renderer, &rect);
 
 	// Create a font
-	TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 24); // Replace with the path to your font file
+	TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 24);
 	
 	// Create a surface containing the rendered text
 	std::string text = "You lost!";
 	SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
-	
-	// Create a texture from the surface
 	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 	
 	// Get the dimensions of the rendered text
 	int textWidth = textSurface->w;
 	int textHeight = textSurface->h;
 	
-	// Set the position where you want to render the text
+	// Set the position
 	int x = (SCREEN_WIDTH - textWidth) / 2; // Center horizontally
 	int y = (SCREEN_HEIGHT - textHeight) / 2; // Center vertically
 	
