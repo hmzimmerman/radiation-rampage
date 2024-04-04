@@ -66,6 +66,12 @@ bool View::update(Logic logic){
         else if (event.type == SDL_KEYDOWN) {
             if (event.key.keysym.sym == SDLK_q) {
                 running = false;
+            }else if (event.key.keysym.sym == SDLK_p) {
+            	if(logic.isPaused()){
+                	logic.setUnpaused();
+            	}else{
+            		logic.setPaused();
+            	}
             }
         }
         else if (event.type == SDL_MOUSEBUTTONDOWN) {

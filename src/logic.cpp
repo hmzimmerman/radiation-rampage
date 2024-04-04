@@ -19,11 +19,11 @@ Logic::Logic() {
     enemies = createEnemies();
 
     // Uncomment for testing
-    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, 0, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, -50, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, -100, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, -150, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, -200, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 35, 2, 172, 0, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 35, 2, 172, -50, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 35, 2, 172, -100, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 35, 2, 172, -150, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
+    enemies.push_back(Enemy("Human Raider", 35, 2, 172, -200, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
 }
 
 int Logic::getScore() {
@@ -43,9 +43,9 @@ void Logic::setUnpaused() {
 }
 
 std::vector<Enemy> Logic::getEnemiesOnField() {
-    return wave_manager->getActiveEnemies();
+    //return wave_manager->getActiveEnemies();
     // Uncomment for testing
-    //return enemies;
+    return enemies;
 }
 
 Direction Logic::stringToDirection(const std::string& str) {
@@ -101,37 +101,39 @@ std::vector<Enemy> Logic::getEnemies(){
 }
 
 void Logic::update(double elapsedTime){
-    for (int i = 0; i < enemies.size(); i ++) {
-        enemies[i].move();
-
-        // Check if enemy is dead and remove from list
-        if (!enemies[i].isAlive()) {
-            enemies.erase(enemies.begin() + i);
-            i--;
-            //score += enemy.getScore(); // Increment score for killing enemy
-            continue;
-        }
-    }
-
-    // Iterate through towers to update their targets and attack
-    for (const TowerLocation& location : towerLocations) {
-        if (location.occupied) {
-            Tower* tower = location.tower;
-            if (tower) {
-                tower->updateTarget(enemies);
-                
-                // Check if the tower is a LaserTower and if it's ready to attack
-                if (LaserTower* laserTower = dynamic_cast<LaserTower*>(tower)) {
-                    if (laserTower->isReadyToAttack(elapsedTime)) {
-                        laserTower->attack();
-                    }
-                } else if (Barracks* barracksTower = dynamic_cast<Barracks*>(tower)) {
-                    barracksTower->attack();
-                } else {
-                    // Other tower attacks
-                    //tower->attack();
-                }
-            }
-        }
-    }
+	if(!paused){
+	    for (int i = 0; i < enemies.size(); i ++) {
+	        enemies[i].move();
+	
+	        // Check if enemy is dead and remove from list
+	        if (!enemies[i].isAlive()) {
+	            enemies.erase(enemies.begin() + i);
+	            i--;
+	            //score += enemy.getScore(); // Increment score for killing enemy
+	            continue;
+	        }
+	    }
+	
+	    // Iterate through towers to update their targets and attack
+	    for (const TowerLocation& location : towerLocations) {
+	        if (location.occupied) {
+	            Tower* tower = location.tower;
+	            if (tower) {
+	                tower->updateTarget(enemies);
+	                
+	                // Check if the tower is a LaserTower and if it's ready to attack
+	                if (LaserTower* laserTower = dynamic_cast<LaserTower*>(tower)) {
+	                    if (laserTower->isReadyToAttack(elapsedTime)) {
+	                        laserTower->attack();
+	                    }
+	                } else if (Barracks* barracksTower = dynamic_cast<Barracks*>(tower)) {
+	                    barracksTower->attack();
+	                } else {
+	                    // Other tower attacks
+	                    //tower->attack();
+	                }
+	            }
+	        }
+	    }
+	}
 }
