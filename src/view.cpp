@@ -180,7 +180,7 @@ void View::renderGUI() {
 
 
 void View::renderHUD(){
-	hud->render();
+	hud->render(0, 100, 1);
 }
 
 void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int endY){

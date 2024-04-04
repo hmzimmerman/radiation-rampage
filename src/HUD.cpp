@@ -32,7 +32,11 @@ void HUD::update(int coins, int health, int wave) {
     currentWave = wave;
 }
 
-void HUD::render() {
+void HUD::render(int coin, int health, int wave) {
+	coinCount = coin;
+	playerHealth = health;
+	currentWave = wave;
+	
     // Render background rectangle
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black color
     SDL_RenderFillRect(renderer, &backgroundRect);
