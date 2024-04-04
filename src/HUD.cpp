@@ -1,15 +1,17 @@
 #include "HUD.h"
 #include <iostream>
+#include <SDL.h>
+#include <SDL_image.h>
 
 HUD::HUD(SDL_Renderer* renderer, int screenWidth, int screenHeight) 
     : renderer(renderer), screenWidth(screenWidth), screenHeight(screenHeight),
       coinCount(0), playerHealth(100), currentWave(1) {
 
     // Initialize background rectangle
-	backgroundRect.x = (screenWidth - backgroundRect.w) / 2; // Center horizontally
-    backgroundRect.y = screenHeight - 100; // 100 pixels from the bottom
     backgroundRect.w = 400; // Width of the rectangle
     backgroundRect.h = 50;  // Height of the rectangle
+    backgroundRect.x = (screenWidth - backgroundRect.w) / 2; // Center horizontally
+    backgroundRect.y = screenHeight - 50; // 100 pixels from the bottom
 
     // Set text color
     textColor = { 255, 255, 255, 255 }; // White color
@@ -35,11 +37,38 @@ void HUD::render() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black color
     SDL_RenderFillRect(renderer, &backgroundRect);
 
-    // Render text
-    std::string text = "Coins: " + std::to_string(coinCount) +
-                       "   Health: " + std::to_string(playerHealth) +
-                       "   Wave: " + std::to_string(currentWave);
-    renderText(text, 10, screenHeight - 40); // 40 pixels from the bottom
+    // Load images for coins and health directly into textures
+    SDL_Texture* coinTexture = IMG_LoadTexture(renderer, "../resource/Coin.png");
+    SDL_Texture* healthTexture = IMG_LoadTexture(renderer, "../resource/Heart.png");
+
+    if (coinTexture == NULL || healthTexture == NULL) {
+        std::cerr << "Error loading images: " << SDL_GetError() << std::endl;
+        return;
+    }
+
+    // Render coin image
+    SDL_Rect coinRect = { backgroundRect.x + 10, backgroundRect.y + 5, 40, 40 };
+    SDL_RenderCopy(renderer, coinTexture, NULL, &coinRect);
+
+    // Render health image
+    SDL_Rect healthRect = { backgroundRect.x + 120, backgroundRect.y, 50, 50 };
+    SDL_RenderCopy(renderer, healthTexture, NULL, &healthRect);
+    
+    // Render text for coin count
+    std::string coinText = ": " + std::to_string(coinCount);
+    renderText(coinText, backgroundRect.x + 55, backgroundRect.y + 10);
+
+    // Render text for health
+    std::string healthText = ": " + std::to_string(playerHealth);
+    renderText(healthText, backgroundRect.x + 170, backgroundRect.y + 10);
+
+    // Render wave text
+    std::string waveText = "Wave: " + std::to_string(currentWave);
+    renderText(waveText, backgroundRect.x + 270, backgroundRect.y + 10);
+
+    // Clean up
+    SDL_DestroyTexture(coinTexture);
+    SDL_DestroyTexture(healthTexture);
 
     // Update screen
     SDL_RenderPresent(renderer);
