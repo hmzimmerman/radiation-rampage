@@ -18,6 +18,11 @@ struct TowerLocation {
     Tower* tower;
 
     TowerLocation(int x, int y) : x(x), y(y), size(80), occupied(false), tower(nullptr) {}
+
+    // Equality operator overload
+    bool operator==(const TowerLocation& other) const {
+        return (x == other.x) && (y == other.y);
+    }
 };
 
 extern std::vector<TowerLocation> towerLocations;

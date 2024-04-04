@@ -26,7 +26,6 @@ public:
     void render();
     void hide();
     void selectTowerType(int mouseX, int mouseY, View* view);
-    void addTowerTexture(SDL_Texture* texture, const std::string& name);
     void handleTowerAction(const std::string& action);
     //void printTowerInfo();
 

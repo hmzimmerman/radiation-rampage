@@ -6,6 +6,7 @@
 #include "view.h"
 #include "logic.h"
 #include "towerGUI.h"
+#include "barracks.h"
 
 using namespace std;
 
@@ -38,6 +39,19 @@ View::View(){
     update_tower_gui = new TOWERGUI(renderer);
     hud = new HUD(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     attackAnimation.active = false;
+
+    loadTowerTextures();
+    loadEnemyTextures();
+}
+
+void View::loadTowerTextures() {
+    barracksTexture = IMG_LoadTexture(renderer, "../resource/barrackstower.png");
+    bombTexture = IMG_LoadTexture(renderer, "../resource/bombtower.png");
+    laserTexture = IMG_LoadTexture(renderer, "../resource/lasertower.png");
+}
+
+void View::loadEnemyTextures() {
+    humanRaiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
 }
 
 bool View::update(Logic logic){
@@ -76,7 +90,7 @@ bool View::update(Logic logic){
     SDL_RenderCopy(renderer, texture, NULL, &destination);
     renderGUI();
     renderTowerLocations();
-    renderHUD();
+    renderSoldiers();
 
     if (attackAnimation.active) {
         thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
@@ -89,19 +103,18 @@ bool View::update(Logic logic){
         }
     }
 
-    // Uncomment for testing
-    /*std::vector<Enemy> enemies = logic.getEnemiesOnField();
-    for (int i = 0; i < enemies.size(); i++){
-        SDL_Texture* raiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
+    // Render enemies
+    std::vector<Enemy> enemies = logic.getEnemiesOnField();
+    for (int i = 0; i < enemies.size(); i++) {
         SDL_Rect raiderDestination;
         raiderDestination.w = 70;
         raiderDestination.h = 70;
 
-        // When we render the enemies, we want the enemies coordinate to be the center of the enemy 
-        raiderDestination.x = enemies[i].getX() - raiderDestination.w/2;
-        raiderDestination.y = enemies[i].getY() - raiderDestination.h/2;
-        SDL_RenderCopy(renderer, raiderTexture, NULL, &raiderDestination);
-    }*/
+        // Enemy coordinate is the center of the enemy
+        raiderDestination.x = enemies[i].getX() - raiderDestination.w / 2;
+        raiderDestination.y = enemies[i].getY() - raiderDestination.h / 2;
+        SDL_RenderCopy(renderer, humanRaiderTexture, NULL, &raiderDestination);
+    }
 
     SDL_RenderPresent(renderer);
     SDL_DestroyTexture(texture);
@@ -139,25 +152,22 @@ void View::renderTowerLocations() {
     for (const auto& location : towerLocations) {
         if (location.occupied) {
             SDL_Texture* towerTexture = nullptr;
-            std::string textureName;
             if (location.towerType.compare("Barracks") == 0) {
-                towerTexture = IMG_LoadTexture(renderer, "../resource/barrackstower.png");
-                textureName = "Barracks";
+                towerTexture = barracksTexture;
             } else if (location.towerType.compare("Bomb") == 0) {
-                towerTexture = IMG_LoadTexture(renderer, "../resource/bombtower.png");
-                textureName = "Bomb";
+                towerTexture = bombTexture;
             } else if (location.towerType.compare("Laser") == 0) {
-                towerTexture = IMG_LoadTexture(renderer, "../resource/lasertower.png");
-                textureName = "Laser";
+                towerTexture = laserTexture;
             }
 
-            tower_gui->addTowerTexture(towerTexture, textureName);
-            SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
-            SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
+            if (towerTexture != nullptr) {
+                SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
+                SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
 
-            //Render tower range radius
-            if (update_tower_gui->isVisible()) {
-                renderTowerRadius(update_tower_gui->getLocation());
+                //Render tower range radius
+                if (update_tower_gui->isVisible()) {
+                    renderTowerRadius(update_tower_gui->getLocation());
+                }
             }
         }
     }
@@ -192,11 +202,49 @@ void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int end
     attackAnimation.startTime = SDL_GetTicks();
 }
 
+void View::renderSoldiers() {
+    for (const auto& location : towerLocations) {
+        if (location.occupied && location.towerType == "Barracks") {
+            Barracks* barracksTower = dynamic_cast<Barracks*>(location.tower);
+            if (barracksTower) {
+                // Get the tower and soldier locations associated with this barracks tower
+                const TowerLocation& towerLocation = barracksTower->getLocation();
+                const std::vector<std::pair<int, int>>& soldierLocations = barracksTower->getSoldierLocations();
+
+                // Find the index of the tower location
+                int index = -1;
+                for (size_t i = 0; i < towerLocations.size(); ++i) {
+                    if (towerLocations[i] == towerLocation) {
+                        index = static_cast<int>(i);
+                        break;
+                    }
+                }
+
+                // Tower locations and soldier locations have corresponding indices
+                // Render the soldiers at the corresponding location
+                if (index != -1 && index < static_cast<int>(soldierLocations.size())) {
+                    const auto& sLocation = soldierLocations[index];
+                    SDL_Texture* soldierTexture = IMG_LoadTexture(renderer, "../resource/BarracksSoldiers.png");
+                    SDL_Rect soldierRect = { sLocation.first, sLocation.second, 120, 50 };
+                    SDL_RenderCopy(renderer, soldierTexture, nullptr, &soldierRect);
+
+                    SDL_DestroyTexture(soldierTexture);
+                }
+            }
+        }
+    }
+}
+
 View::~View(){
     delete logic;
     delete tower_gui;
     delete update_tower_gui;
-    delete hud;
+
+    SDL_DestroyTexture(barracksTexture);
+    SDL_DestroyTexture(bombTexture);
+    SDL_DestroyTexture(laserTexture);
+    SDL_DestroyTexture(humanRaiderTexture);
+    
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
