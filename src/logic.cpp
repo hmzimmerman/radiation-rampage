@@ -30,6 +30,10 @@ int Logic::getScore() {
     return score;
 }
 
+int Logic::getHealth() {
+    return health;
+}
+
 bool Logic::isPaused() {
     return paused;
 }
@@ -42,10 +46,14 @@ void Logic::setUnpaused() {
     paused = false;
 }
 
+void Logic::takeDamage(int d){
+	health -= d;
+}
+
 std::vector<Enemy> Logic::getEnemiesOnField() {
-    return wave_manager->getActiveEnemies();
+    //return wave_manager->getActiveEnemies();
     // Uncomment for testing
-    //return enemies;
+    return enemies;
 }
 
 Direction Logic::stringToDirection(const std::string& str) {
@@ -101,37 +109,44 @@ std::vector<Enemy> Logic::getEnemies(){
 }
 
 void Logic::update(double elapsedTime){
-    for (int i = 0; i < enemies.size(); i ++) {
-        enemies[i].move();
-
-        // Check if enemy is dead and remove from list
-        if (!enemies[i].isAlive()) {
-            enemies.erase(enemies.begin() + i);
-            i--;
-            //score += enemy.getScore(); // Increment score for killing enemy
-            continue;
-        }
-    }
-
-    // Iterate through towers to update their targets and attack
-    for (const TowerLocation& location : towerLocations) {
-        if (location.occupied) {
-            Tower* tower = location.tower;
-            if (tower) {
-                tower->updateTarget(enemies);
-                
-                // Check if the tower is a LaserTower and if it's ready to attack
-                if (LaserTower* laserTower = dynamic_cast<LaserTower*>(tower)) {
-                    if (laserTower->isReadyToAttack(elapsedTime)) {
-                        laserTower->attack();
-                    }
-                } else if (Barracks* barracksTower = dynamic_cast<Barracks*>(tower)) {
-                    barracksTower->attack();
-                } else {
-                    // Other tower attacks
-                    //tower->attack();
-                }
-            }
-        }
-    }
+	if(isPaused() == false){
+	    for (int i = 0; i < enemies.size(); i ++) {
+	        enemies[i].move();
+	        
+	        if(enemies[i].getX() >= SCREEN_WIDTH){
+	        	takeDamage(enemies[i].getDamage());
+	        	enemies[i].takeDamage(enemies[i].getHealth());
+	        }
+	
+	        // Check if enemy is dead and remove from list
+	        if (!enemies[i].isAlive()) {
+	            enemies.erase(enemies.begin() + i);
+	            i--;
+	            //score += enemy.getScore(); // Increment score for killing enemy
+	            continue;
+	        }
+	    }
+	
+	    // Iterate through towers to update their targets and attack
+	    for (const TowerLocation& location : towerLocations) {
+	        if (location.occupied) {
+	            Tower* tower = location.tower;
+	            if (tower) {
+	                tower->updateTarget(enemies);
+	                
+	                // Check if the tower is a LaserTower and if it's ready to attack
+	                if (LaserTower* laserTower = dynamic_cast<LaserTower*>(tower)) {
+	                    if (laserTower->isReadyToAttack(elapsedTime)) {
+	                        laserTower->attack();
+	                    }
+	                } else if (Barracks* barracksTower = dynamic_cast<Barracks*>(tower)) {
+	                    barracksTower->attack();
+	                } else {
+	                    // Other tower attacks
+	                    //tower->attack();
+	                }
+	            }
+	        }
+	    }
+	}
 }
