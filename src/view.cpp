@@ -78,11 +78,11 @@ bool View::update(Logic& logic){
             handleTowerClick(event);
             handleTowerTypeSelection(event);
         }
-        // if (event.window.event == SDL_WINDOWEVENT_MINIMIZED) {
-        //     logic.setPaused();
-        // } else if (event.window.event == SDL_WINDOWEVENT_RESTORED) {
-        //     logic.setUnpaused();
-        // }
+        if (event.window.event == SDL_WINDOWEVENT_MINIMIZED) {
+            logic.setPaused();
+        } else if (event.window.event == SDL_WINDOWEVENT_RESTORED) {
+            logic.setUnpaused();
+        }
     }
 
     SDL_RenderClear(renderer);
@@ -101,6 +101,8 @@ bool View::update(Logic& logic){
     
     if(logic.getHealth() <= 0){
     	renderLost(logic);
+    }else if(logic.isPaused()){
+    	renderPause();
     }
 
     if (attackAnimation.active) {
@@ -267,6 +269,49 @@ void View::renderLost(Logic& logic) {
 	
 	// Create a surface containing the rendered text
 	std::string text = "You lost!";
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+	
+	// Get the dimensions of the rendered text
+	int textWidth = textSurface->w;
+	int textHeight = textSurface->h;
+	
+	// Set the position
+	int x = (SCREEN_WIDTH - textWidth) / 2; // Center horizontally
+	int y = (SCREEN_HEIGHT - textHeight) / 2; // Center vertically
+	
+	// Render the text texture
+	SDL_Rect renderQuad = {x, y, textWidth, textHeight};
+	SDL_RenderCopy(renderer, textTexture, nullptr, &renderQuad);
+	
+	// Cleanup resources
+	SDL_FreeSurface(textSurface);
+	SDL_DestroyTexture(textTexture);
+	TTF_CloseFont(font);
+
+    // Update the screen
+    SDL_RenderPresent(renderer);
+}
+
+void View::renderPause() {	
+    SDL_Color textColor = { 255, 255, 255, 255 }; // White color
+
+    // Calculate the dimensions and position of the rectangle
+    int rectWidth = 500;
+    int rectHeight = 400;
+    int rectX = (SCREEN_WIDTH - rectWidth) / 2; // Center horizontally
+    int rectY = (SCREEN_HEIGHT - rectHeight) / 2; // Center vertically
+
+    // Render the filled rectangle
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200); // Semi-transparent black color
+    SDL_Rect rect = { rectX, rectY, rectWidth, rectHeight };
+    SDL_RenderFillRect(renderer, &rect);
+
+	// Create a font
+	TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 75);
+	
+	// Create a surface containing the rendered text
+	std::string text = "Game paused";
 	SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
 	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 	
