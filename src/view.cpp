@@ -100,7 +100,7 @@ bool View::update(Logic& logic){
     renderHUD(logic);
     
     if(logic.getHealth() <= 0){
-    	renderLost();
+    	renderLost(logic);
     }
 
     if (attackAnimation.active) {
@@ -246,8 +246,8 @@ void View::renderSoldiers() {
     }
 }
 
-void View::renderLost() {
-	logic->setPaused();
+void View::renderLost(Logic& logic) {
+	logic.setPaused();
 	
     SDL_Color textColor = { 255, 255, 255, 255 }; // White color
 
@@ -263,7 +263,7 @@ void View::renderLost() {
     SDL_RenderFillRect(renderer, &rect);
 
 	// Create a font
-	TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 24);
+	TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 75);
 	
 	// Create a surface containing the rendered text
 	std::string text = "You lost!";
