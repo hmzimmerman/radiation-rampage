@@ -98,12 +98,6 @@ bool View::update(Logic& logic){
     renderTowerLocations();
     renderSoldiers();
     renderHUD(logic);
-    
-    if(logic.getHealth() <= 0){
-    	renderLost(logic);
-    }else if(logic.isPaused()){
-    	renderPause();
-    }
 
     if (attackAnimation.active) {
         thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
@@ -127,6 +121,12 @@ bool View::update(Logic& logic){
         raiderDestination.x = enemies[i].getX() - raiderDestination.w / 2;
         raiderDestination.y = enemies[i].getY() - raiderDestination.h / 2;
         SDL_RenderCopy(renderer, humanRaiderTexture, NULL, &raiderDestination);
+    }
+    
+    if(logic.getHealth() <= 0){
+    	renderLost(logic);
+    }else if(logic.isPaused()){
+    	renderPause();
     }
 
     SDL_RenderPresent(renderer);
