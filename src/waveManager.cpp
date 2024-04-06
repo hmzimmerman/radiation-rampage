@@ -123,7 +123,7 @@ WaveManager::WaveManager() {
     enemy_waves.push_back(wave1);
 }
 
-std::vector<Enemy> WaveManager::getActiveEnemies() {
+std::vector<Enemy>& WaveManager::getActiveEnemies() {
     return active_enemies;
 }
 

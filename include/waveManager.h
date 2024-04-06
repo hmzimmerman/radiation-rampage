@@ -35,7 +35,7 @@ class WaveManager {
         WaveManager();
 
         //gives list of enemies on the field
-        std::vector<Enemy> getActiveEnemies();
+        std::vector<Enemy>& getActiveEnemies();
 
         static Uint32 TimerCallback(Uint32 interval, void* wave);
 
