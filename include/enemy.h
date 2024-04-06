@@ -22,6 +22,8 @@ private:
     int damage; 
     DamageType weakness;
     DamageType strength;
+
+    bool halted = false;
     int updateCounter = 0;
 
     void pathCornerCollision(); // updates enemy direction when an enemy collides with a path corner 
@@ -42,6 +44,10 @@ public:
     
     // Moves the enemy
     void move();
+
+    // Halt and resume enemy movement
+    void haltMovement() { halted = true; }
+    void resumeMovement() { halted = false; }
     
     // Getters
     std::string getName() const { return name; }

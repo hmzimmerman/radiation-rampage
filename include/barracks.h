@@ -7,7 +7,6 @@
 class Barracks : public Tower {
     private:
     std::vector<std::pair<int, int>> soldierLocations;
-    //std::vector<std::pair<int, int>> enemyStoppingLocations;
 
     Enemy* target;
     View* view;
@@ -20,6 +19,9 @@ public:
     void updateTarget(std::vector<Enemy>& enemies) override;
 
     bool isEnemyNearSoldier(const Enemy& enemy);
+
+    // Return a soldier location that corresponds to the tower location of a barracks tower instance
+    std::pair<int, int> getTowerSoldierMapping(const std::vector<TowerLocation>& towerLocations) const;
 
     // Getters
     const std::vector<std::pair<int, int>>& getSoldierLocations() const;

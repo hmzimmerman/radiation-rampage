@@ -220,27 +220,14 @@ void View::renderSoldiers() {
         if (location.occupied && location.towerType == "Barracks") {
             Barracks* barracksTower = dynamic_cast<Barracks*>(location.tower);
             if (barracksTower) {
-                // Get the tower and soldier locations associated with this barracks tower
-                const TowerLocation& towerLocation = barracksTower->getLocation();
-                const std::vector<std::pair<int, int>>& soldierLocations = barracksTower->getSoldierLocations();
+                // Get the soldier location associated with this barracks tower
+                std::pair<int, int> soldierLocation = barracksTower->getTowerSoldierMapping(towerLocations);
 
-                // Find the index of the tower location
-                int index = -1;
-                for (size_t i = 0; i < towerLocations.size(); ++i) {
-                    if (towerLocations[i] == towerLocation) {
-                        index = static_cast<int>(i);
-                        break;
-                    }
-                }
-
-                // Tower locations and soldier locations have corresponding indices
-                // Render the soldiers at the corresponding location
-                if (index != -1 && index < static_cast<int>(soldierLocations.size())) {
-                    const auto& sLocation = soldierLocations[index];
+                if (soldierLocation.first != -1 && soldierLocation.second != -1) {
+                    // Render the soldiers at the soldier location
                     SDL_Texture* soldierTexture = IMG_LoadTexture(renderer, "../resource/BarracksSoldiers.png");
-                    SDL_Rect soldierRect = { sLocation.first, sLocation.second, 120, 50 };
+                    SDL_Rect soldierRect = { soldierLocation.first, soldierLocation.second, 120, 50 };
                     SDL_RenderCopy(renderer, soldierTexture, nullptr, &soldierRect);
-
                     SDL_DestroyTexture(soldierTexture);
                 }
             }
