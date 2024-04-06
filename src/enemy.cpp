@@ -68,7 +68,6 @@ void Enemy::pathCornerCollision(){
 			dir = Direction::EAST;
 		}
 	}
-
 }
 
 bool Enemy::inPathCornerRange(int cornerX1, int cornerY1, int cornerX2, int cornerY2){
