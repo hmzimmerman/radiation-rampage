@@ -48,33 +48,31 @@ void Logic::takeDamage(int d){
 }
 
 std::vector<Enemy> Logic::getEnemiesOnField() {
-<<<<<<< src/logic.cpp
     return wave_manager->getActiveEnemies();
 }
 
 void Logic::update(double elapsedTime){
     if(isPaused() == false){
-    for (int i = 0; i < wave_manager->getActiveEnemies().size(); i ++){
-        wave_manager->getActiveEnemies()[i].move();
-    }
+        for (int i = 0; i < wave_manager->getActiveEnemies().size(); i ++){
+            wave_manager->getActiveEnemies()[i].move();
 
-    if(wave_manager->getActiveEnemies()[i].getX() >= SCREEN_WIDTH){
-	        	takeDamage(wave_manager->getActiveEnemies()[i].getDamage());
-	        	wave_manager->getActiveEnemies()[i].takeDamage(wave_manager->getActiveEnemies()[i].getHealth());
-	        }
+            if(wave_manager->getActiveEnemies()[i].getX() >= SCREEN_WIDTH){
+                    takeDamage(wave_manager->getActiveEnemies()[i].getDamage());
+                    wave_manager->getActiveEnemies()[i].takeDamage(wave_manager->getActiveEnemies()[i].getHealth());
+            }
 
-    wave_manager->update();
-    // Check if enemy is dead and remove from list
-	        if (!wave_manager->getActiveEnemies()[i].isAlive()) {
-	            wave_manager->getActiveEnemies().erase(wave_manager->getActiveEnemies().begin() + i);
-	            i--;
-	            //score += enemy.getScore(); // Increment score for killing enemy
-	            continue;
-	        }
+            // Check if enemy is dead and remove from list
+            if (!wave_manager->getActiveEnemies()[i].isAlive()) {
+                wave_manager->getActiveEnemies().erase(wave_manager->getActiveEnemies().begin() + i);
+                i--;
+                //score += enemy.getScore(); // Increment score for killing enemy
+                continue;
+            }
         }
+        
+        wave_manager->update();
 
-
-    // Iterate through towers to update their targets and attack
+        // Iterate through towers to update their targets and attack
 	    for (const TowerLocation& location : towerLocations) {
 	        if (location.occupied) {
 	            Tower* tower = location.tower;

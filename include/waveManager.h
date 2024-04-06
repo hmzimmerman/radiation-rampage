@@ -23,7 +23,7 @@ class WaveManager {
         std::vector<Enemy> enemies_to_add;
 
         //how many miliseconds between waves
-        const int time_between_waves = 6000;
+        const int time_between_waves = 500;
         int time_til_next_wave;
 
         // Assist in parsing text to enums
