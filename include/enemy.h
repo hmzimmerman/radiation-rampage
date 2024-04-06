@@ -22,6 +22,8 @@ private:
     int damage; 
     DamageType weakness;
     DamageType strength;
+    int updateCounter = 0;
+
     void pathCornerCollision(); // updates enemy direction when an enemy collides with a path corner 
     bool inPathCornerRange(int cornerX1, int cornerY1, int cornerX2, int cornerY2); // helper function for pathCornerCollision(), checks if enemy is in range of a path corner
 

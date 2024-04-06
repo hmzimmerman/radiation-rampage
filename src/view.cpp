@@ -6,6 +6,7 @@
 #include "view.h"
 #include "logic.h"
 #include "towerGUI.h"
+#include "barracks.h"
 
 using namespace std;
 
@@ -36,10 +37,24 @@ View::View(){
     logic = new Logic();
     tower_gui = new TOWERGUI(renderer);
     update_tower_gui = new TOWERGUI(renderer);
+    hud = new HUD(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     attackAnimation.active = false;
+
+    loadTowerTextures();
+    loadEnemyTextures();
 }
 
-bool View::update(Logic logic){
+void View::loadTowerTextures() {
+    barracksTexture = IMG_LoadTexture(renderer, "../resource/barrackstower.png");
+    bombTexture = IMG_LoadTexture(renderer, "../resource/bombtower.png");
+    laserTexture = IMG_LoadTexture(renderer, "../resource/lasertower.png");
+}
+
+void View::loadEnemyTextures() {
+    humanRaiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
+}
+
+bool View::update(Logic& logic){
     // Running is returned to update and is updated when player hits x or quits
     // At the end return running
     SDL_Event event; 
@@ -51,17 +66,23 @@ bool View::update(Logic logic){
         else if (event.type == SDL_KEYDOWN) {
             if (event.key.keysym.sym == SDLK_q) {
                 running = false;
+            }else if (event.key.keysym.sym == SDLK_p) {
+            	if(logic.isPaused()){
+                	logic.setUnpaused();
+            	}else{
+            		logic.setPaused();
+            	}
             }
         }
         else if (event.type == SDL_MOUSEBUTTONDOWN) {
             handleTowerClick(event);
             handleTowerTypeSelection(event);
         }
-        // if (event.window.event == SDL_WINDOWEVENT_MINIMIZED) {
-        //     logic.setPaused();
-        // } else if (event.window.event == SDL_WINDOWEVENT_RESTORED) {
-        //     logic.setUnpaused();
-        // }
+        if (event.window.event == SDL_WINDOWEVENT_MINIMIZED) {
+            logic.setPaused();
+        } else if (event.window.event == SDL_WINDOWEVENT_RESTORED) {
+            logic.setUnpaused();
+        }
     }
 
     SDL_RenderClear(renderer);
@@ -75,6 +96,8 @@ bool View::update(Logic logic){
     SDL_RenderCopy(renderer, texture, NULL, &destination);
     renderGUI();
     renderTowerLocations();
+    renderSoldiers();
+    renderHUD(logic);
 
     if (attackAnimation.active) {
         thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
@@ -87,18 +110,23 @@ bool View::update(Logic logic){
         }
     }
 
-    // Uncomment for testing
+    // Render enemies
     std::vector<Enemy> enemies = logic.getEnemiesOnField();
-    for (int i = 0; i < enemies.size(); i++){
-        SDL_Texture* raiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
+    for (int i = 0; i < enemies.size(); i++) {
         SDL_Rect raiderDestination;
         raiderDestination.w = 70;
         raiderDestination.h = 70;
 
-        // When we render the enemies, we want the enemies coordinate to be the center of the enemy 
-        raiderDestination.x = enemies[i].getX() - raiderDestination.w/2;
-        raiderDestination.y = enemies[i].getY() - raiderDestination.h/2;
-        SDL_RenderCopy(renderer, raiderTexture, NULL, &raiderDestination);
+        // Enemy coordinate is the center of the enemy
+        raiderDestination.x = enemies[i].getX() - raiderDestination.w / 2;
+        raiderDestination.y = enemies[i].getY() - raiderDestination.h / 2;
+        SDL_RenderCopy(renderer, humanRaiderTexture, NULL, &raiderDestination);
+    }
+    
+    if(logic.getHealth() <= 0){
+    	renderLost(logic);
+    }else if(logic.isPaused()){
+    	renderPause();
     }
 
     SDL_RenderPresent(renderer);
@@ -107,7 +135,7 @@ bool View::update(Logic logic){
 }
 
 // Show GUI for tower if mouse click occurs within tower region
-void View::handleTowerClick(SDL_Event event) {
+void View::handleTowerClick(const SDL_Event& event) {
     for (auto& location : towerLocations) {
         if (!location.occupied && event.button.x >= location.x && event.button.x <= location.x + location.size &&
             event.button.y >= location.y && event.button.y <= location.y + location.size) {
@@ -124,7 +152,7 @@ void View::handleTowerClick(SDL_Event event) {
 }
 
 // Pass mouse coordinates to GUI for option selection
-void View::handleTowerTypeSelection(SDL_Event event) {
+void View::handleTowerTypeSelection(const SDL_Event& event) {
     if (tower_gui->isVisible()) {
         tower_gui->selectTowerType(event.button.x, event.button.y, this);
     } else if (update_tower_gui->isVisible()) {
@@ -137,25 +165,22 @@ void View::renderTowerLocations() {
     for (const auto& location : towerLocations) {
         if (location.occupied) {
             SDL_Texture* towerTexture = nullptr;
-            std::string textureName;
             if (location.towerType.compare("Barracks") == 0) {
-                towerTexture = IMG_LoadTexture(renderer, "../resource/barrackstower.png");
-                textureName = "Barracks";
+                towerTexture = barracksTexture;
             } else if (location.towerType.compare("Bomb") == 0) {
-                towerTexture = IMG_LoadTexture(renderer, "../resource/bombtower.png");
-                textureName = "Bomb";
+                towerTexture = bombTexture;
             } else if (location.towerType.compare("Laser") == 0) {
-                towerTexture = IMG_LoadTexture(renderer, "../resource/lasertower.png");
-                textureName = "Laser";
+                towerTexture = laserTexture;
             }
 
-            tower_gui->addTowerTexture(towerTexture, textureName);
-            SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
-            SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
+            if (towerTexture != nullptr) {
+                SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
+                SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
 
-            //Render tower range radius
-            if (update_tower_gui->isVisible()) {
-                renderTowerRadius(update_tower_gui->getLocation());
+                //Render tower range radius
+                if (update_tower_gui->isVisible()) {
+                    renderTowerRadius(update_tower_gui->getLocation());
+                }
             }
         }
     }
@@ -176,6 +201,11 @@ void View::renderGUI() {
     update_tower_gui->render();
 }
 
+
+void View::renderHUD(Logic& logic){
+	hud->render(0, logic.getHealth(), 1);
+}
+
 void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int endY){
     attackAnimation.active = true;
     attackAnimation.startX = startX;
@@ -185,10 +215,137 @@ void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int end
     attackAnimation.startTime = SDL_GetTicks();
 }
 
+void View::renderSoldiers() {
+    for (const auto& location : towerLocations) {
+        if (location.occupied && location.towerType == "Barracks") {
+            Barracks* barracksTower = dynamic_cast<Barracks*>(location.tower);
+            if (barracksTower) {
+                // Get the tower and soldier locations associated with this barracks tower
+                const TowerLocation& towerLocation = barracksTower->getLocation();
+                const std::vector<std::pair<int, int>>& soldierLocations = barracksTower->getSoldierLocations();
+
+                // Find the index of the tower location
+                int index = -1;
+                for (size_t i = 0; i < towerLocations.size(); ++i) {
+                    if (towerLocations[i] == towerLocation) {
+                        index = static_cast<int>(i);
+                        break;
+                    }
+                }
+
+                // Tower locations and soldier locations have corresponding indices
+                // Render the soldiers at the corresponding location
+                if (index != -1 && index < static_cast<int>(soldierLocations.size())) {
+                    const auto& sLocation = soldierLocations[index];
+                    SDL_Texture* soldierTexture = IMG_LoadTexture(renderer, "../resource/BarracksSoldiers.png");
+                    SDL_Rect soldierRect = { sLocation.first, sLocation.second, 120, 50 };
+                    SDL_RenderCopy(renderer, soldierTexture, nullptr, &soldierRect);
+
+                    SDL_DestroyTexture(soldierTexture);
+                }
+            }
+        }
+    }
+}
+
+void View::renderLost(Logic& logic) {
+	logic.setPaused();
+	
+    SDL_Color textColor = { 255, 255, 255, 255 }; // White color
+
+    // Calculate the dimensions and position of the rectangle
+    int rectWidth = 500;
+    int rectHeight = 400;
+    int rectX = (SCREEN_WIDTH - rectWidth) / 2; // Center horizontally
+    int rectY = (SCREEN_HEIGHT - rectHeight) / 2; // Center vertically
+
+    // Render the filled rectangle
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200); // Semi-transparent black color
+    SDL_Rect rect = { rectX, rectY, rectWidth, rectHeight };
+    SDL_RenderFillRect(renderer, &rect);
+
+	// Create a font
+	TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 75);
+	
+	// Create a surface containing the rendered text
+	std::string text = "You lost!";
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+	
+	// Get the dimensions of the rendered text
+	int textWidth = textSurface->w;
+	int textHeight = textSurface->h;
+	
+	// Set the position
+	int x = (SCREEN_WIDTH - textWidth) / 2; // Center horizontally
+	int y = (SCREEN_HEIGHT - textHeight) / 2; // Center vertically
+	
+	// Render the text texture
+	SDL_Rect renderQuad = {x, y, textWidth, textHeight};
+	SDL_RenderCopy(renderer, textTexture, nullptr, &renderQuad);
+	
+	// Cleanup resources
+	SDL_FreeSurface(textSurface);
+	SDL_DestroyTexture(textTexture);
+	TTF_CloseFont(font);
+
+    // Update the screen
+    SDL_RenderPresent(renderer);
+}
+
+void View::renderPause() {	
+    SDL_Color textColor = { 255, 255, 255, 255 }; // White color
+
+    // Calculate the dimensions and position of the rectangle
+    int rectWidth = 500;
+    int rectHeight = 400;
+    int rectX = (SCREEN_WIDTH - rectWidth) / 2; // Center horizontally
+    int rectY = (SCREEN_HEIGHT - rectHeight) / 2; // Center vertically
+
+    // Render the filled rectangle
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200); // Semi-transparent black color
+    SDL_Rect rect = { rectX, rectY, rectWidth, rectHeight };
+    SDL_RenderFillRect(renderer, &rect);
+
+	// Create a font
+	TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 75);
+	
+	// Create a surface containing the rendered text
+	std::string text = "Game paused";
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+	
+	// Get the dimensions of the rendered text
+	int textWidth = textSurface->w;
+	int textHeight = textSurface->h;
+	
+	// Set the position
+	int x = (SCREEN_WIDTH - textWidth) / 2; // Center horizontally
+	int y = (SCREEN_HEIGHT - textHeight) / 2; // Center vertically
+	
+	// Render the text texture
+	SDL_Rect renderQuad = {x, y, textWidth, textHeight};
+	SDL_RenderCopy(renderer, textTexture, nullptr, &renderQuad);
+	
+	// Cleanup resources
+	SDL_FreeSurface(textSurface);
+	SDL_DestroyTexture(textTexture);
+	TTF_CloseFont(font);
+
+    // Update the screen
+    SDL_RenderPresent(renderer);
+}
+
+
 View::~View(){
     delete logic;
     delete tower_gui;
     delete update_tower_gui;
+    delete hud;
+    SDL_DestroyTexture(barracksTexture);
+    SDL_DestroyTexture(bombTexture);
+    SDL_DestroyTexture(laserTexture);
+    SDL_DestroyTexture(humanRaiderTexture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

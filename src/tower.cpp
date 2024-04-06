@@ -15,7 +15,7 @@ Tower* Tower::createTower(const std::string& type, const TowerLocation& location
     using namespace tower;
     if (type == "Barracks") {
         return new Barracks("Barracks", tower::barracksHealth, tower::barracksDamage, tower::barracksRange, 
-                            tower::barracksDamageType, location, tower::barracksBuildCost);
+                            tower::barracksDamageType, location, tower::barracksBuildCost, view);
     } else if (type == "Bomb") {
         return new BombTower("BombTower", tower::bombHealth, tower::bombDamage, tower::bombRange, 
                             tower::bombDamageType, location, tower::bombBuildCost, tower::bombFireRate);
@@ -26,7 +26,7 @@ Tower* Tower::createTower(const std::string& type, const TowerLocation& location
     return nullptr;
 }
 
-void Tower::updateTarget(const std::vector<Enemy>& enemies) {}
+void Tower::updateTarget(std::vector<Enemy>& enemies) {}
 
 bool Tower::isInRange(int x, int y) const {
     int towerX = location.x + location.size / 2;

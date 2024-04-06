@@ -23,10 +23,13 @@ class Logic {
         Logic();
 
         int getScore();
+        int getHealth();
 
         // Set if game is paused
         void setPaused();
         void setUnpaused();
+        
+        void takeDamage(int d);
         
         // Get if game is paused
         bool isPaused();

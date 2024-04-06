@@ -3,10 +3,11 @@
 #include <iostream>
 #include <algorithm>
 
+const int UPDATE_DIVISOR = 2;
 
 Enemy::Enemy(std::string n, int h, int s, int x1, int y1, Direction direct, int d, DamageType w, DamageType st)
     : name(n), health(h), speed(s), x(x1), y(y1), dir(direct), damage(d), weakness(w), strength(st) {}
-    
+
 Enemy::~Enemy() {
     // Destructor implementation
 }
@@ -19,21 +20,24 @@ bool Enemy::isAlive() const{
 	return health > 0;
 }
 
-void Enemy::move(){
-	
-	// changes enemy direction if enemy at a path corner 
-	pathCornerCollision();
+void Enemy::move() {
+    updateCounter++;
 
-	// updating enemy location based on direction
-	if(dir == Direction::EAST){
-		x += speed;
-	}else if(dir == Direction::WEST){
-		x -= speed;
-	}else if(dir == Direction::NORTH){
-		y -= speed;
-	}else if(dir == Direction::SOUTH){
-		y += speed;
-	}
+    // Only update the position if the update counter meets the divisor condition
+	// This slows down enemy movement by updating the position less often
+    if (updateCounter % UPDATE_DIVISOR == 0) {
+        pathCornerCollision();
+
+        if (dir == Direction::EAST) {
+            x += speed;
+        } else if (dir == Direction::WEST) {
+            x -= speed;
+        } else if (dir == Direction::NORTH) {
+            y -= speed;
+        } else if (dir == Direction::SOUTH) {
+            y += speed;
+        }
+    }
 }
 
 void Enemy::pathCornerCollision(){
@@ -64,7 +68,6 @@ void Enemy::pathCornerCollision(){
 			dir = Direction::EAST;
 		}
 	}
-
 }
 
 bool Enemy::inPathCornerRange(int cornerX1, int cornerY1, int cornerX2, int cornerY2){

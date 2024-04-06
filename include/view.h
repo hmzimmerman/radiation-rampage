@@ -6,6 +6,7 @@
 #include <SDL_ttf.h>
 #include <SDL2_gfxPrimitives.h>
 #include "logic.h"
+#include "HUD.h"
 
 class TOWERGUI;
 struct TowerLocation;
@@ -29,18 +30,31 @@ class View{
         Logic* logic;
         TOWERGUI* tower_gui;
         TOWERGUI* update_tower_gui;
+        HUD* hud;
         AttackAnimation attackAnimation;
+        
+        SDL_Texture* barracksTexture;
+        SDL_Texture* bombTexture;
+        SDL_Texture* laserTexture;
+        SDL_Texture* humanRaiderTexture;
+
+        void loadTowerTextures();
+        void loadEnemyTextures();
         
     public:
         View();
         ~View();
-        bool update(Logic logic);
+        bool update(Logic& logic);
 
         void renderGUI();
         void renderTowerLocations();
+        void renderHUD(Logic& logic);
         void renderTowerRadius(const TowerLocation& location);
-        void handleTowerClick(SDL_Event event);
-        void handleTowerTypeSelection(SDL_Event event);
+        void renderSoldiers();
+        void renderLost(Logic& logic);
+        void renderPause();
+        void handleTowerClick(const SDL_Event& event);
+        void handleTowerTypeSelection(const SDL_Event& event);
         void triggerLaserAttackAnimation(int startX, int startY, int endX, int endY);
 };
 #endif
