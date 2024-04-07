@@ -48,6 +48,7 @@ void View::loadTowerTextures() {
     barracksTexture = IMG_LoadTexture(renderer, "../resource/barrackstower.png");
     bombTexture = IMG_LoadTexture(renderer, "../resource/bombtower.png");
     laserTexture = IMG_LoadTexture(renderer, "../resource/lasertower.png");
+    barracksSoldierTexture = IMG_LoadTexture(renderer, "../resource/BarracksSoldiers.png");
 }
 
 void View::loadEnemyTextures() {
@@ -218,19 +219,17 @@ void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int end
 void View::renderSoldiers() {
     for (const auto& location : towerLocations) {
         if (location.occupied && location.towerType == "Barracks") {
-            Barracks* barracksTower = dynamic_cast<Barracks*>(location.tower);
+            Barracks* barracksTower = static_cast<Barracks*>(location.tower);
             if (barracksTower) {
                 // Get the soldier location associated with this barracks tower
-                std::pair<int, int> soldierLocation = barracksTower->getTowerSoldierMapping(towerLocations);
+                std::pair<int, int> soldierLocation = barracksTower->getTowerSoldierMapping();
 
                 if (soldierLocation.first != -1 && soldierLocation.second != -1) {
                     for (const auto& soldier : barracksTower->getSoldiers()) {
                         // Render soldiers only if they are alive
                         if (soldier.getHealth() >= 0) {
-                            SDL_Texture* soldierTexture = IMG_LoadTexture(renderer, "../resource/BarracksSoldiers.png");
                             SDL_Rect soldierRect = { soldierLocation.first, soldierLocation.second, 120, 50 };
-                            SDL_RenderCopy(renderer, soldierTexture, nullptr, &soldierRect);
-                            SDL_DestroyTexture(soldierTexture);
+                            SDL_RenderCopy(renderer, barracksSoldierTexture, nullptr, &soldierRect);
                         }
                     }
                 }
@@ -336,6 +335,7 @@ View::~View(){
     SDL_DestroyTexture(barracksTexture);
     SDL_DestroyTexture(bombTexture);
     SDL_DestroyTexture(laserTexture);
+    SDL_DestroyTexture(barracksSoldierTexture);
     SDL_DestroyTexture(humanRaiderTexture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

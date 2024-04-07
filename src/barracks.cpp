@@ -31,9 +31,9 @@ void Barracks::attack() {
 
 void Barracks::updateTarget(std::vector<Enemy>& enemies) {
     // Find the first enemy near a soldier
-    for (const auto& enemy : enemies) {
+    for (auto& enemy : enemies) {
         if (isEnemyNearSoldier(enemy)) {
-            target = const_cast<Enemy*>(&enemy);
+            target = &enemy;
             return;
         }
     }
@@ -41,9 +41,9 @@ void Barracks::updateTarget(std::vector<Enemy>& enemies) {
     target = nullptr;
 }
 
-bool Barracks::isEnemyNearSoldier(const Enemy& enemy)  {
+bool Barracks::isEnemyNearSoldier(const Enemy& enemy) {
     // Get the soldier location associated with a barracks tower
-    std::pair<int, int> soldierLocation = getTowerSoldierMapping(towerLocations);
+    std::pair<int, int> soldierLocation = getTowerSoldierMapping();
 
     // Check if the enemy is North or East of the soldier
     if ((enemy.getX() >= soldierLocation.first - 30) &&
@@ -56,11 +56,9 @@ bool Barracks::isEnemyNearSoldier(const Enemy& enemy)  {
 }
 
 bool Barracks::isReadyToAttack(double elapsedTime) {
-    // Increment time since the last attack
     timeSinceLastAttack += elapsedTime;
 
-    // Check if enough time has elapsed to perform another attack
-    if (timeSinceLastAttack >= 1.5) { // Attack once per 1.5 seconds
+    if (timeSinceLastAttack >= 1.5) { // Attack once every 1.5 seconds
         timeSinceLastAttack = 0.0;
         return true;
     }
@@ -71,8 +69,8 @@ const std::vector<std::pair<int, int>>& Barracks::getSoldierLocations() const {
     return soldierLocations;
 }
 
-std::pair<int, int> Barracks::getTowerSoldierMapping(const std::vector<TowerLocation>& towerLocations) const {
-    const TowerLocation& thisTowerLocation = this->getLocation(); 
+std::pair<int, int> Barracks::getTowerSoldierMapping() const {
+    const TowerLocation& thisTowerLocation = this->getLocation();
 
     // Find the index of this barracks tower location
     int index = -1;
@@ -85,7 +83,6 @@ std::pair<int, int> Barracks::getTowerSoldierMapping(const std::vector<TowerLoca
 
     // Return the corresponding soldier location
     if (index != -1) {
-        const std::vector<std::pair<int, int>>& soldierLocations = getSoldierLocations();
         if (index < static_cast<int>(soldierLocations.size())) {
             return soldierLocations[index];
         }
@@ -93,14 +90,14 @@ std::pair<int, int> Barracks::getTowerSoldierMapping(const std::vector<TowerLoca
     return std::make_pair(-1, -1);
 }
 
-// Respawn soldier after 10 seconds of death
+// Respawn soldier after 8 seconds of death
 void Barracks::handleSoldierRespawnTiming(double elapsedTime) {
     for (auto& soldier : soldiers) {
         if (soldier.getHealth() <= 0) {
             double timeSinceDeath = soldier.getTimeSinceDeath();
             timeSinceDeath += elapsedTime;
             soldier.setTimeSinceDeath(timeSinceDeath);
-            if (timeSinceDeath >= 10.0) {
+            if (timeSinceDeath >= 8.0) {
                 soldier.respawn();
             }
         } else {

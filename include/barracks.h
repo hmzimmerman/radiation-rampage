@@ -29,7 +29,7 @@ public:
     bool isReadyToAttack(double elapsedTime);
 
     // Return a soldier location that corresponds to the tower location of a barracks tower instance
-    std::pair<int, int> getTowerSoldierMapping(const std::vector<TowerLocation>& towerLocations) const;
+    std::pair<int, int> getTowerSoldierMapping() const;
 
     // Getters
     const std::vector<std::pair<int, int>>& getSoldierLocations() const;
