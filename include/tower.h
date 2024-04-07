@@ -64,6 +64,13 @@ class Tower {
         virtual int getDamage() const { return damage; }
         int getRange() const { return range; }
         const TowerLocation& getLocation() const { return location; }
+        int getBuildCost() const { return buildCost; }
+
+        // TODO add the actual values based on tower cost formulas 
+        int getUpgradeCost() const { return 10; }
+        int getRepairCost() const { return 10; }
+        int getSellEarnings() const { return 10; }
+
 
         // Setters
         void setHealth(int h) { health = h; }

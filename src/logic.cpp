@@ -6,6 +6,7 @@
 #include "tower.h"
 #include "laserTower.h"
 #include "barracks.h"
+#include "constants.h"
 
 // Constructor
 Logic::Logic() {
@@ -14,6 +15,7 @@ Logic::Logic() {
     game_over = false;
     paused = false;
     wave_manager = new WaveManager();
+    moneyManager = new MoneyManager();
 }
 
 int Logic::getScore() {
@@ -22,6 +24,10 @@ int Logic::getScore() {
 
 int Logic::getHealth() {
     return health;
+}
+
+int Logic::getMoney(){
+    return moneyManager->getMoney();
 }
 
 bool Logic::isPaused() {
@@ -44,12 +50,32 @@ std::vector<Enemy> Logic::getEnemiesOnField() {
     return wave_manager->getActiveEnemies();
 }
 
+bool Logic::updateMoneyTowerAction(const std::string& action, int coinAmount){
+    if (action == "Buy" || 
+        action == "Upgrade" ||
+        action == "Repair" ){
+        bool res = moneyManager->spendMoney(coinAmount);
+        return res;
+    }else if(action == "Sell"){
+        moneyManager->gainMoney(coinAmount);
+        return true;
+    }
+    // Should never reach here 
+    return false;
+}
+
 void Logic::update(double elapsedTime){
+    using namespace window;
     if(isPaused() == false){
+        // Player slowly gains money every update 
+        if (moneyManager->isReadyToSlowGain(elapsedTime)){
+            moneyManager->slowGain();
+        }
+
         for (int i = 0; i < wave_manager->getActiveEnemies().size(); i ++){
             wave_manager->getActiveEnemies()[i].move();
 
-            if(wave_manager->getActiveEnemies()[i].getX() >= SCREEN_WIDTH){
+            if(wave_manager->getActiveEnemies()[i].getX() >= window::screenWidth){
                     takeDamage(wave_manager->getActiveEnemies()[i].getDamage());
                     wave_manager->getActiveEnemies()[i].takeDamage(wave_manager->getActiveEnemies()[i].getHealth());
             }

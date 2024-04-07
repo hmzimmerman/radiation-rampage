@@ -7,10 +7,15 @@
 #include "logic.h"
 #include "towerGUI.h"
 #include "barracks.h"
+#include "constants.h"
 
 using namespace std;
 
 View::View(){
+    using namespace window;
+    SCREEN_WIDTH = window::screenWidth;
+    SCREEN_HEIGHT = window::screenHeight;
+
     if( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
         cout << "Error. SDL could not initialize" << endl;
     };
@@ -99,7 +104,7 @@ bool View::update(Logic& logic){
         }
         else if (event.type == SDL_MOUSEBUTTONDOWN) {
             handleTowerClick(event);
-            handleTowerTypeSelection(event);
+            handleTowerTypeSelection(event, logic);
         }
         if (event.window.event == SDL_WINDOWEVENT_MINIMIZED) {
             logic.setPaused();
@@ -130,6 +135,15 @@ bool View::update(Logic& logic){
         // Disable animation again after a short moment
         if (SDL_GetTicks() - attackAnimation.startTime >= 100) {
             attackAnimation.active = false;
+        }
+    }
+
+    if (failedTransMessage.active){
+        // Render error message box when money transaction fails
+        renderFailedTransMessage();
+
+        if (SDL_GetTicks() - failedTransMessage.startTime >= 3000){
+            failedTransMessage.active = false;
         }
     }
 
@@ -166,11 +180,17 @@ void View::handleTowerClick(const SDL_Event& event) {
 }
 
 // Pass mouse coordinates to GUI for option selection
-void View::handleTowerTypeSelection(const SDL_Event& event) {
+void View::handleTowerTypeSelection(const SDL_Event& event, Logic& logic) {
+    bool errorFreeTowerAction = true;
     if (tower_gui->isVisible()) {
-        tower_gui->selectTowerType(event.button.x, event.button.y, this);
+        errorFreeTowerAction = tower_gui->selectTowerType(event.button.x, event.button.y, this, logic);
     } else if (update_tower_gui->isVisible()) {
-        update_tower_gui->selectTowerType(event.button.x, event.button.y, this);
+        errorFreeTowerAction = update_tower_gui->selectTowerType(event.button.x, event.button.y, this, logic);
+    }
+
+    if (errorFreeTowerAction == false){
+        failedTransMessage.active = true;
+        failedTransMessage.startTime = SDL_GetTicks();
     }
 }
 
@@ -217,7 +237,8 @@ void View::renderGUI() {
 
 
 void View::renderHUD(Logic& logic){
-	hud->render(0, logic.getHealth(), 1);
+    hud->update(logic.getMoney(), logic.getHealth(), 1);
+	hud->render();
 }
 
 void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int endY){
@@ -339,6 +360,20 @@ void View::renderPause() {
     SDL_RenderPresent(renderer);
 }
 
+void View::renderFailedTransMessage(){
+    SDL_SetRenderDrawColor(renderer, 220, 99, 83, 1);
+    SDL_Rect messageRect = {(SCREEN_WIDTH/2)-(SCREEN_WIDTH/8), SCREEN_HEIGHT/100, SCREEN_WIDTH/4, SCREEN_HEIGHT/10};
+    SDL_RenderFillRect(renderer, &messageRect);
+
+    SDL_Color textColor = { 255, 255, 255 };
+    TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 30);
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, "Insufficient Funds", textColor);
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_Rect textRect = { messageRect.x + messageRect.w / 8 ,  messageRect.y + messageRect.h / 8 , textSurface->w, (textSurface->h ) };
+    SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+}
 
 View::~View(){
     delete logic;

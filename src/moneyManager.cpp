@@ -4,6 +4,7 @@
 MoneyManager::MoneyManager(){
     using namespace moneyManager;
     money = moneyManager::startAmount;
+    timeSinceLastSlowGain = 0.0;
 }
 
 bool MoneyManager::spendMoney(int amount){
@@ -21,4 +22,21 @@ void MoneyManager::gainMoney(int amount){
 
 int MoneyManager::getMoney() const{
     return money;
+}
+
+void MoneyManager::slowGain(){
+    using namespace moneyManager;
+    gainMoney(moneyManager::slowGainAmount);
+}
+
+bool MoneyManager::isReadyToSlowGain(double elapsedTime){
+    using namespace moneyManager;
+    timeSinceLastSlowGain += elapsedTime;    
+    if (timeSinceLastSlowGain < moneyManager::secondsBetweenSlowGain){
+        return false;
+    }
+    // Enough time has passed. Can slow gain now
+    timeSinceLastSlowGain = 0.0;
+    return true;
+
 }
