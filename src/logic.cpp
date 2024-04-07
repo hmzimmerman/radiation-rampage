@@ -14,13 +14,6 @@ Logic::Logic() {
     game_over = false;
     paused = false;
     wave_manager = new WaveManager();
-
-    // Uncomment for testing
-    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, 0, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, -50, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, -100, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, -150, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
-    //enemies.push_back(Enemy("Human Raider", 35, 2, 172, -200, Direction::SOUTH, 10, DamageType::NORMAL, DamageType::LASER));
 }
 
 int Logic::getScore() {
@@ -65,7 +58,6 @@ void Logic::update(double elapsedTime){
             if (!wave_manager->getActiveEnemies()[i].isAlive()) {
                 wave_manager->getActiveEnemies().erase(wave_manager->getActiveEnemies().begin() + i);
                 i--;
-                //score += enemy.getScore(); // Increment score for killing enemy
                 continue;
             }
         }
@@ -85,7 +77,10 @@ void Logic::update(double elapsedTime){
 	                        laserTower->attack();
 	                    }
 	                } else if (Barracks* barracksTower = dynamic_cast<Barracks*>(tower)) {
-	                    barracksTower->attack();
+	                    if (barracksTower->isReadyToAttack(elapsedTime)) {
+	                        barracksTower->attack();
+	                    }
+                        barracksTower->update(elapsedTime); 
 	                } else {
 	                    // Other tower attacks
 	                    //tower->attack();

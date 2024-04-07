@@ -224,11 +224,15 @@ void View::renderSoldiers() {
                 std::pair<int, int> soldierLocation = barracksTower->getTowerSoldierMapping(towerLocations);
 
                 if (soldierLocation.first != -1 && soldierLocation.second != -1) {
-                    // Render the soldiers at the soldier location
-                    SDL_Texture* soldierTexture = IMG_LoadTexture(renderer, "../resource/BarracksSoldiers.png");
-                    SDL_Rect soldierRect = { soldierLocation.first, soldierLocation.second, 120, 50 };
-                    SDL_RenderCopy(renderer, soldierTexture, nullptr, &soldierRect);
-                    SDL_DestroyTexture(soldierTexture);
+                    for (const auto& soldier : barracksTower->getSoldiers()) {
+                        // Render soldiers only if they are alive
+                        if (soldier.getHealth() >= 0) {
+                            SDL_Texture* soldierTexture = IMG_LoadTexture(renderer, "../resource/BarracksSoldiers.png");
+                            SDL_Rect soldierRect = { soldierLocation.first, soldierLocation.second, 120, 50 };
+                            SDL_RenderCopy(renderer, soldierTexture, nullptr, &soldierRect);
+                            SDL_DestroyTexture(soldierTexture);
+                        }
+                    }
                 }
             }
         }
