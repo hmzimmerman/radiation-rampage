@@ -53,10 +53,33 @@ void View::loadTowerTextures() {
     barracksTexture = IMG_LoadTexture(renderer, "../resource/barrackstower.png");
     bombTexture = IMG_LoadTexture(renderer, "../resource/bombtower.png");
     laserTexture = IMG_LoadTexture(renderer, "../resource/lasertower.png");
+    barracksSoldierTexture = IMG_LoadTexture(renderer, "../resource/BarracksSoldiers.png");
 }
 
 void View::loadEnemyTextures() {
     humanRaiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
+}
+
+// Render all enemies at once
+void View::renderEnemies(const std::vector<Enemy>& enemies) {
+    std::vector<SDL_Rect> enemyRects;
+    std::vector<SDL_Texture*> enemyTextures;
+
+    for (const auto& enemy : enemies) {
+        SDL_Rect enemyRect;
+        enemyRect.w = 70;
+        enemyRect.h = 70;
+        enemyRect.x = enemy.getX() - enemyRect.w / 2;
+        enemyRect.y = enemy.getY() - enemyRect.h / 2;
+        enemyRects.push_back(enemyRect);
+
+        // TODO: Add other enemy textures
+        enemyTextures.push_back(humanRaiderTexture);
+    }
+
+    for (size_t i = 0; i < enemies.size(); ++i) {
+        SDL_RenderCopy(renderer, enemyTextures[i], nullptr, &enemyRects[i]);
+    }
 }
 
 bool View::update(Logic& logic){
@@ -125,18 +148,9 @@ bool View::update(Logic& logic){
     }
 
     // Render enemies
-    std::vector<Enemy> enemies = logic.getEnemiesOnField();
-    for (int i = 0; i < enemies.size(); i++) {
-        SDL_Rect raiderDestination;
-        raiderDestination.w = 70;
-        raiderDestination.h = 70;
-
-        // Enemy coordinate is the center of the enemy
-        raiderDestination.x = enemies[i].getX() - raiderDestination.w / 2;
-        raiderDestination.y = enemies[i].getY() - raiderDestination.h / 2;
-        SDL_RenderCopy(renderer, humanRaiderTexture, NULL, &raiderDestination);
-    }
+    renderEnemies(logic.getEnemiesOnField());
     
+    // Render lost or pause screen
     if(logic.getHealth() <= 0){
     	renderLost(logic);
     }else if(logic.isPaused()){
@@ -239,30 +253,19 @@ void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int end
 void View::renderSoldiers() {
     for (const auto& location : towerLocations) {
         if (location.occupied && location.towerType == "Barracks") {
-            Barracks* barracksTower = dynamic_cast<Barracks*>(location.tower);
+            Barracks* barracksTower = static_cast<Barracks*>(location.tower);
             if (barracksTower) {
-                // Get the tower and soldier locations associated with this barracks tower
-                const TowerLocation& towerLocation = barracksTower->getLocation();
-                const std::vector<std::pair<int, int>>& soldierLocations = barracksTower->getSoldierLocations();
+                // Get the soldier location associated with this barracks tower
+                std::pair<int, int> soldierLocation = barracksTower->getTowerSoldierMapping();
 
-                // Find the index of the tower location
-                int index = -1;
-                for (size_t i = 0; i < towerLocations.size(); ++i) {
-                    if (towerLocations[i] == towerLocation) {
-                        index = static_cast<int>(i);
-                        break;
+                if (soldierLocation.first != -1 && soldierLocation.second != -1) {
+                    for (const auto& soldier : barracksTower->getSoldiers()) {
+                        // Render soldiers only if they are alive
+                        if (soldier.getHealth() >= 0) {
+                            SDL_Rect soldierRect = { soldierLocation.first, soldierLocation.second, 120, 50 };
+                            SDL_RenderCopy(renderer, barracksSoldierTexture, nullptr, &soldierRect);
+                        }
                     }
-                }
-
-                // Tower locations and soldier locations have corresponding indices
-                // Render the soldiers at the corresponding location
-                if (index != -1 && index < static_cast<int>(soldierLocations.size())) {
-                    const auto& sLocation = soldierLocations[index];
-                    SDL_Texture* soldierTexture = IMG_LoadTexture(renderer, "../resource/BarracksSoldiers.png");
-                    SDL_Rect soldierRect = { sLocation.first, sLocation.second, 120, 50 };
-                    SDL_RenderCopy(renderer, soldierTexture, nullptr, &soldierRect);
-
-                    SDL_DestroyTexture(soldierTexture);
                 }
             }
         }
@@ -380,6 +383,7 @@ View::~View(){
     SDL_DestroyTexture(barracksTexture);
     SDL_DestroyTexture(bombTexture);
     SDL_DestroyTexture(laserTexture);
+    SDL_DestroyTexture(barracksSoldierTexture);
     SDL_DestroyTexture(humanRaiderTexture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

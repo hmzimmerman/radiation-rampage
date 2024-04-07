@@ -48,6 +48,7 @@ class View{
         SDL_Texture* bombTexture;
         SDL_Texture* laserTexture;
         SDL_Texture* humanRaiderTexture;
+        SDL_Texture* barracksSoldierTexture;
 
         void loadTowerTextures();
         void loadEnemyTextures();
@@ -59,6 +60,7 @@ class View{
         ~View();
         bool update(Logic& logic);
 
+        void renderEnemies(const std::vector<Enemy>& enemies);
         void renderGUI();
         void renderTowerLocations();
         void renderHUD(Logic& logic);

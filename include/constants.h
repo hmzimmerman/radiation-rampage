@@ -49,7 +49,7 @@ namespace moneyManager{
 namespace tower{
     // stats for specialized towers 
     constexpr int barracksHealth {100};
-    constexpr int barracksDamage {100};
+    constexpr int barracksDamage {35};
     constexpr int barracksRange {0};
     constexpr enum DamageType barracksDamageType {DamageType::NORMAL};
     constexpr int barracksBuildCost {100};
@@ -62,7 +62,7 @@ namespace tower{
     constexpr int bombFireRate {1};
 
     constexpr int laserHealth {100};
-    constexpr int laserDamage {30};
+    constexpr int laserDamage {25};
     constexpr int laserRange {300};
     constexpr enum DamageType laserDamageType {DamageType::LASER};
     constexpr int laserBuildCost {100};

@@ -23,9 +23,9 @@ void LaserTower::attack() {
 
 void LaserTower::updateTarget(std::vector<Enemy>& enemies) {
     // Find the first (furthest along the path) enemy in range
-    for (const auto& enemy : enemies) {
+    for (auto& enemy : enemies) {
         if (isInRange(enemy.getX(), enemy.getY()) && enemy.isAlive()) {
-            target = const_cast<Enemy*>(&enemy);
+            target = &enemy;
             return;
         }
     }
