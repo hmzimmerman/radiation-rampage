@@ -55,6 +55,28 @@ void View::loadEnemyTextures() {
     humanRaiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
 }
 
+// Render all enemies at once
+void View::renderEnemies(const std::vector<Enemy>& enemies) {
+    std::vector<SDL_Rect> enemyRects;
+    std::vector<SDL_Texture*> enemyTextures;
+
+    for (const auto& enemy : enemies) {
+        SDL_Rect enemyRect;
+        enemyRect.w = 70;
+        enemyRect.h = 70;
+        enemyRect.x = enemy.getX() - enemyRect.w / 2;
+        enemyRect.y = enemy.getY() - enemyRect.h / 2;
+        enemyRects.push_back(enemyRect);
+
+        // TODO: Add other enemy textures
+        enemyTextures.push_back(humanRaiderTexture);
+    }
+
+    for (size_t i = 0; i < enemies.size(); ++i) {
+        SDL_RenderCopy(renderer, enemyTextures[i], nullptr, &enemyRects[i]);
+    }
+}
+
 bool View::update(Logic& logic){
     // Running is returned to update and is updated when player hits x or quits
     // At the end return running
@@ -112,18 +134,9 @@ bool View::update(Logic& logic){
     }
 
     // Render enemies
-    std::vector<Enemy> enemies = logic.getEnemiesOnField();
-    for (int i = 0; i < enemies.size(); i++) {
-        SDL_Rect raiderDestination;
-        raiderDestination.w = 70;
-        raiderDestination.h = 70;
-
-        // Enemy coordinate is the center of the enemy
-        raiderDestination.x = enemies[i].getX() - raiderDestination.w / 2;
-        raiderDestination.y = enemies[i].getY() - raiderDestination.h / 2;
-        SDL_RenderCopy(renderer, humanRaiderTexture, NULL, &raiderDestination);
-    }
+    renderEnemies(logic.getEnemiesOnField());
     
+    // Render lost or pause screen
     if(logic.getHealth() <= 0){
     	renderLost(logic);
     }else if(logic.isPaused()){

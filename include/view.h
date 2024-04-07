@@ -47,6 +47,7 @@ class View{
         ~View();
         bool update(Logic& logic);
 
+        void renderEnemies(const std::vector<Enemy>& enemies);
         void renderGUI();
         void renderTowerLocations();
         void renderHUD(Logic& logic);
