@@ -42,6 +42,8 @@ namespace enemy{
 
 namespace moneyManager{
     constexpr int startAmount {100};
+    constexpr int slowGainAmount {5};
+    constexpr int secondsBetweenSlowGain {3};
 }
 
 namespace tower{
@@ -66,4 +68,10 @@ namespace tower{
     constexpr int laserBuildCost {100};
     constexpr double laserFireRate {1};
 }
+
+namespace window{
+    constexpr int screenHeight = 720;
+    constexpr int screenWidth = 1280;
+}
+
 #endif

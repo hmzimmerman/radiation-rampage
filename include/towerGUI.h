@@ -25,8 +25,8 @@ public:
     void show(const TowerLocation& towerLocation);
     void render();
     void hide();
-    void selectTowerType(int mouseX, int mouseY, View* view);
-    void handleTowerAction(const std::string& action);
+    bool selectTowerType(int mouseX, int mouseY, View* view, Logic& logic); // returns false if a transaction failed, true otherwise
+    bool handleTowerAction(const std::string& action, Logic& logic); // return false if a transaction failed, true otherwiseSS
     //void printTowerInfo();
 
     //Getters
