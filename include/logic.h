@@ -3,6 +3,8 @@
 
 #include "waveManager.h"
 #include "enemy.h"
+#include "moneyManager.h"
+
 
 #include <iostream>
 #include <stdio.h>
@@ -17,6 +19,8 @@ class Logic {
         bool paused;	// Tells other views if the game is paused
 
         WaveManager *wave_manager;
+        MoneyManager *moneyManager;
+
 
     public:
         // Constructor, create the wave manager and set game_over and paused to false
@@ -24,6 +28,7 @@ class Logic {
 
         int getScore();
         int getHealth();
+        int getMoney();
 
         // Set if game is paused
         void setPaused();
@@ -45,6 +50,10 @@ class Logic {
 		
 		// Get method for enemies
 		std::vector<Enemy> getEnemies();
+
+        // Update money manager based on tower action. Returns true if transaction went through, false if it didn't
+        bool updateMoneyTowerAction(const std::string& action, int coinAmount);
+
 };
 
 #endif

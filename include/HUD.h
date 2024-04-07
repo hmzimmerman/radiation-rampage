@@ -13,7 +13,7 @@ public:
     void update(int coins, int health, int wave);
 
     // Render the HUD on the screen
-    void render(int coin, int health, int wave);
+    void render();
 
 private:
     SDL_Renderer* renderer;

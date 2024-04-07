@@ -1,4 +1,6 @@
 #include "towerGUI.h"
+#include "constants.h"
+
 
 TOWERGUI::TOWERGUI(SDL_Renderer* renderer) : renderer(renderer), visible(false), location(0, 0) {
     options = { "Barracks", "Bomb", "Laser" };
@@ -65,8 +67,10 @@ void TOWERGUI::hide() {
     visible = false;
 }
 
-void TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view) {
+bool TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view, Logic& logic) {
+    using namespace tower;
     bool clickGUI = false;
+    bool isErrorFreeTransaction = true;
 
     for (int i = 0; i < towerLocations.size(); ++i) {
         TowerLocation& location = towerLocations[i];
@@ -86,24 +90,39 @@ void TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view) {
             if (mouseX >= optionX && mouseX <= optionX + optionWidth &&
                 mouseY >= optionY && mouseY <= optionY + optionHeight) {
                 
-                // If the location is not occupied, create and store the tower
+                // If the location is not occupied, check if player has enough money, then create and store the tower
                 if (!location.occupied) {
-                    Tower* tower = Tower::createTower(currentOptions[j], location, view);
-                    if (tower) {
-                        location.occupied = true;
-                        location.towerType = currentOptions[j];
-                        location.tower = tower;
-                        //printTowerInfo();
+                    int towerBuildCost = 0;
+                    if (currentOptions[j] == "Barracks"){
+                        towerBuildCost = tower::barracksBuildCost;
+                    }else if (currentOptions[j] == "Bomb"){
+                        towerBuildCost = tower::bombBuildCost;
+                    }else if(currentOptions[j] == "Laser"){
+                        towerBuildCost = tower::laserBuildCost;
+                    }
+                    if (logic.updateMoneyTowerAction("Buy",towerBuildCost)){
+                        // Transaction was successful. Create and store tower. 
+                        Tower* tower = Tower::createTower(currentOptions[j], location, view);
+                        if (tower) {
+                            location.occupied = true;
+                            location.towerType = currentOptions[j];
+                            location.tower = tower;
+                            isErrorFreeTransaction = true;
+                            //printTowerInfo();
+                        }
+                    }else{
+                        // Transaction failed. 
+                        isErrorFreeTransaction = false;
                     }
                 } else {
                     // If the location is occupied, handle tower action
-                    handleTowerAction(currentOptions[j]);
+                    handleTowerAction(currentOptions[j], logic);
                 }
                 clickGUI = true;
                 hide();
                 break;
             }
-        }
+    }
     }
     // Check if click occurred within tower area
     if (!clickGUI) {
@@ -119,16 +138,22 @@ void TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view) {
     if (!clickGUI) {
         hide();
     }
+    return isErrorFreeTransaction;  
 }
 
-void TOWERGUI::handleTowerAction(const std::string& action) {
+bool TOWERGUI::handleTowerAction(const std::string& action, Logic& logic) {
     if (action == "Upgrade") {
-        std::cout << "Upgraded" << std::endl; // TODO
+        std::cout << "Upgraded" << std::endl;
+        return logic.updateMoneyTowerAction("Upgrade", location.tower->getUpgradeCost()); // TODO
     } else if (action == "Repair") {
-        std::cout << "Repaired" << std::endl; // TODO
+        std::cout << "Repaired" << std::endl; 
+        return logic.updateMoneyTowerAction("Repair", location.tower->getRepairCost()); // TODO
     } else if (action == "Sell") {
-        std::cout << "Sold" << std::endl; // TODO
+        std::cout << "Sold" << std::endl; 
+        return logic.updateMoneyTowerAction("Sell", location.tower->getSellEarnings()); // TODO REMOVE TOWER FROM RENDER
     }
+    // Should never reach here 
+    return false;
 }
 
 // Uncomment for testing

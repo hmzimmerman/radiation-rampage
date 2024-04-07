@@ -10,6 +10,8 @@
 
 class TOWERGUI;
 struct TowerLocation;
+struct FailedTransMessage;
+
 
 struct AttackAnimation {
     bool active;
@@ -20,11 +22,18 @@ struct AttackAnimation {
     Uint32 startTime;
 };
 
-const int SCREEN_HEIGHT = 720;
-const int SCREEN_WIDTH = 1280;
+struct FailedTransMessage{
+    // Message box displayed when a money transaction fails
+    bool active;
+    Uint32 startTime;
+};
+
 
 class View{
     private:
+        int SCREEN_WIDTH;
+        int SCREEN_HEIGHT;
+
         SDL_Window* window;
         SDL_Renderer* renderer;
         Logic* logic;
@@ -32,6 +41,8 @@ class View{
         TOWERGUI* update_tower_gui;
         HUD* hud;
         AttackAnimation attackAnimation;
+        FailedTransMessage failedTransMessage;
+
         
         SDL_Texture* barracksTexture;
         SDL_Texture* bombTexture;
@@ -40,6 +51,8 @@ class View{
 
         void loadTowerTextures();
         void loadEnemyTextures();
+        void renderFailedTransMessage();
+
         
     public:
         View();
@@ -54,7 +67,7 @@ class View{
         void renderLost(Logic& logic);
         void renderPause();
         void handleTowerClick(const SDL_Event& event);
-        void handleTowerTypeSelection(const SDL_Event& event);
+        void handleTowerTypeSelection(const SDL_Event& event, Logic& logic);
         void triggerLaserAttackAnimation(int startX, int startY, int endX, int endY);
 };
 #endif
