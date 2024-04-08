@@ -238,7 +238,7 @@ void View::renderGUI() {
 
 
 void View::renderHUD(Logic& logic){
-    hud->update(logic.getMoney(), logic.getHealth(), 1);
+    hud->update(logic.getMoney(), logic.getHealth(), (*logic.getManager()).getCurrWave());
 	hud->render();
 }
 
