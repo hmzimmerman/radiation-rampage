@@ -375,9 +375,11 @@ void View::renderWaveTime(WaveManager* manager){
     SDL_RenderFillRect(renderer, &rect);
 
     // Create a font
-    TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 24);
+    TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 18);
 
-    std::string text = "Next Wave in X seconds"; // Replace X with the actual time
+    // Get the time until the next wave from the WaveManager
+    int timeUntilNextWave = logic->getManager()->getWaveTime();
+    std::string text = "Next Wave in " + std::to_string(timeUntilNextWave) + " seconds";
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
 
     // Create a texture from the text surface
