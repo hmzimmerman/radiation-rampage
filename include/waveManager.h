@@ -49,8 +49,8 @@ class WaveManager {
         // Create vector of all enemy types
 		std::vector<Enemy> createEnemies();
 
-
-
+		// Getter
+		int getWaveTime() const { return time_til_next_wave; }
 
 };
 

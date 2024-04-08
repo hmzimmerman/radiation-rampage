@@ -50,6 +50,9 @@ class Logic {
 		
 		// Get method for enemies
 		std::vector<Enemy> getEnemies();
+		
+		// Get method for Wave Manager
+		WaveManager* getManager() const { return wave_manager; }
 
         // Update money manager based on tower action. Returns true if transaction went through, false if it didn't
         bool updateMoneyTowerAction(const std::string& action, int coinAmount);

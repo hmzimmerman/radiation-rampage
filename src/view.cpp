@@ -126,6 +126,7 @@ bool View::update(Logic& logic){
     renderTowerLocations();
     renderSoldiers();
     renderHUD(logic);
+    renderWaveTime(logic.getManager());
 
     if (attackAnimation.active) {
         thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
@@ -355,6 +356,49 @@ void View::renderPause() {
 	SDL_FreeSurface(textSurface);
 	SDL_DestroyTexture(textTexture);
 	TTF_CloseFont(font);
+
+    // Update the screen
+    SDL_RenderPresent(renderer);
+}
+
+void View::renderWaveTime(WaveManager* manager){
+    SDL_Color textColor = { 255, 255, 255, 255 }; // White color
+
+    int rectWidth = 200;
+    int rectHeight = 50;
+    int rectX = SCREEN_WIDTH - rectWidth - 20;
+    int rectY = 20; // 20 pixels from the top
+
+    // Render the filled rectangle
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200); // Semi-transparent black color
+    SDL_Rect rect = { rectX, rectY, rectWidth, rectHeight };
+    SDL_RenderFillRect(renderer, &rect);
+
+    // Create a font
+    TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 24);
+
+    std::string text = "Next Wave in X seconds"; // Replace X with the actual time
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+
+    // Create a texture from the text surface
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+
+    // Get the dimensions of the rendered text
+    int textWidth = textSurface->w;
+    int textHeight = textSurface->h;
+
+    // Set the position of the text
+    int x = rectX + (rectWidth - textWidth) / 2; // Center horizontally within the rectangle
+    int y = rectY + (rectHeight - textHeight) / 2; // Center vertically within the rectangle
+
+    // Render the text texture
+    SDL_Rect renderQuad = { x, y, textWidth, textHeight };
+    SDL_RenderCopy(renderer, textTexture, nullptr, &renderQuad);
+
+    // Cleanup resources
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(font);
 
     // Update the screen
     SDL_RenderPresent(renderer);
