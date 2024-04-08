@@ -364,7 +364,7 @@ void View::renderPause() {
 void View::renderWaveTime(WaveManager& manager){
     SDL_Color textColor = { 255, 255, 255, 255 }; // White color
 
-    int rectWidth = 200;
+    int rectWidth = 250;
     int rectHeight = 50;
     int rectX = SCREEN_WIDTH - rectWidth - 20;
     int rectY = 20; // 20 pixels from the top
@@ -378,7 +378,7 @@ void View::renderWaveTime(WaveManager& manager){
     TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 18);
 
     // Get the time until the next wave from the WaveManager
-    int timeUntilNextWave = manager.getWaveTime();
+    int timeUntilNextWave = manager.getWaveTime()/10;
     std::string text = "Next Wave in " + std::to_string(timeUntilNextWave) + " seconds";
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
 
