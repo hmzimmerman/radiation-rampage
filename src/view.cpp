@@ -126,7 +126,7 @@ bool View::update(Logic& logic){
     renderTowerLocations();
     renderSoldiers();
     renderHUD(logic);
-    renderWaveTime(logic.getManager());
+    renderWaveTime(*logic.getManager());
 
     if (attackAnimation.active) {
         thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
@@ -361,7 +361,7 @@ void View::renderPause() {
     SDL_RenderPresent(renderer);
 }
 
-void View::renderWaveTime(WaveManager* manager){
+void View::renderWaveTime(WaveManager& manager){
     SDL_Color textColor = { 255, 255, 255, 255 }; // White color
 
     int rectWidth = 200;
