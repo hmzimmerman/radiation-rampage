@@ -378,7 +378,7 @@ void View::renderWaveTime(WaveManager& manager){
     TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 18);
 
     // Get the time until the next wave from the WaveManager
-    int timeUntilNextWave = manager.getWaveTime()/10;
+    int timeUntilNextWave = manager.getWaveTime()/18;
     std::string text = "Next Wave in " + std::to_string(timeUntilNextWave) + " seconds";
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
 

@@ -145,7 +145,7 @@ DamageType WaveManager::stringToDamageType(const std::string& str) {
 }
 
 std::vector<Enemy> WaveManager::createEnemies(){
-    std::ifstream inputFile("stats.txt");
+    std::ifstream inputFile("../src/stats.txt");
     if (!inputFile) {
         std::cerr << "Failed to open file." << std::endl;
     }
