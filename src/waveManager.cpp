@@ -145,7 +145,7 @@ DamageType WaveManager::stringToDamageType(const std::string& str) {
 }
 
 std::vector<Enemy> WaveManager::createEnemies(){
-    std::ifstream inputFile("stats.txt");
+    std::ifstream inputFile("../src/stats.txt");
     if (!inputFile) {
         std::cerr << "Failed to open file." << std::endl;
     }
@@ -197,6 +197,9 @@ void WaveManager::update() {
         if (!enemy_waves.empty()) {
         enemies_to_add = enemy_waves.back();
         enemy_waves.pop_back();
+        
+        // Update wave counter
+        currWave += 1;
 
         //add the popped waves to active enemies
         // Iterate through wave_to_add and add elements to active_enemies with some delay

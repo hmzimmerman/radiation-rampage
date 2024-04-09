@@ -25,6 +25,9 @@ class WaveManager {
         //how many miliseconds between waves
         const int time_between_waves = 500;
         int time_til_next_wave;
+        
+        // Current wave
+        int currWave;
 
         // Assist in parsing text to enums
 		Direction stringToDirection(const std::string& str);
@@ -49,9 +52,9 @@ class WaveManager {
         // Create vector of all enemy types
 		std::vector<Enemy> createEnemies();
 
-
-
-
+		// Getter
+		int getWaveTime() const { return time_til_next_wave; }
+		int getCurrWave() const { return currWave; }
 };
 
 

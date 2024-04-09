@@ -68,6 +68,7 @@ class View{
         void renderSoldiers();
         void renderLost(Logic& logic);
         void renderPause();
+        void renderWaveTime(WaveManager& manager);
         void handleTowerClick(const SDL_Event& event);
         void handleTowerTypeSelection(const SDL_Event& event, Logic& logic);
         void triggerLaserAttackAnimation(int startX, int startY, int endX, int endY);
