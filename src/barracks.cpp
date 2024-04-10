@@ -10,7 +10,7 @@ Barracks::Barracks(std::string name, int health, int damage, int range, DamageTy
     }) {
     // Initialize soldiers
     for (const auto& location : soldierLocations) {
-        soldiers.emplace_back(5, location.first, location.second, this->getDamage());
+        soldiers.emplace_back(5, location.first, location.second);
     }
 }
 

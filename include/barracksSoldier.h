@@ -9,12 +9,11 @@ private:
     int health;
     int x;
     int y;
-    int damage;
 
     double timeSinceDeath;
 
 public:
-    Soldier(int health, int x, int y, int damage);
+    Soldier(int health, int x, int y);
 
     ~Soldier();
 
