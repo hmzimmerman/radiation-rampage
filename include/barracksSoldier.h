@@ -28,6 +28,10 @@ public:
     // Getters
     int getHealth() const { return health; }
 
+    int getX() const { return x; }
+
+    int getY() const { return y; }
+
     double getTimeSinceDeath() { return timeSinceDeath; }
 
     // Setters

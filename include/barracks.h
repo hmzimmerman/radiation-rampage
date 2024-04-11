@@ -22,6 +22,8 @@ public:
 
     void attack() override;
 
+    double calculateDistance(int x1, int y1, int x2, int y2);
+
     void updateTarget(std::vector<Enemy>& enemies) override;
 
     bool isEnemyNearSoldier(const Enemy& enemy);
@@ -32,7 +34,7 @@ public:
     std::pair<int, int> getTowerSoldierMapping() const;
 
     // Getters
-    const std::vector<std::pair<int, int>>& getSoldierLocations() const;
+    const std::vector<std::pair<int, int>>& getSoldierLocations() const { return soldierLocations; }
 
     const std::vector<Soldier>& getSoldiers() const { return soldiers; }
 };

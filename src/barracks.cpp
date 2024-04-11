@@ -1,3 +1,4 @@
+#include <limits>
 #include "barracks.h"
 
 Barracks::Barracks(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, View* view)
@@ -29,16 +30,28 @@ void Barracks::attack() {
     view->renderSoldiers();
 }
 
+// Calculate distance between soldier and enemy
+double Barracks::calculateDistance(int x1, int y1, int x2, int y2) {
+    return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+}
+
 void Barracks::updateTarget(std::vector<Enemy>& enemies) {
-    // Find the first enemy near a soldier
-    for (auto& enemy : enemies) {
-        if (isEnemyNearSoldier(enemy)) {
-            target = &enemy;
-            return;
+    double minDistance = std::numeric_limits<double>::max();
+    target = nullptr;
+
+    // Find the closest enemy within range
+    for (auto& soldier : soldiers) {
+        for (auto& enemy : enemies) {
+            if (isEnemyNearSoldier(enemy)) {
+                double distance = calculateDistance(enemy.getX(), enemy.getY(), soldier.getX(), soldier.getY());
+                
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    target = &enemy;
+                }
+            }
         }
     }
-    // If no enemy is found near a soldier, set target to none
-    target = nullptr;
 }
 
 bool Barracks::isEnemyNearSoldier(const Enemy& enemy) {
@@ -63,10 +76,6 @@ bool Barracks::isReadyToAttack(double elapsedTime) {
         return true;
     }
     return false;
-}
-
-const std::vector<std::pair<int, int>>& Barracks::getSoldierLocations() const {
-    return soldierLocations;
 }
 
 std::pair<int, int> Barracks::getTowerSoldierMapping() const {
