@@ -313,9 +313,6 @@ void View::renderLost(Logic& logic) {
 	SDL_FreeSurface(textSurface);
 	SDL_DestroyTexture(textTexture);
 	TTF_CloseFont(font);
-
-    // Update the screen
-    SDL_RenderPresent(renderer);
 }
 
 void View::renderPause() {	
@@ -356,9 +353,6 @@ void View::renderPause() {
 	SDL_FreeSurface(textSurface);
 	SDL_DestroyTexture(textTexture);
 	TTF_CloseFont(font);
-
-    // Update the screen
-    SDL_RenderPresent(renderer);
 }
 
 void View::renderWaveTime(WaveManager& manager){
@@ -401,9 +395,6 @@ void View::renderWaveTime(WaveManager& manager){
     SDL_FreeSurface(textSurface);
     SDL_DestroyTexture(textTexture);
     TTF_CloseFont(font);
-
-    // Update the screen
-    SDL_RenderPresent(renderer);
 }
 
 void View::renderFailedTransMessage(){

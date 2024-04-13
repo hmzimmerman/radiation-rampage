@@ -4,6 +4,7 @@
 #include "tower.h"
 #include "barracksSoldier.h"
 #include "view.h"
+#include "constants.h"
 
 class Barracks : public Tower {
     private:
@@ -30,6 +31,8 @@ public:
 
     // Return a soldier location that corresponds to the tower location of a barracks tower instance
     std::pair<int, int> getTowerSoldierMapping() const;
+
+    int getUpgradeCost() const override ;
 
     // Getters
     const std::vector<std::pair<int, int>>& getSoldierLocations() const;
