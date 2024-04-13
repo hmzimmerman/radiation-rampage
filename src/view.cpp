@@ -256,17 +256,14 @@ void View::renderSoldiers() {
         if (location.occupied && location.towerType == "Barracks") {
             Barracks* barracksTower = static_cast<Barracks*>(location.tower);
             if (barracksTower) {
-                // Get the soldier location associated with this barracks tower
+                // Get the soldier associated with this barracks tower
                 std::pair<int, int> soldierLocation = barracksTower->getTowerSoldierMapping();
-
-                if (soldierLocation.first != -1 && soldierLocation.second != -1) {
-                    for (const auto& soldier : barracksTower->getSoldiers()) {
-                        // Render soldiers only if they are alive
-                        if (soldier.getHealth() >= 0) {
-                            SDL_Rect soldierRect = { soldierLocation.first, soldierLocation.second, 120, 50 };
-                            SDL_RenderCopy(renderer, barracksSoldierTexture, nullptr, &soldierRect);
-                        }
-                    }
+                Soldier& soldier = barracksTower->getSoldierAtLocation(soldierLocation);
+                
+                // Render soldier if it is alive
+                if (soldier.isAlive()) {
+                    SDL_Rect soldierRect = { soldierLocation.first, soldierLocation.second, 120, 50 };
+                    SDL_RenderCopy(renderer, barracksSoldierTexture, nullptr, &soldierRect);
                 }
             }
         }

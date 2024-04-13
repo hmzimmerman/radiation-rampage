@@ -103,10 +103,7 @@ void Logic::update(double elapsedTime){
 	                        laserTower->attack();
 	                    }
 	                } else if (Barracks* barracksTower = dynamic_cast<Barracks*>(tower)) {
-	                    if (barracksTower->isReadyToAttack(elapsedTime)) {
-	                        barracksTower->attack();
-	                    }
-                        barracksTower->update(elapsedTime); 
+                        barracksTower->update(elapsedTime);
 	                } else {
 	                    // Other tower attacks
 	                    //tower->attack();

@@ -1,8 +1,10 @@
 #include <limits>
 #include "barracks.h"
 
+std::vector<Soldier> Barracks::allSoldiers;
+
 Barracks::Barracks(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, View* view)
-    : Tower(name, health, damage, range, damageType, location, buildCost), view(view), target(nullptr), soldierLocations({
+    : Tower(name, health, damage, range, damageType, location, buildCost), view(view), target(nullptr), elapsedTime(0.0), timeSinceLastAttack(0.0), soldierLocations({
         {115, 109},
         {115, 441},
         {595, 544},
@@ -10,23 +12,33 @@ Barracks::Barracks(std::string name, int health, int damage, int range, DamageTy
         {1060, 290}
     }) {
     // Initialize soldiers
-    for (const auto& location : soldierLocations) {
-        soldiers.emplace_back(5, location.first, location.second);
+    if (allSoldiers.empty()) {
+        for (const auto& location : soldierLocations) {
+            allSoldiers.emplace_back(5, location.first, location.second);
+        }
     }
 }
 
 void Barracks::attack() {
     // Check if the tower has a target and the target is alive
     if (target && target->isAlive()) {
-
-        for (auto& soldier : soldiers) {
-            if (soldier.isAlive()) {
-                target->haltMovement();
+        // Get the soldier associated with this barracks tower
+        std::pair<int, int> soldierLocation = getTowerSoldierMapping();
+        Soldier& soldier = getSoldierAtLocation(soldierLocation);
+        
+        if (soldier.isAlive()) {
+            target->haltMovement();
+            if (isReadyToAttack(elapsedTime)) {
                 soldier.attack(*target);
                 soldier.takeDamage(target->getDamage());
             }
         }
+
+        if (!soldier.isAlive()) {
+            target->resumeMovement();
+        }
     }
+    // Render alive soldiers
     view->renderSoldiers();
 }
 
@@ -40,7 +52,10 @@ void Barracks::updateTarget(std::vector<Enemy>& enemies) {
     target = nullptr;
 
     // Find the closest enemy within range
-    for (auto& soldier : soldiers) {
+    for (auto& soldier : allSoldiers) {
+        if (target) {
+            break;
+        }
         for (auto& enemy : enemies) {
             if (isEnemyNearSoldier(enemy)) {
                 double distance = calculateDistance(enemy.getX(), enemy.getY(), soldier.getX(), soldier.getY());
@@ -48,6 +63,7 @@ void Barracks::updateTarget(std::vector<Enemy>& enemies) {
                 if (distance < minDistance) {
                     minDistance = distance;
                     target = &enemy;
+                    break;
                 }
             }
         }
@@ -75,9 +91,11 @@ bool Barracks::isReadyToAttack(double elapsedTime) {
         timeSinceLastAttack = 0.0;
         return true;
     }
+
     return false;
 }
 
+// Return the soldier location that corresponds to the tower location
 std::pair<int, int> Barracks::getTowerSoldierMapping() const {
     const TowerLocation& thisTowerLocation = this->getLocation();
 
@@ -99,22 +117,50 @@ std::pair<int, int> Barracks::getTowerSoldierMapping() const {
     return std::make_pair(-1, -1);
 }
 
+// Return the soldier that corresponds to the soldier location
+Soldier& Barracks::getSoldierAtLocation(const std::pair<int, int>& location) {
+    for (auto& soldier : allSoldiers) {
+        if (soldier.getX() == location.first && soldier.getY() == location.second) {
+            return soldier;
+        }
+    }
+    throw std::runtime_error("No soldier found at the specified location.");
+}
+
 // Respawn soldier after 8 seconds of death
 void Barracks::handleSoldierRespawnTiming(double elapsedTime) {
-    for (auto& soldier : soldiers) {
-        if (soldier.getHealth() <= 0) {
-            double timeSinceDeath = soldier.getTimeSinceDeath();
-            timeSinceDeath += elapsedTime;
-            soldier.setTimeSinceDeath(timeSinceDeath);
-            if (timeSinceDeath >= 8.0) {
-                soldier.respawn();
-            }
-        } else {
-            soldier.setTimeSinceDeath(0.0);
+    // Get the soldier associated with this barracks tower
+    std::pair<int, int> soldierLocation = getTowerSoldierMapping();
+    Soldier& soldier = getSoldierAtLocation(soldierLocation);
+
+    if (!soldier.isAlive()) {
+        double timeSinceDeath = soldier.getTimeSinceDeath();
+        timeSinceDeath += elapsedTime;
+        soldier.setTimeSinceDeath(timeSinceDeath);
+
+        if (timeSinceDeath >= 8.0) {
+            soldier.respawn();
         }
+
+    } else {
+        soldier.setTimeSinceDeath(0.0);
     }
 }
 
+// Uncomment for testing
+/*void Barracks::printAllSoldiersHealth() const {
+    std::cout << "All Soldiers' Health: ";
+    for (size_t i = 0; i < allSoldiers.size(); ++i) {
+        if (i != 0) {
+            std::cout << ", ";
+        }
+        std::cout << allSoldiers[i].getHealth();
+    }
+    std::cout << std::endl;
+}*/
+
 void Barracks::update(double elapsedTime) {
+    this->elapsedTime = elapsedTime;
     handleSoldierRespawnTiming(elapsedTime);
+    attack();
 }

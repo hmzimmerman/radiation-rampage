@@ -21,23 +21,17 @@ bool Enemy::isAlive() const{
 }
 
 void Enemy::move() {
-    updateCounter++;
+	if (!halted) {
+		pathCornerCollision();
 
-    // Only update the position if the update counter meets the divisor condition
-	// This slows down enemy movement by updating the position less often
-	if (updateCounter % UPDATE_DIVISOR == 0) {
-		if (!halted) {
-			pathCornerCollision();
-
-			if (dir == Direction::EAST) {
-				x += speed;
-			} else if (dir == Direction::WEST) {
-				x -= speed;
-			} else if (dir == Direction::NORTH) {
-				y -= speed;
-			} else if (dir == Direction::SOUTH) {
-				y += speed;
-			}
+		if (dir == Direction::EAST) {
+			x += speed;
+		} else if (dir == Direction::WEST) {
+			x -= speed;
+		} else if (dir == Direction::NORTH) {
+			y -= speed;
+		} else if (dir == Direction::SOUTH) {
+			y += speed;
 		}
 	}
 }
