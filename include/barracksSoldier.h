@@ -9,12 +9,11 @@ private:
     int health;
     int x;
     int y;
-    int damage;
 
     double timeSinceDeath;
 
 public:
-    Soldier(int health, int x, int y, int damage);
+    Soldier(int health, int x, int y);
 
     ~Soldier();
 
@@ -28,6 +27,10 @@ public:
 
     // Getters
     int getHealth() const { return health; }
+
+    int getX() const { return x; }
+
+    int getY() const { return y; }
 
     double getTimeSinceDeath() { return timeSinceDeath; }
 

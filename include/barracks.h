@@ -8,11 +8,13 @@
 
 class Barracks : public Tower {
     private:
-    std::vector<std::pair<int, int>> soldierLocations;
-    std::vector<Soldier> soldiers;
+    const std::vector<std::pair<int, int>> soldierLocations;
+    static std::vector<Soldier> allSoldiers;
+    
     Enemy* target;
     View* view;
 
+    double elapsedTime;
     double timeSinceLastAttack;
     void handleSoldierRespawnTiming(double elapsedTime);
 
@@ -23,21 +25,26 @@ public:
 
     void attack() override;
 
+    double calculateDistance(int x1, int y1, int x2, int y2);
+
     void updateTarget(std::vector<Enemy>& enemies) override;
 
     bool isEnemyNearSoldier(const Enemy& enemy);
 
     bool isReadyToAttack(double elapsedTime);
 
-    // Return a soldier location that corresponds to the tower location of a barracks tower instance
-    std::pair<int, int> getTowerSoldierMapping() const;
+    void printAllSoldiersHealth() const;
 
     int getUpgradeCost() const override ;
 
     // Getters
-    const std::vector<std::pair<int, int>>& getSoldierLocations() const;
+    static const std::vector<Soldier>& getAllSoldiers() { return allSoldiers; }
 
-    const std::vector<Soldier>& getSoldiers() const { return soldiers; }
+    const std::vector<std::pair<int, int>>& getSoldierLocations() const { return soldierLocations; }
+
+    std::pair<int, int> getTowerSoldierMapping() const;
+
+    Soldier& getSoldierAtLocation(const std::pair<int, int>& location);
 };
 
 #endif

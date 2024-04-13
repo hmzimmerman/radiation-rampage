@@ -1,14 +1,12 @@
 #include "laserTower.h"
 
 LaserTower::LaserTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate, View* view)
-    : Tower(name, health, damage, range, damageType, location, buildCost), fireRate(fireRate), target(nullptr), view(view) {
+    : Tower(name, health, damage, range, damageType, location, buildCost), fireRate(fireRate), target(nullptr), view(view), timeSinceLastAttack(0.0) {
 }
 
 void LaserTower::attack() {
-    // Check if the tower is ready to attack
+    // Check if the tower has a target and the target is alive
     if (target && target->isAlive()) {
-        std::cout << "Laser Tower attacking enemy: " << target->getName() << std::endl;
-        std::cout << "Damage: " << getDamage() << std::endl;
         target->takeDamage(getDamage());
 
         // Render laser beam
@@ -22,15 +20,24 @@ void LaserTower::attack() {
 }
 
 void LaserTower::updateTarget(std::vector<Enemy>& enemies) {
-    // Find the first (furthest along the path) enemy in range
+    // Find the first enemy in range with the most distance traveled
+    int maxDistance = -1;
     for (auto& enemy : enemies) {
         if (isInRange(enemy.getX(), enemy.getY()) && enemy.isAlive()) {
-            target = &enemy;
-            return;
+            int distance = enemy.getDistanceTraveled();
+            if (distance > maxDistance) {
+                target = &enemy;
+                maxDistance = distance;
+            }
         }
     }
+
     // If no enemy is found in range, set target to none
-    target = nullptr;
+    if (maxDistance == -1) {
+        target = nullptr;
+    } else {
+        return;
+    }
 }
 
 bool LaserTower::isReadyToAttack(double elapsedTime) {
@@ -42,10 +49,17 @@ bool LaserTower::isReadyToAttack(double elapsedTime) {
         timeSinceLastAttack = 0.0;
         return true;
     }
+
     return false;
 }
 
 int LaserTower::getUpgradeCost() const {
     using namespace tower;
     return tower::laserUpgradeCost;
+}
+
+void LaserTower::update(double elapsedTime) {
+    if (isReadyToAttack(elapsedTime)) {
+        attack();
+    }
 }

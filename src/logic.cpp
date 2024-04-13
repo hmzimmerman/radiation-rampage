@@ -97,16 +97,10 @@ void Logic::update(double elapsedTime){
 	            if (tower) {
 	                tower->updateTarget(wave_manager->getActiveEnemies());
 	                
-	                // Check if the tower is a LaserTower and if it's ready to attack
 	                if (LaserTower* laserTower = dynamic_cast<LaserTower*>(tower)) {
-	                    if (laserTower->isReadyToAttack(elapsedTime)) {
-	                        laserTower->attack();
-	                    }
+	                    laserTower->update(elapsedTime);
 	                } else if (Barracks* barracksTower = dynamic_cast<Barracks*>(tower)) {
-	                    if (barracksTower->isReadyToAttack(elapsedTime)) {
-	                        barracksTower->attack();
-	                    }
-                        barracksTower->update(elapsedTime); 
+                        barracksTower->update(elapsedTime);
 	                } else {
 	                    // Other tower attacks
 	                    //tower->attack();
