@@ -69,9 +69,6 @@ void HUD::render() {
     // Clean up
     SDL_DestroyTexture(coinTexture);
     SDL_DestroyTexture(healthTexture);
-
-    // Update screen
-    SDL_RenderPresent(renderer);
 }
 
 void HUD::renderText(const std::string& text, int x, int y) {
