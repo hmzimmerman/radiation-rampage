@@ -4,6 +4,7 @@
 #include "tower.h"
 #include "barracksSoldier.h"
 #include "view.h"
+#include "constants.h"
 
 class Barracks : public Tower {
     private:
@@ -33,6 +34,8 @@ public:
     bool isReadyToAttack(double elapsedTime);
 
     void printAllSoldiersHealth() const;
+
+    int getUpgradeCost() const override ;
 
     // Getters
     static const std::vector<Soldier>& getAllSoldiers() { return allSoldiers; }

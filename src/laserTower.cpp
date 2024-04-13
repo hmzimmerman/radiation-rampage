@@ -44,3 +44,8 @@ bool LaserTower::isReadyToAttack(double elapsedTime) {
     }
     return false;
 }
+
+int LaserTower::getUpgradeCost() const {
+    using namespace tower;
+    return tower::laserUpgradeCost;
+}
