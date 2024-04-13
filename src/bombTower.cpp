@@ -7,3 +7,8 @@ BombTower::BombTower(std::string name, int health, int damage, int range, Damage
 void BombTower::attack() {
     // TODO
 }
+
+int BombTower::getUpgradeCost() const {
+    using namespace tower;
+    return tower::bombUpgradeCost;
+}

@@ -43,3 +43,27 @@ std::vector<TowerLocation> towerLocations = {
     TowerLocation(917, 254),
     TowerLocation(1067, 390),
 };
+
+int Tower::getRepairCost() const{
+    float healthPercent = health/100;
+    if (healthPercent >= 50 && healthPercent <= 99){
+        // tower health 50% - 90%
+        return buildCost * 0.4;
+    }else if(healthPercent >= 1 && healthPercent <=49){
+        // tower health 1% - 49%
+        return buildCost * 0.6;
+    }
+    return 0;
+}
+
+int Tower::getSellEarnings() const{
+    float healthPercent = health/100;
+    if (healthPercent >= 50 && healthPercent <= 99){
+        // tower health 50% - 90%
+        return buildCost * 0.6;
+    }else if(healthPercent >= 1 && healthPercent <= 49){
+        // tower health 1% - 49%
+        return buildCost * 0.4;
+    }
+    return 0;
+}

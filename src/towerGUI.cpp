@@ -23,6 +23,7 @@ TowerLocation TOWERGUI::getLocation() {
 }
 
 void TOWERGUI::render() {
+    using namespace tower;
     if (!visible) return;
 
     int adjustedY = location.y - 30; // Render GUI above tower
@@ -48,9 +49,29 @@ void TOWERGUI::render() {
 
         // Render option text
         SDL_Color textColor = { 0, 0, 0 };
-        TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 12);
-        SDL_Surface* textSurface = TTF_RenderText_Solid(font, currentOptions[i].c_str(), textColor);
-        
+        TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 10);
+        int towerActionCoins = 0;
+        if (location.occupied){
+            // Upgrade tower
+            if (currentOptions[i] == "Upgrade"){
+                towerActionCoins = location.tower->getUpgradeCost();
+            }else if (currentOptions[i] == "Repair"){
+                towerActionCoins = location.tower->getRepairCost();
+            }else if(currentOptions[i] == "Sell"){
+                towerActionCoins = location.tower->getSellEarnings();
+            }
+        }else{
+            // Buy tower
+            if (currentOptions[i] == "Barracks"){
+                towerActionCoins = tower::barracksBuildCost;
+            }else if (currentOptions[i] == "Bomb"){
+                towerActionCoins = tower::bombBuildCost;
+            }else if(currentOptions[i] == "Laser"){
+                towerActionCoins = tower::laserBuildCost;
+            }
+        }
+        std::string currentOptionAndCoins = currentOptions[i] + " $" + std::to_string(towerActionCoins);
+        SDL_Surface* textSurface = TTF_RenderText_Solid(font, currentOptionAndCoins.c_str(), textColor);
         SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
         int textWidth, textHeight;
         SDL_QueryTexture(textTexture, NULL, NULL, &textWidth, &textHeight);

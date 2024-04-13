@@ -23,6 +23,8 @@ public:
     // Update the tower's target based on enemy positions
     void updateTarget(std::vector<Enemy>& enemies) override;
 
+    int getUpgradeCost() const override;
+
     // Getters
     int getDamage() const override { return tower::laserDamage; }
     double getFireRate() const { return fireRate; }

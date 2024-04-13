@@ -109,3 +109,8 @@ void Barracks::handleSoldierRespawnTiming(double elapsedTime) {
 void Barracks::update(double elapsedTime) {
     handleSoldierRespawnTiming(elapsedTime);
 }
+
+int Barracks::getUpgradeCost() const{
+    using namespace tower;
+    return tower::barracksUpgradeCost;
+}

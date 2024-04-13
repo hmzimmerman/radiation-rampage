@@ -66,10 +66,10 @@ class Tower {
         const TowerLocation& getLocation() const { return location; }
         int getBuildCost() const { return buildCost; }
 
-        // TODO add the actual values based on tower cost formulas 
-        int getUpgradeCost() const { return 10; }
-        int getRepairCost() const { return 10; }
-        int getSellEarnings() const { return 10; }
+        virtual int getUpgradeCost() const = 0 ;
+
+        int getRepairCost() const ;
+        int getSellEarnings() const ;
 
 
         // Setters
