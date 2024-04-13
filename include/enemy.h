@@ -23,6 +23,7 @@ private:
     DamageType weakness;
     DamageType strength;
 
+    int distanceTraveled;
     bool halted = false;
 
     void pathCornerCollision(); // updates enemy direction when an enemy collides with a path corner 
@@ -58,6 +59,7 @@ public:
     int getDamage() const { return damage; }
     DamageType getWeakness() const { return weakness; }
     DamageType getStrength() const { return strength; }
+    int getDistanceTraveled() const { return distanceTraveled; }
 
     // Setters
     void setName(std::string n) { name = n; }

@@ -85,8 +85,10 @@ bool Barracks::isEnemyNearSoldier(const Enemy& enemy) {
 }
 
 bool Barracks::isReadyToAttack(double elapsedTime) {
+    // Increment the time since the last attack
     timeSinceLastAttack += elapsedTime;
 
+    // Check if enough time has elapsed to perform another attack
     if (timeSinceLastAttack >= 1.5) { // Attack once every 1.5 seconds
         timeSinceLastAttack = 0.0;
         return true;

@@ -33,6 +33,8 @@ void Enemy::move() {
 		} else if (dir == Direction::SOUTH) {
 			y += speed;
 		}
+
+        distanceTraveled += std::abs(speed);
 	}
 }
 
