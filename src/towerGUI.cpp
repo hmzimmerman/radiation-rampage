@@ -70,7 +70,14 @@ void TOWERGUI::render() {
                 towerActionCoins = tower::laserBuildCost;
             }
         }
-        std::string currentOptionAndCoins = currentOptions[i] + " $" + std::to_string(towerActionCoins);
+
+        // Quick fix for when repair "costs" $0, the repair cannot be applied because tower health is at max
+        std::string currentOptionAndCoins;
+        if (towerActionCoins == 0){
+            currentOptionAndCoins = currentOptions[i] + " N/A";
+        }else{
+            currentOptionAndCoins = currentOptions[i] + " $" + std::to_string(towerActionCoins);
+        }
         SDL_Surface* textSurface = TTF_RenderText_Solid(font, currentOptionAndCoins.c_str(), textColor);
         SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
         int textWidth, textHeight;
@@ -137,7 +144,7 @@ bool TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view, Logic& logic)
                     }
                 } else {
                     // If the location is occupied, handle tower action
-                    handleTowerAction(currentOptions[j], logic);
+                    isErrorFreeTransaction = handleTowerAction(currentOptions[j], logic);
                 }
                 clickGUI = true;
                 hide();
@@ -164,13 +171,13 @@ bool TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view, Logic& logic)
 
 bool TOWERGUI::handleTowerAction(const std::string& action, Logic& logic) {
     if (action == "Upgrade") {
-        std::cout << "Upgraded" << std::endl;
+        // std::cout << "Upgraded" << std::endl;
         return logic.updateMoneyTowerAction("Upgrade", location.tower->getUpgradeCost()); // TODO
     } else if (action == "Repair") {
-        std::cout << "Repaired" << std::endl; 
+        // std::cout << "Repaired" << std::endl; 
         return logic.updateMoneyTowerAction("Repair", location.tower->getRepairCost()); // TODO
     } else if (action == "Sell") {
-        std::cout << "Sold" << std::endl; 
+        // std::cout << "Sold" << std::endl; 
         return logic.updateMoneyTowerAction("Sell", location.tower->getSellEarnings()); // TODO REMOVE TOWER FROM RENDER
     }
     // Should never reach here 

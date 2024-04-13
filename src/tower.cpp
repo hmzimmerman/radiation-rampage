@@ -5,6 +5,7 @@
 #include "laserTower.h"
 #include "towerGUI.h"
 #include "constants.h"
+#include <iostream>
 
 Tower::Tower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost)
     : name(name), health(health), damage(damage), range(range), damageType(damageType), location(location), buildCost(buildCost) {}
@@ -46,24 +47,27 @@ std::vector<TowerLocation> towerLocations = {
 
 int Tower::getRepairCost() const{
     float healthPercent = health/100;
-    if (healthPercent >= 50 && healthPercent <= 99){
+    if (healthPercent >= 0.50 && healthPercent <= 0.99){
         // tower health 50% - 90%
         return buildCost * 0.4;
-    }else if(healthPercent >= 1 && healthPercent <=49){
+    }else if(healthPercent >= 0.01 && healthPercent <=0.49){
         // tower health 1% - 49%
         return buildCost * 0.6;
     }
+    // tower health is already 100% no need to repair
     return 0;
 }
 
 int Tower::getSellEarnings() const{
     float healthPercent = health/100;
-    if (healthPercent >= 50 && healthPercent <= 99){
-        // tower health 50% - 90%
+    if (healthPercent >= 0.50 && healthPercent <= 0.99){
+        // tower health 50% - 90% 
         return buildCost * 0.6;
-    }else if(healthPercent >= 1 && healthPercent <= 49){
+    }else if(healthPercent >= 0.01 && healthPercent <= 0.49){
         // tower health 1% - 49%
         return buildCost * 0.4;
     }
-    return 0;
+
+    // tower is in perfect condition. can sell for build amount 
+    return buildCost;
 }
