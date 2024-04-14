@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <vector>
+
 #include "waveManager.h"
 #include "enemy.h"
 #include "tower.h"
@@ -14,40 +15,8 @@ Logic::Logic() {
     health = 20;
     game_over = false;
     paused = false;
-    wave_manager = new WaveManager();
-    moneyManager = new MoneyManager();
-}
-
-int Logic::getScore() {
-    return score;
-}
-
-int Logic::getHealth() {
-    return health;
-}
-
-int Logic::getMoney(){
-    return moneyManager->getMoney();
-}
-
-bool Logic::isPaused() {
-    return paused;
-}
-
-void Logic::setPaused() {
-    paused = true;
-}
-
-void Logic::setUnpaused() {
-    paused = false;
-}
-
-void Logic::takeDamage(int d){
-	health -= d;
-}
-
-std::vector<Enemy> Logic::getEnemiesOnField() {
-    return wave_manager->getActiveEnemies();
+    wave_manager = std::make_shared<WaveManager>();
+    moneyManager = std::make_shared<MoneyManager>();
 }
 
 bool Logic::updateMoneyTowerAction(const std::string& action, int coinAmount){
