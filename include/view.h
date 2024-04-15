@@ -63,12 +63,12 @@ class View{
         void renderEnemies(const std::vector<Enemy>& enemies);
         void renderGUI();
         void renderTowerLocations();
-        void renderHUD(Logic& logic);
+        void renderHUD(const Logic& logic);
         void renderTowerRadius(const TowerLocation& location);
         void renderSoldiers();
         void renderLost(Logic& logic);
         void renderPause();
-        void renderWaveTime(WaveManager& manager);
+        void renderWaveTime(const WaveManager& manager);
         void handleTowerClick(const SDL_Event& event);
         void handleTowerTypeSelection(const SDL_Event& event, Logic& logic);
         void triggerLaserAttackAnimation(int startX, int startY, int endX, int endY);

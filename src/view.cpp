@@ -238,7 +238,7 @@ void View::renderGUI() {
 }
 
 
-void View::renderHUD(Logic& logic){
+void View::renderHUD(const Logic& logic){
     hud->update(logic.getMoney(), logic.getHealth(), (*logic.getManager()).getCurrWave());
 	hud->render();
 }
@@ -353,7 +353,7 @@ void View::renderPause() {
 	TTF_CloseFont(font);
 }
 
-void View::renderWaveTime(WaveManager& manager){
+void View::renderWaveTime(const WaveManager& manager){
     SDL_Color textColor = { 255, 255, 255, 255 }; // White color
 
     int rectWidth = 250;
