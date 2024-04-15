@@ -130,7 +130,7 @@ bool TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view, Logic& logic)
                     }
                     if (logic.updateMoneyTowerAction("Buy",towerBuildCost)){
                         // Transaction was successful. Create and store tower. 
-                        Tower* tower = Tower::createTower(currentOptions[j], location, view);
+                        std::shared_ptr<Tower> tower = Tower::createTower(currentOptions[j], location, view);
                         if (tower) {
                             location.occupied = true;
                             location.towerType = currentOptions[j];
@@ -150,7 +150,7 @@ bool TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view, Logic& logic)
                 hide();
                 break;
             }
-    }
+        }
     }
     // Check if click occurred within tower area
     if (!clickGUI) {

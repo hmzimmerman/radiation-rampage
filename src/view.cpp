@@ -254,7 +254,7 @@ void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int end
 void View::renderSoldiers() {
     for (const auto& location : towerLocations) {
         if (location.occupied && location.towerType == "Barracks") {
-            Barracks* barracksTower = static_cast<Barracks*>(location.tower);
+            std::shared_ptr<Barracks> barracksTower = std::dynamic_pointer_cast<Barracks>(location.tower);
             if (barracksTower) {
                 // Get the soldier associated with this barracks tower
                 std::pair<int, int> soldierLocation = barracksTower->getTowerSoldierMapping();

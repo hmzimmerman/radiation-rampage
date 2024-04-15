@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <memory>
+
 #include "damage_type.h"
 #include "view.h"
 #include "enemy.h"
@@ -15,7 +17,7 @@ struct TowerLocation {
     int size; // Size of the square plot
     bool occupied; // Indicate if a tower is already placed here
     std::string towerType;
-    Tower* tower;
+    std::shared_ptr<Tower> tower;
 
     TowerLocation(int x, int y) : x(x), y(y), size(80), occupied(false), tower(nullptr) {}
 
@@ -76,7 +78,7 @@ class Tower {
         void setHealth(int h) { health = h; }
         void setBuildCost(int newBuildCost) { buildCost = newBuildCost;}
 
-        static Tower* createTower(const std::string& type, const TowerLocation& location, View* view = nullptr);
+        static std::shared_ptr<Tower> createTower(const std::string& type, const TowerLocation& location, View* view);
 };
 
 #endif

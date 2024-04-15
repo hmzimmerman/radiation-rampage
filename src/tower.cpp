@@ -12,16 +12,16 @@ Tower::Tower(std::string name, int health, int damage, int range, DamageType dam
 
 Tower::~Tower() {}
 
-Tower* Tower::createTower(const std::string& type, const TowerLocation& location, View* view) {
+std::shared_ptr<Tower> Tower::createTower(const std::string& type, const TowerLocation& location, View* view) {
     using namespace tower;
     if (type == "Barracks") {
-        return new Barracks("Barracks", tower::barracksHealth, tower::barracksDamage, tower::barracksRange, 
+        return std::make_shared<Barracks>("Barracks", tower::barracksHealth, tower::barracksDamage, tower::barracksRange, 
                             tower::barracksDamageType, location, tower::barracksBuildCost, view);
     } else if (type == "Bomb") {
-        return new BombTower("BombTower", tower::bombHealth, tower::bombDamage, tower::bombRange, 
+        return std::make_shared<BombTower>("BombTower", tower::bombHealth, tower::bombDamage, tower::bombRange, 
                             tower::bombDamageType, location, tower::bombBuildCost, tower::bombFireRate);
     } else if (type == "Laser") {
-        return new LaserTower("LaserTower", tower::laserHealth, tower::laserDamage, tower::laserRange,
+        return std::make_shared<LaserTower>("LaserTower", tower::laserHealth, tower::laserDamage, tower::laserRange,
                             tower::laserDamageType, location, tower::laserBuildCost, tower::laserFireRate, view);
     }
     return nullptr;

@@ -62,13 +62,13 @@ void Logic::update(double elapsedTime){
         // Iterate through towers to update their targets and attack
 	    for (const TowerLocation& location : towerLocations) {
 	        if (location.occupied) {
-	            Tower* tower = location.tower;
+	            std::shared_ptr<Tower> tower = location.tower;
 	            if (tower) {
 	                tower->updateTarget(wave_manager->getActiveEnemies());
 	                
-	                if (LaserTower* laserTower = dynamic_cast<LaserTower*>(tower)) {
+	                if (std::shared_ptr<LaserTower> laserTower = std::dynamic_pointer_cast<LaserTower>(tower)) {
 	                    laserTower->update(elapsedTime);
-	                } else if (Barracks* barracksTower = dynamic_cast<Barracks*>(tower)) {
+	                } else if (std::shared_ptr<Barracks> barracksTower = std::dynamic_pointer_cast<Barracks>(tower)) {
                         barracksTower->update(elapsedTime);
 	                } else {
 	                    // Other tower attacks
