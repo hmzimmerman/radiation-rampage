@@ -60,7 +60,7 @@ void Logic::update(double elapsedTime){
         wave_manager->update();
 
         // Iterate through towers to update their targets and attack
-	    for (const TowerLocation& location : towerLocations) {
+	    for (const TowerLocation& location : TowerLocationManager::getTowerLocations()) {
 	        if (location.occupied) {
 	            std::shared_ptr<Tower> tower = location.tower;
 	            if (tower) {

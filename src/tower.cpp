@@ -1,3 +1,4 @@
+#include <iostream>
 #include <vector>
 #include "tower.h"
 #include "barracks.h"
@@ -5,7 +6,6 @@
 #include "laserTower.h"
 #include "towerGUI.h"
 #include "constants.h"
-#include <iostream>
 
 Tower::Tower(const std::string& name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost)
     : name(name), health(health), damage(damage), range(range), damageType(damageType), location(location), buildCost(buildCost) {}

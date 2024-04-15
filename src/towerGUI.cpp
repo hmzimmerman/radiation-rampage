@@ -1,7 +1,6 @@
 #include "towerGUI.h"
 #include "constants.h"
 
-
 TOWERGUI::TOWERGUI(SDL_Renderer* renderer) : renderer(renderer), visible(false), location(0, 0) {
     options = { "Barracks", "Bomb", "Laser" };
     updateOptions = { "Upgrade", "Repair", "Sell" };
@@ -100,8 +99,8 @@ bool TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view, Logic& logic)
     bool clickGUI = false;
     bool isErrorFreeTransaction = true;
 
-    for (int i = 0; i < towerLocations.size(); ++i) {
-        TowerLocation& location = towerLocations[i];
+    for (int i = 0; i < TowerLocationManager::getTowerLocations().size(); ++i) {
+        TowerLocation& location = TowerLocationManager::getTowerLocations()[i];
 
         // Check if mouse is within bounds of any option
         int rectWidth = 195;
@@ -154,7 +153,7 @@ bool TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view, Logic& logic)
     }
     // Check if click occurred within tower area
     if (!clickGUI) {
-        for (const auto& location : towerLocations) {
+        for (const auto& location : TowerLocationManager::getTowerLocations()) {
             if (mouseX >= location.x && mouseX <= location.x + location.size &&
                 mouseY >= location.y && mouseY <= location.y + location.size) {
                 clickGUI = true;

@@ -103,8 +103,8 @@ std::pair<int, int> Barracks::getTowerSoldierMapping() const {
 
     // Find the index of this barracks tower location
     int index = -1;
-    for (size_t i = 0; i < towerLocations.size(); ++i) {
-        if (towerLocations[i] == thisTowerLocation) {
+    for (size_t i = 0; i < TowerLocationManager::getTowerLocations().size(); ++i) {
+        if (TowerLocationManager::getTowerLocations()[i] == thisTowerLocation) {
             index = static_cast<int>(i);
             break;
         }

@@ -11,7 +11,6 @@
 #include "enemy.h"
 
 struct TowerLocation;
-extern std::vector<TowerLocation> towerLocations;
 
 class Tower {
     private:
@@ -50,13 +49,11 @@ class Tower {
         virtual int getDamage() const { return damage; }
         int getRange() const { return range; }
         const TowerLocation& getLocation() const { return location; }
+
         int getBuildCost() const { return buildCost; }
-
-        virtual int getUpgradeCost() const = 0 ;
-
+        virtual int getUpgradeCost() const = 0;
         int getRepairCost() const ;
         int getSellEarnings() const ;
-
 
         // Setters
         void setHealth(int h) { health = h; }

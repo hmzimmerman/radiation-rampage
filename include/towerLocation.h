@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 
 class Tower;
 
@@ -20,6 +21,14 @@ struct TowerLocation {
     bool operator==(const TowerLocation& other) const {
         return (x == other.x) && (y == other.y);
     }
+};
+
+class TowerLocationManager {
+public:
+    static std::vector<TowerLocation>& getTowerLocations();
+
+private:
+    static std::vector<TowerLocation> towerLocations;
 };
 
 #endif

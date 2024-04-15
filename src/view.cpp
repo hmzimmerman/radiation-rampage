@@ -166,7 +166,7 @@ bool View::update(Logic& logic){
 
 // Show GUI for tower if mouse click occurs within tower region
 void View::handleTowerClick(const SDL_Event& event) {
-    for (auto& location : towerLocations) {
+    for (auto& location : TowerLocationManager::getTowerLocations()) {
         if (!location.occupied && event.button.x >= location.x && event.button.x <= location.x + location.size &&
             event.button.y >= location.y && event.button.y <= location.y + location.size) {
             tower_gui->show(location);
@@ -198,7 +198,7 @@ void View::handleTowerTypeSelection(const SDL_Event& event, Logic& logic) {
 
 // Render respective tower images
 void View::renderTowerLocations() {
-    for (const auto& location : towerLocations) {
+    for (const auto& location : TowerLocationManager::getTowerLocations()) {
         if (location.occupied) {
             SDL_Texture* towerTexture = nullptr;
             if (location.towerType.compare("Barracks") == 0) {
@@ -253,7 +253,7 @@ void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int end
 }
 
 void View::renderSoldiers() {
-    for (const auto& location : towerLocations) {
+    for (const auto& location : TowerLocationManager::getTowerLocations()) {
         if (location.occupied && location.towerType == "Barracks") {
             std::shared_ptr<Barracks> barracksTower = std::dynamic_pointer_cast<Barracks>(location.tower);
             if (barracksTower) {
