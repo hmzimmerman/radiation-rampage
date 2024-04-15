@@ -7,6 +7,7 @@
 #include <SDL2_gfxPrimitives.h>
 #include "logic.h"
 #include "HUD.h"
+#include "startScreen.h"
 
 class TOWERGUI;
 struct TowerLocation;
@@ -40,6 +41,7 @@ class View{
         TOWERGUI* tower_gui;
         TOWERGUI* update_tower_gui;
         HUD* hud;
+        startScreen* start;
         AttackAnimation attackAnimation;
         FailedTransMessage failedTransMessage;
 

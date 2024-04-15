@@ -14,6 +14,7 @@ Logic::Logic() {
     health = 20;
     game_over = false;
     paused = false;
+    start = true;
     wave_manager = new WaveManager();
     moneyManager = new MoneyManager();
 }
@@ -32,6 +33,10 @@ int Logic::getMoney(){
 
 bool Logic::isPaused() {
     return paused;
+}
+
+bool Logic::onStart() {
+	return start;
 }
 
 void Logic::setPaused() {
@@ -66,7 +71,7 @@ bool Logic::updateMoneyTowerAction(const std::string& action, int coinAmount){
 
 void Logic::update(double elapsedTime){
     using namespace window;
-    if(isPaused() == false){
+    if(isPaused() == false && onStart() == false){
         // Player slowly gains money every update 
         if (moneyManager->isReadyToSlowGain(elapsedTime)){
             moneyManager->slowGain();

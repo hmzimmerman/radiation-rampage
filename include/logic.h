@@ -17,6 +17,7 @@ class Logic {
         double time;
         bool game_over; // Tells view if the game is over
         bool paused;	// Tells other views if the game is paused
+        bool start;		// On start screen
 
         WaveManager *wave_manager;
         MoneyManager *moneyManager;
@@ -38,6 +39,9 @@ class Logic {
         
         // Get if game is paused
         bool isPaused();
+
+        // Get if game is on start screen
+        bool onStart();
 
         // Return vector of enemies currently on the filed
         std::vector<Enemy> getEnemiesOnField();

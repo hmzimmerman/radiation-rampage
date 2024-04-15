@@ -43,6 +43,7 @@ View::View(){
     tower_gui = new TOWERGUI(renderer);
     update_tower_gui = new TOWERGUI(renderer);
     hud = new HUD(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    start = new startScreen(renderer);
     attackAnimation.active = false;
 
     loadTowerTextures();
@@ -154,7 +155,7 @@ bool View::update(Logic& logic){
     // Render lost or pause screen
     if(logic.getHealth() <= 0){
     	renderLost(logic);
-    }else if(logic.isPaused()){
+    }else if(logic.isPaused() && !logic.onStart()){
     	renderPause();
     }
 
