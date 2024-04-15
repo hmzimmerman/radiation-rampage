@@ -3,6 +3,7 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <iostream>
+
 #include "view.h"
 #include "logic.h"
 #include "towerGUI.h"

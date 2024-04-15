@@ -5,28 +5,12 @@
 #include <vector>
 #include <memory>
 
-#include "damage_type.h"
 #include "view.h"
+#include "towerLocation.h"
+#include "damage_type.h"
 #include "enemy.h"
 
-class Tower;
-
-struct TowerLocation {
-    int x;
-    int y;
-    int size; // Size of the square plot
-    bool occupied; // Indicate if a tower is already placed here
-    std::string towerType;
-    std::shared_ptr<Tower> tower;
-
-    TowerLocation(int x, int y) : x(x), y(y), size(80), occupied(false), tower(nullptr) {}
-
-    // Equality operator overload
-    bool operator==(const TowerLocation& other) const {
-        return (x == other.x) && (y == other.y);
-    }
-};
-
+struct TowerLocation;
 extern std::vector<TowerLocation> towerLocations;
 
 class Tower {
@@ -36,7 +20,7 @@ class Tower {
         int damage;
         int range;
         DamageType damageType;
-        TowerLocation location;
+        const TowerLocation& location;
         int buildCost;
         Enemy* target;
 

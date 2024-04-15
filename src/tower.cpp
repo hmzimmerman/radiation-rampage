@@ -37,14 +37,6 @@ bool Tower::isInRange(int x, int y) const {
     return distanceSquared <= rangeSquared;
 }
 
-std::vector<TowerLocation> towerLocations = {
-    TowerLocation(275, 71),
-    TowerLocation(275, 405),
-    TowerLocation(613, 405),
-    TowerLocation(917, 254),
-    TowerLocation(1067, 390),
-};
-
 int Tower::getRepairCost() const{
     float healthPercent = health/100;
     if (healthPercent >= 0.50 && healthPercent <= 0.99){
