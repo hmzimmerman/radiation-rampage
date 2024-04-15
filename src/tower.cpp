@@ -7,7 +7,7 @@
 #include "constants.h"
 #include <iostream>
 
-Tower::Tower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost)
+Tower::Tower(const std::string& name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost)
     : name(name), health(health), damage(damage), range(range), damageType(damageType), location(location), buildCost(buildCost) {}
 
 Tower::~Tower() {}

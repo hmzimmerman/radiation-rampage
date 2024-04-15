@@ -26,7 +26,7 @@ class Tower {
 
     public:
         // Constructor
-        Tower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost);
+        Tower(const std::string& name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost);
 
         // Destructor
         virtual ~Tower();
