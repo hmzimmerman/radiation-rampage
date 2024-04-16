@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <SDL_ttf.h>
 #include <SDL2_gfxPrimitives.h>
+#include <memory>
+
 #include "logic.h"
 #include "HUD.h"
 
@@ -36,14 +38,15 @@ class View{
 
         SDL_Window* window;
         SDL_Renderer* renderer;
-        Logic* logic;
-        TOWERGUI* tower_gui;
-        TOWERGUI* update_tower_gui;
-        HUD* hud;
+        
+        std::shared_ptr<Logic> logic;
+        std::shared_ptr<TOWERGUI> tower_gui;
+        std::shared_ptr<TOWERGUI> update_tower_gui;
+        std::shared_ptr<HUD> hud;
+
         AttackAnimation attackAnimation;
         FailedTransMessage failedTransMessage;
 
-        
         SDL_Texture* barracksTexture;
         SDL_Texture* bombTexture;
         SDL_Texture* laserTexture;
@@ -63,12 +66,12 @@ class View{
         void renderEnemies(const std::vector<Enemy>& enemies);
         void renderGUI();
         void renderTowerLocations();
-        void renderHUD(Logic& logic);
+        void renderHUD(const Logic& logic);
         void renderTowerRadius(const TowerLocation& location);
         void renderSoldiers();
         void renderLost(Logic& logic);
         void renderPause();
-        void renderWaveTime(WaveManager& manager);
+        void renderWaveTime(const WaveManager& manager);
         void handleTowerClick(const SDL_Event& event);
         void handleTowerTypeSelection(const SDL_Event& event, Logic& logic);
         void triggerLaserAttackAnimation(int startX, int startY, int endX, int endY);

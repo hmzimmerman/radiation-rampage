@@ -3,6 +3,7 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <iostream>
+
 #include "view.h"
 #include "logic.h"
 #include "towerGUI.h"
@@ -39,10 +40,10 @@ View::View(){
     std::cerr << "Error. Failed to initialize SDL_ttf: " << TTF_GetError() << std::endl;
     }
 
-    logic = new Logic();
-    tower_gui = new TOWERGUI(renderer);
-    update_tower_gui = new TOWERGUI(renderer);
-    hud = new HUD(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    logic = std::make_shared<Logic>();
+    tower_gui = std::make_shared<TOWERGUI>(renderer);
+    update_tower_gui = std::make_shared<TOWERGUI>(renderer);
+    hud = std::make_shared<HUD>(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     attackAnimation.active = false;
 
     loadTowerTextures();
@@ -165,7 +166,7 @@ bool View::update(Logic& logic){
 
 // Show GUI for tower if mouse click occurs within tower region
 void View::handleTowerClick(const SDL_Event& event) {
-    for (auto& location : towerLocations) {
+    for (auto& location : TowerLocationManager::getTowerLocations()) {
         if (!location.occupied && event.button.x >= location.x && event.button.x <= location.x + location.size &&
             event.button.y >= location.y && event.button.y <= location.y + location.size) {
             tower_gui->show(location);
@@ -197,7 +198,7 @@ void View::handleTowerTypeSelection(const SDL_Event& event, Logic& logic) {
 
 // Render respective tower images
 void View::renderTowerLocations() {
-    for (const auto& location : towerLocations) {
+    for (const auto& location : TowerLocationManager::getTowerLocations()) {
         if (location.occupied) {
             SDL_Texture* towerTexture = nullptr;
             if (location.towerType.compare("Barracks") == 0) {
@@ -237,7 +238,7 @@ void View::renderGUI() {
 }
 
 
-void View::renderHUD(Logic& logic){
+void View::renderHUD(const Logic& logic){
     hud->update(logic.getMoney(), logic.getHealth(), (*logic.getManager()).getCurrWave());
 	hud->render();
 }
@@ -252,9 +253,9 @@ void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int end
 }
 
 void View::renderSoldiers() {
-    for (const auto& location : towerLocations) {
+    for (const auto& location : TowerLocationManager::getTowerLocations()) {
         if (location.occupied && location.towerType == "Barracks") {
-            Barracks* barracksTower = static_cast<Barracks*>(location.tower);
+            std::shared_ptr<Barracks> barracksTower = std::dynamic_pointer_cast<Barracks>(location.tower);
             if (barracksTower) {
                 // Get the soldier associated with this barracks tower
                 std::pair<int, int> soldierLocation = barracksTower->getTowerSoldierMapping();
@@ -352,7 +353,7 @@ void View::renderPause() {
 	TTF_CloseFont(font);
 }
 
-void View::renderWaveTime(WaveManager& manager){
+void View::renderWaveTime(const WaveManager& manager){
     SDL_Color textColor = { 255, 255, 255, 255 }; // White color
 
     int rectWidth = 250;
@@ -410,10 +411,6 @@ void View::renderFailedTransMessage(){
 }
 
 View::~View(){
-    delete logic;
-    delete tower_gui;
-    delete update_tower_gui;
-    delete hud;
     SDL_DestroyTexture(barracksTexture);
     SDL_DestroyTexture(bombTexture);
     SDL_DestroyTexture(laserTexture);

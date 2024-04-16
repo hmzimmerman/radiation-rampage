@@ -19,8 +19,9 @@ void LaserTower::attack() {
     }
 }
 
+// Update target enemy to the first enemy within range
 void LaserTower::updateTarget(std::vector<Enemy>& enemies) {
-    // Find the first enemy in range with the most distance traveled
+    // Find the enemy in range with the most distance traveled
     int maxDistance = -1;
     for (auto& enemy : enemies) {
         if (isInRange(enemy.getX(), enemy.getY()) && enemy.isAlive()) {
