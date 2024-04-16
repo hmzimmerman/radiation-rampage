@@ -219,6 +219,12 @@ void View::handleStartScreen(const SDL_Event& event){
             case SDLK_RIGHT:
                 start->moveSelection(1);
                 break;
+            case SDLK_RETURN:
+                if (start->getSelected() == -1) {
+                    start->setSelected(0);
+                }
+                start->selectBox(start->getSelected());
+                break;
             }
 	} else if (event.type == SDL_MOUSEBUTTONDOWN) {
     	// Handle clicking to select a box
