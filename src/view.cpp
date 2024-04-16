@@ -94,6 +94,9 @@ bool View::update(Logic& logic){
         }
         else if (logic.onStart()){
         	handleStartScreen(event);
+        	if(start->getSelected() == 0){
+        		logic.switchStart(false);
+        	}
         	/*if(handleStartScreen(event)){
         		logic.switchStart(false);
         	}*/

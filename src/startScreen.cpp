@@ -30,6 +30,9 @@ startScreen::startScreen(SDL_Renderer* renderer, int screenWidth, int screenHeig
 
     // Initially select the first box
     boxes[0].selected = true;
+    
+    // Start not at any box so the game doesn't immediately switch off the start screen
+    selected = -1;
 }
 
 startScreen::~startScreen() {
@@ -101,33 +104,38 @@ void startScreen::render() {
             // Handle clicking to select a box
                 int mouseX, mouseY;
     			SDL_GetMouseState(&mouseX, &mouseY);
-            for (int i = 0; i < 4; ++i) {
+            for (int i = 0; i < 4; i++){
             	SDL_Point mousePosition = {mouseX, mouseY};
                 if (SDL_PointInRect(&mousePosition, &boxes[i].rect)) {
                     selectBox(i);
+                    selected = i;
                     break;
                 }
             }
         }
     }
 
-    // Move selection left or right
-    void startScreen::moveSelection(int direction) {
-        for (int i = 0; i < 4; ++i) {
-            if (boxes[i].selected) {
-                int nextIndex = (i + direction + 4) % 4; // Wrap around
-                selectBox(nextIndex);
-                break;
-            }
+// Move selection left or right
+void startScreen::moveSelection(int direction) {
+	for (int i = 0; i < 4; ++i) {
+    	if (boxes[i].selected) {
+        	int nextIndex = (i + direction + 4) % 4; // Wrap around
+            selectBox(nextIndex);
+            break;
         }
     }
+}
 
-    // Select a specific box
-    void startScreen::selectBox(int index) {
-        for (int i = 0; i < 4; ++i) {
-            boxes[i].selected = (i == index);
-        }
-    }
+// Select a specific box
+void startScreen::selectBox(int index) {
+    for (int i = 0; i < 4; ++i) {
+    	boxes[i].selected = (i == index);
+	}
+}
+    
+int startScreen::getSelected() const {
+	return selected;
+}
 
 bool startScreen::start(int mouseX, int mouseY) {
     return (mouseX >= screenWidth/2 - 100 && mouseX <= screenWidth/2 + 300 && mouseY >= screenHeight/2 + 200 && mouseY <= screenHeight/2 + 250);

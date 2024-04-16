@@ -28,6 +28,7 @@ public:
     
     void moveSelection(int direction);
     void selectBox(int index);
+    int getSelected() const;
 
 private:
     SDL_Renderer* renderer;
@@ -37,6 +38,7 @@ private:
     
     int screenWidth;
     int screenHeight;
+    int selected;
 
     SelectableBox boxes[4];
 };
