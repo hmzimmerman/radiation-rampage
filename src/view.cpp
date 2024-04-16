@@ -93,9 +93,10 @@ bool View::update(Logic& logic){
             running = false;
         }
         else if (logic.onStart()){
-        	if(handleStartScreen(event)){
+        	handleStartScreen(event);
+        	/*if(handleStartScreen(event)){
         		logic.switchStart(false);
-        	}
+        	}*/
         }
         else if (event.type == SDL_KEYDOWN) {
             if (event.key.keysym.sym == SDLK_q) {
@@ -206,8 +207,8 @@ void View::handleTowerTypeSelection(const SDL_Event& event, Logic& logic) {
     }
 }
 
-bool View::handleStartScreen(const SDL_Event& event){
-	return start->handleInput(event);
+void View::handleStartScreen(const SDL_Event& event){
+	start->handleInput(event);
 }
 
 // Render respective tower images
