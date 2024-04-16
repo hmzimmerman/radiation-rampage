@@ -40,10 +40,10 @@ View::View(){
     std::cerr << "Error. Failed to initialize SDL_ttf: " << TTF_GetError() << std::endl;
     }
 
-    logic = new Logic();
-    tower_gui = new TOWERGUI(renderer);
-    update_tower_gui = new TOWERGUI(renderer);
-    hud = new HUD(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    logic = std::make_shared<Logic>();
+    tower_gui = std::make_shared<TOWERGUI>(renderer);
+    update_tower_gui = std::make_shared<TOWERGUI>(renderer);
+    hud = std::make_shared<HUD>(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     attackAnimation.active = false;
 
     loadTowerTextures();
@@ -411,10 +411,6 @@ void View::renderFailedTransMessage(){
 }
 
 View::~View(){
-    delete logic;
-    delete tower_gui;
-    delete update_tower_gui;
-    delete hud;
     SDL_DestroyTexture(barracksTexture);
     SDL_DestroyTexture(bombTexture);
     SDL_DestroyTexture(laserTexture);
