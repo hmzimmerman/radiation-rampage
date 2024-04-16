@@ -1,5 +1,5 @@
 #include "startScreen.h"
-#include <iostream>
+#include <SDL_image.h>
 
 startScreen::startScreen(SDL_Renderer* renderer, int screenWidth, int screenHeight)
 	: renderer(renderer), screenWidth(screenWidth), screenHeight(screenHeight) {
@@ -9,20 +9,18 @@ startScreen::~startScreen() {
 }
 
 void startScreen::render() {
-	SDL_RenderClear(renderer);
-	
-	// Render the light green background
-	SDL_Rect bgRect = {0, 0, screenWidth, screenHeight};
-	SDL_SetRenderDrawColor(renderer, 0, 128, 0, 255); // Light green color
-	SDL_RenderFillRect(renderer, &bgRect);
-	
-	// Render the white box
-	SDL_Rect whiteBoxRect = {screenWidth/2, screenHeight/2 + 100, 200, 150};
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // White color
-	SDL_RenderFillRect(renderer, &whiteBoxRect);
-	
-	// Present the renderer
-	SDL_RenderPresent(renderer);
+    SDL_RenderClear(renderer);
+
+    SDL_Texture* screenTexture = IMG_LoadTexture(renderer, "../resource/StartScreen.png");
+
+    SDL_Rect bgRect = {0, 0, screenWidth, screenHeight};
+    SDL_RenderCopy(renderer, screenTexture, nullptr, &bgRect);
+
+    // Present the renderer
+    SDL_RenderPresent(renderer);
+
+    // Cleanup
+    SDL_DestroyTexture(screenTexture);
 }
 
 bool startScreen::handleInput(const SDL_Event& event) {
