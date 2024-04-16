@@ -211,7 +211,28 @@ void View::handleTowerTypeSelection(const SDL_Event& event, Logic& logic) {
 }
 
 void View::handleStartScreen(const SDL_Event& event){
-	start->handleInput(event);
+	if (event.type == SDL_KEYDOWN) {
+		switch (event.key.keysym.sym) {
+        	case SDLK_LEFT:
+            	start->moveSelection(-1);
+                break;
+            case SDLK_RIGHT:
+                start->moveSelection(1);
+                break;
+            }
+	} else if (event.type == SDL_MOUSEBUTTONDOWN) {
+    	// Handle clicking to select a box
+        int mouseX, mouseY;
+    	SDL_GetMouseState(&mouseX, &mouseY);
+        for (int i = 0; i < 4; i++){
+        	SDL_Point mousePosition = {mouseX, mouseY};
+            if (SDL_PointInRect(&mousePosition, &start->getBoxes()[i].rect)) {
+            	start->selectBox(i);
+                start->setSelected(i);
+                break;
+            }
+        }
+	}
 }
 
 // Render respective tower images

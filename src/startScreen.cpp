@@ -89,32 +89,9 @@ void startScreen::render() {
     SDL_RenderPresent(renderer);
 }
 
-    // Handle input events
-    void startScreen::handleInput(const SDL_Event& event) {
-        if (event.type == SDL_KEYDOWN) {
-            switch (event.key.keysym.sym) {
-                case SDLK_LEFT:
-                    moveSelection(-1);
-                    break;
-                case SDLK_RIGHT:
-                    moveSelection(1);
-                    break;
-                // Handle other keys if needed
-            }
-        } else if (event.type == SDL_MOUSEBUTTONDOWN) {
-            // Handle clicking to select a box
-                int mouseX, mouseY;
-    			SDL_GetMouseState(&mouseX, &mouseY);
-            for (int i = 0; i < 4; i++){
-            	SDL_Point mousePosition = {mouseX, mouseY};
-                if (SDL_PointInRect(&mousePosition, &boxes[i].rect)) {
-                    selectBox(i);
-                    selected = i;
-                    break;
-                }
-            }
-        }
-    }
+void startScreen::setSelected(int i){
+	selected = i;
+}
 
 // Move selection left or right
 void startScreen::moveSelection(int direction) {
@@ -136,6 +113,10 @@ void startScreen::selectBox(int index) {
     
 int startScreen::getSelected() const {
 	return selected;
+}
+
+const SelectableBox* startScreen::getBoxes() const {
+	return boxes;
 }
 
 bool startScreen::start(int mouseX, int mouseY) {

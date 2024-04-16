@@ -22,13 +22,16 @@ public:
     ~startScreen();
     
     void render();
-    void handleInput(const SDL_Event& event);
     
     bool start(int mouseX, int mouseY);
     
     void moveSelection(int direction);
     void selectBox(int index);
     int getSelected() const;
+    
+    void setSelected(int i);
+    
+    const SelectableBox* getBoxes() const;
 	
 private:
     SDL_Renderer* renderer;
