@@ -99,7 +99,7 @@ void startScreen::moveSelection(int direction) {
         if (boxes[i].selected) {
             int nextIndex = (i + direction + 4) % 4; // Wrap around
             selectBox(nextIndex);
-            selected = nextIndex; // Update selected box
+            //selected = nextIndex; // Update selected box
             break;
         }
     }

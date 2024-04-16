@@ -223,7 +223,12 @@ void View::handleStartScreen(const SDL_Event& event){
                 if (start->getSelected() == -1) {
                     start->setSelected(0);
                 }
-                start->selectBox(start->getSelected());
+                for (int i = 0; i < 4; i++) {
+			        if (start->getBoxes()[i].selected) {
+						start->setSelected(i);
+			            break;
+			        }
+			    }
                 break;
             }
 	} else if (event.type == SDL_MOUSEBUTTONDOWN) {
