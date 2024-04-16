@@ -96,10 +96,9 @@ bool View::update(Logic& logic){
         	handleStartScreen(event);
         	if(start->getSelected() == 0){
         		logic.switchStart(false);
+        	}else if(start->getSelected() == 3){
+                running = false;
         	}
-        	/*if(handleStartScreen(event)){
-        		logic.switchStart(false);
-        	}*/
         }
         else if (event.type == SDL_KEYDOWN) {
             if (event.key.keysym.sym == SDLK_q) {
