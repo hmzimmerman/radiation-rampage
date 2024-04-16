@@ -42,6 +42,9 @@ class Logic {
 
         // Get if game is on start screen
         bool onStart();
+        
+        // Change the game between start and play screen
+        void switchStart(bool s);
 
         // Return vector of enemies currently on the filed
         std::vector<Enemy> getEnemiesOnField();

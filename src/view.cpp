@@ -43,7 +43,7 @@ View::View(){
     tower_gui = new TOWERGUI(renderer);
     update_tower_gui = new TOWERGUI(renderer);
     hud = new HUD(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
-    start = new startScreen(renderer);
+    start = new startScreen(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     attackAnimation.active = false;
 
     loadTowerTextures();
@@ -92,6 +92,11 @@ bool View::update(Logic& logic){
         if (event.type == SDL_QUIT) {
             running = false;
         }
+        else if (logic.onStart()){
+        	if(handleStartScreen(event)){
+        		logic.switchStart(false);
+        	}
+        }
         else if (event.type == SDL_KEYDOWN) {
             if (event.key.keysym.sym == SDLK_q) {
                 running = false;
@@ -113,21 +118,26 @@ bool View::update(Logic& logic){
             logic.setUnpaused();
         }
     }
-
+    
     SDL_RenderClear(renderer);
     SDL_Texture* texture = IMG_LoadTexture(renderer, "../resource/Map.png");
-    SDL_Rect destination;
-    destination.x = 0;
-    destination.y = 0;
-    destination.w = SCREEN_WIDTH;
-    destination.h = SCREEN_HEIGHT;
-
-    SDL_RenderCopy(renderer, texture, NULL, &destination);
-    renderGUI();
-    renderTowerLocations();
-    renderSoldiers();
-    renderHUD(logic);
-    renderWaveTime(*logic.getManager());
+    
+    // Render the start screen
+    if (logic.onStart()) {
+        start->render();
+    } else {
+	    SDL_Rect destination;
+	    destination.x = 0;
+	    destination.y = 0;
+	    destination.w = SCREEN_WIDTH;
+	    destination.h = SCREEN_HEIGHT;
+	    SDL_RenderCopy(renderer, texture, NULL, &destination);
+	    renderGUI();
+	    renderTowerLocations();
+	    renderSoldiers();
+	    renderHUD(logic);
+	    renderWaveTime(*logic.getManager());
+    }
 
     if (attackAnimation.active) {
         thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
@@ -194,6 +204,10 @@ void View::handleTowerTypeSelection(const SDL_Event& event, Logic& logic) {
         failedTransMessage.active = true;
         failedTransMessage.startTime = SDL_GetTicks();
     }
+}
+
+bool View::handleStartScreen(const SDL_Event& event){
+	return start->handleInput(event);
 }
 
 // Render respective tower images
@@ -415,6 +429,7 @@ View::~View(){
     delete tower_gui;
     delete update_tower_gui;
     delete hud;
+    delete start;
     SDL_DestroyTexture(barracksTexture);
     SDL_DestroyTexture(bombTexture);
     SDL_DestroyTexture(laserTexture);

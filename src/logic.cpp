@@ -39,6 +39,10 @@ bool Logic::onStart() {
 	return start;
 }
 
+void Logic::switchStart(bool s){
+	start = s;
+}
+
 void Logic::setPaused() {
     paused = true;
 }
