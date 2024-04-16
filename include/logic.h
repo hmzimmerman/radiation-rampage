@@ -1,14 +1,14 @@
 #ifndef LOGIC_H
 #define LOGIC_H
 
-#include "waveManager.h"
-#include "enemy.h"
-#include "moneyManager.h"
-
-
 #include <iostream>
 #include <stdio.h>
 #include <vector>
+#include <memory>
+
+#include "waveManager.h"
+#include "enemy.h"
+#include "moneyManager.h"
 
 class Logic {
     private:
@@ -19,51 +19,47 @@ class Logic {
         bool paused;	// Tells other views if the game is paused
         bool start;		// On start screen
 
-        WaveManager *wave_manager;
-        MoneyManager *moneyManager;
+        std::shared_ptr<WaveManager> wave_manager;
+        std::shared_ptr<MoneyManager> moneyManager;
 
 
     public:
         // Constructor, create the wave manager and set game_over and paused to false
         Logic();
-
-        int getScore();
-        int getHealth();
-        int getMoney();
-
-        // Set if game is paused
-        void setPaused();
-        void setUnpaused();
         
-        void takeDamage(int d);
-        
-        // Get if game is paused
-        bool isPaused();
-
-        // Get if game is on start screen
-        bool onStart();
-        
-        // Change the game between start and play screen
-        void switchStart(bool s);
-
-        // Return vector of enemies currently on the filed
-        std::vector<Enemy> getEnemiesOnField();
+        // Update money manager based on tower action. Returns true if transaction went through, false if it didn't
+        bool updateMoneyTowerAction(const std::string& action, int coinAmount);
 
         // Update method
         void update(double inTime);
 
         // Reset the game for new session
         void reset();
-		
-		// Get method for enemies
-		std::vector<Enemy> getEnemies();
-		
-		// Get method for Wave Manager
-		WaveManager* getManager() const { return wave_manager; }
+        
+        // Change the game between start and play screen
+        void switchStart(bool s);
 
-        // Update money manager based on tower action. Returns true if transaction went through, false if it didn't
-        bool updateMoneyTowerAction(const std::string& action, int coinAmount);
+        // Getters
+        int getScore() const { return score; }
 
+        int getHealth() const { return health; }
+
+        int getMoney() const { return moneyManager->getMoney(); }
+
+        bool isPaused() const { return paused; }
+        
+        bool onStart() const { return start; }
+
+        std::shared_ptr<WaveManager> getManager() const { return wave_manager; }
+
+        std::vector<Enemy> getEnemiesOnField() const { return wave_manager->getActiveEnemies(); }
+
+        // Setters
+        void setPaused() { paused = true; }
+
+        void setUnpaused() { paused = false; }
+
+        void takeDamage(int d){ health -= d; }
 };
 
 #endif

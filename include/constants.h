@@ -53,6 +53,7 @@ namespace tower{
     constexpr int barracksRange {0};
     constexpr enum DamageType barracksDamageType {DamageType::NORMAL};
     constexpr int barracksBuildCost {70};
+    constexpr double barracksFireRate {1};
     constexpr int barracksUpgradeCost {35};
 
     constexpr int bombHealth {100};

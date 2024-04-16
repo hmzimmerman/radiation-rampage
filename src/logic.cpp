@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <vector>
+
 #include "waveManager.h"
 #include "enemy.h"
 #include "tower.h"
@@ -15,48 +16,8 @@ Logic::Logic() {
     game_over = false;
     paused = false;
     start = true;
-    wave_manager = new WaveManager();
-    moneyManager = new MoneyManager();
-}
-
-int Logic::getScore() {
-    return score;
-}
-
-int Logic::getHealth() {
-    return health;
-}
-
-int Logic::getMoney(){
-    return moneyManager->getMoney();
-}
-
-bool Logic::isPaused() {
-    return paused;
-}
-
-bool Logic::onStart() {
-	return start;
-}
-
-void Logic::switchStart(bool s){
-	start = s;
-}
-
-void Logic::setPaused() {
-    paused = true;
-}
-
-void Logic::setUnpaused() {
-    paused = false;
-}
-
-void Logic::takeDamage(int d){
-	health -= d;
-}
-
-std::vector<Enemy> Logic::getEnemiesOnField() {
-    return wave_manager->getActiveEnemies();
+    wave_manager = std::make_shared<WaveManager>();
+    moneyManager = std::make_shared<MoneyManager>();
 }
 
 bool Logic::updateMoneyTowerAction(const std::string& action, int coinAmount){
@@ -100,15 +61,15 @@ void Logic::update(double elapsedTime){
         wave_manager->update();
 
         // Iterate through towers to update their targets and attack
-	    for (const TowerLocation& location : towerLocations) {
+	    for (const TowerLocation& location : TowerLocationManager::getTowerLocations()) {
 	        if (location.occupied) {
-	            Tower* tower = location.tower;
+	            std::shared_ptr<Tower> tower = location.tower;
 	            if (tower) {
 	                tower->updateTarget(wave_manager->getActiveEnemies());
 	                
-	                if (LaserTower* laserTower = dynamic_cast<LaserTower*>(tower)) {
+	                if (std::shared_ptr<LaserTower> laserTower = std::dynamic_pointer_cast<LaserTower>(tower)) {
 	                    laserTower->update(elapsedTime);
-	                } else if (Barracks* barracksTower = dynamic_cast<Barracks*>(tower)) {
+	                } else if (std::shared_ptr<Barracks> barracksTower = std::dynamic_pointer_cast<Barracks>(tower)) {
                         barracksTower->update(elapsedTime);
 	                } else {
 	                    // Other tower attacks
@@ -118,4 +79,8 @@ void Logic::update(double elapsedTime){
 	        }
 	    }
 	}
+}
+
+void Logic::switchStart(bool s){
+	start = s;
 }
