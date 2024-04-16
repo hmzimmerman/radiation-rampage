@@ -8,18 +8,19 @@
 
 class Barracks : public Tower {
     private:
-    const std::vector<std::pair<int, int>> soldierLocations;
-    static std::vector<Soldier> allSoldiers;
-    
-    Enemy* target;
+    Enemy* target; // Current target enemy
     View* view;
 
+    const std::vector<std::pair<int, int>> soldierLocations;
+    static std::vector<Soldier> allSoldiers;
+
+    double fireRate;
     double elapsedTime;
     double timeSinceLastAttack;
     void handleSoldierRespawnTiming(double elapsedTime);
 
 public:
-    Barracks(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, View* view);
+    Barracks(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate, View* view);
 
     void update(double elapsedTime);
 

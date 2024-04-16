@@ -3,8 +3,8 @@
 
 std::vector<Soldier> Barracks::allSoldiers;
 
-Barracks::Barracks(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, View* view)
-    : Tower(name, health, damage, range, damageType, location, buildCost), view(view), target(nullptr), elapsedTime(0.0), timeSinceLastAttack(0.0), soldierLocations({
+Barracks::Barracks(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate, View* view)
+    : Tower(name, health, damage, range, damageType, location, buildCost), fireRate(fireRate), view(view), target(nullptr), elapsedTime(0.0), timeSinceLastAttack(0.0), soldierLocations({
         {115, 109},
         {115, 441},
         {595, 544},
@@ -47,6 +47,7 @@ double Barracks::calculateDistance(int x1, int y1, int x2, int y2) {
     return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
 }
 
+// Update target enemy to the closest enemy within range of a soldier
 void Barracks::updateTarget(std::vector<Enemy>& enemies) {
     double minDistance = std::numeric_limits<double>::max();
     target = nullptr;
@@ -70,6 +71,7 @@ void Barracks::updateTarget(std::vector<Enemy>& enemies) {
     }
 }
 
+// Determine if an enemy is within range of a soldier
 bool Barracks::isEnemyNearSoldier(const Enemy& enemy) {
     // Get the soldier location associated with a barracks tower
     std::pair<int, int> soldierLocation = getTowerSoldierMapping();
@@ -89,7 +91,7 @@ bool Barracks::isReadyToAttack(double elapsedTime) {
     timeSinceLastAttack += elapsedTime;
 
     // Check if enough time has elapsed to perform another attack
-    if (timeSinceLastAttack >= 1.5) { // Attack once every 1.5 seconds
+    if (timeSinceLastAttack >= 1.0 / fireRate) {
         timeSinceLastAttack = 0.0;
         return true;
     }

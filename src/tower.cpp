@@ -16,7 +16,7 @@ std::shared_ptr<Tower> Tower::createTower(const std::string& type, const TowerLo
     using namespace tower;
     if (type == "Barracks") {
         return std::make_shared<Barracks>("Barracks", tower::barracksHealth, tower::barracksDamage, tower::barracksRange, 
-                            tower::barracksDamageType, location, tower::barracksBuildCost, view);
+                            tower::barracksDamageType, location, tower::barracksBuildCost, tower::barracksFireRate, view);
     } else if (type == "Bomb") {
         return std::make_shared<BombTower>("BombTower", tower::bombHealth, tower::bombDamage, tower::bombRange, 
                             tower::bombDamageType, location, tower::bombBuildCost, tower::bombFireRate);
