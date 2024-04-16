@@ -95,14 +95,16 @@ void startScreen::setSelected(int i){
 
 // Move selection left or right
 void startScreen::moveSelection(int direction) {
-	for (int i = 0; i < 4; ++i) {
-    	if (boxes[i].selected) {
-        	int nextIndex = (i + direction + 4) % 4; // Wrap around
+    for (int i = 0; i < 4; i++) {
+        if (boxes[i].selected) {
+            int nextIndex = (i + direction + 4) % 4; // Wrap around
             selectBox(nextIndex);
+            selected = nextIndex; // Update selected box
             break;
         }
     }
 }
+
 
 // Select a specific box
 void startScreen::selectBox(int index) {
@@ -117,8 +119,4 @@ int startScreen::getSelected() const {
 
 const SelectableBox* startScreen::getBoxes() const {
 	return boxes;
-}
-
-bool startScreen::start(int mouseX, int mouseY) {
-    return (mouseX >= screenWidth/2 - 100 && mouseX <= screenWidth/2 + 300 && mouseY >= screenHeight/2 + 200 && mouseY <= screenHeight/2 + 250);
 }
