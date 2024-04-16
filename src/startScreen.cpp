@@ -8,7 +8,7 @@ startScreen::startScreen(SDL_Renderer* renderer, int screenWidth, int screenHeig
     backgroundTexture = IMG_LoadTexture(renderer, "../resource/EmptyStartScreen.png");
     
     // Load font
-    font = TTF_OpenFont("../resource/arial.ttf", 34); // Adjust the font path and size as needed
+    font = TTF_OpenFont("../resource/Overseer_Italic.otf", 34); // Adjust the font path and size as needed
     
     // Set text color
     textColor = {255, 255, 255}; // White color
