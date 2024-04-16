@@ -2,32 +2,33 @@
 
 #include <string>
 
-startScreen::startScreen(SDL_Renderer* renderer, int screenWidth, int screenHeight) : renderer(renderer) {
+startScreen::startScreen(SDL_Renderer* renderer, int screenWidth, int screenHeight)
+    : renderer(renderer), screenWidth(screenWidth), screenHeight(screenHeight), selected(0) {
     // Load background texture
     backgroundTexture = IMG_LoadTexture(renderer, "../resource/EmptyStartScreen.png");
-    if (backgroundTexture == nullptr) {
-        std::cerr << "Error loading StartScreen.png: " << IMG_GetError() << std::endl;
-    }
-
+    
     // Load font
-    font = TTF_OpenFont("../resource/arial.ttf", 24);
-    if (font == nullptr) {
-        std::cerr << "Error loading font: " << TTF_GetError() << std::endl;
-    }
+    font = TTF_OpenFont("../resource/arial.ttf", 34); // Adjust the font path and size as needed
+    
+    // Set text color
+    textColor = {255, 255, 255}; // White color
+    
+    // Initialize the positions and text for the selectable boxes
+    int boxWidth = 400;
+    int boxHeight = 75;
+    int padding = 50; // Padding between boxes
+    int startX = (screenWidth - 2 * boxWidth - padding) / 2; // Starting X position of the first row
+    int startY = screenHeight / 2 + 100; // Starting Y position of the first row
 
-    // Define positions and sizes of four boxes
-    int boxWidth = 200;
-    int boxHeight = 50;
-    int margin = 20;
-    int startY = (screenHeight - 4 * (boxHeight + margin)) / 2;
+    // First row
+    boxes[0] = SelectableBox(startX, startY, boxWidth, boxHeight, "Play");
+    boxes[1] = SelectableBox(startX + boxWidth + padding, startY, boxWidth, boxHeight, "Leaderboard");
 
-    std::string boxTexts[4] = {"Play", "Instructions", "Leaderboard", "Exit"};
-    for (int i = 0; i < 4; ++i) {
-        int startX = (screenWidth - boxWidth) / 2;
-        int startY = (screenHeight - 4 * (boxHeight + margin)) / 2 + i * (boxHeight + margin);
-        boxes[i] = SelectableBox(startX, startY, boxWidth, boxHeight, boxTexts[i]);
-    }
-
+    // Second row
+    startY += boxHeight + padding;
+    boxes[2] = SelectableBox(startX, startY, boxWidth, boxHeight, "Instructions");
+    boxes[3] = SelectableBox(startX + boxWidth + padding, startY, boxWidth, boxHeight, "Exit");
+    
     // Initially select the first box
     boxes[0].selected = true;
     
