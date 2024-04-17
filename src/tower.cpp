@@ -7,8 +7,8 @@
 #include "towerGUI.h"
 #include "constants.h"
 
-Tower::Tower(const std::string& name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost)
-    : name(name), health(health), damage(damage), range(range), damageType(damageType), location(location), buildCost(buildCost) {}
+Tower::Tower(const std::string& name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate)
+    : name(name), health(health), damage(damage), range(range), damageType(damageType), location(location), buildCost(buildCost), fireRate(fireRate) {}
 
 Tower::~Tower() {}
 

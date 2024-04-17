@@ -6,12 +6,13 @@
 
 class BombTower : public Tower {
 private:
-    int fireRate;
 
 public:
     BombTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, int fireRate);
 
     void attack() override;
+
+    void upgrade() override;
 
     int getUpgradeCost() const override;
 };

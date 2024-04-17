@@ -1,7 +1,7 @@
 #include "bombTower.h"
 
 BombTower::BombTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, int fireRate)
-    : Tower(name, health, damage, range, damageType, location, buildCost), fireRate(fireRate) {
+    : Tower(name, health, damage, range, damageType, location, buildCost, fireRate) {
 }
 
 void BombTower::attack() {
@@ -11,4 +11,11 @@ void BombTower::attack() {
 int BombTower::getUpgradeCost() const {
     using namespace tower;
     return tower::bombUpgradeCost;
+}
+
+void BombTower::upgrade() {
+    using namespace tower;
+    setUpgraded(true);
+    setDamage(tower::bombUpgradeDamage);
+    setFireRate(tower::bombUpgradeFireRate);
 }

@@ -56,6 +56,10 @@ void View::loadTowerTextures() {
     bombTexture = IMG_LoadTexture(renderer, "../resource/bombtower.png");
     laserTexture = IMG_LoadTexture(renderer, "../resource/lasertower.png");
     barracksSoldierTexture = IMG_LoadTexture(renderer, "../resource/BarracksSoldiers.png");
+
+    barracksUpgradeTexture = IMG_LoadTexture(renderer, "../resource/BarracksUpgradeTower.png");
+    bombUpgradeTexture = IMG_LoadTexture(renderer, "../resource/BombUpgradeTower.png");
+    laserUpgradeTexture = IMG_LoadTexture(renderer, "../resource/LaserUpgradeTower.png");
 }
 
 void View::loadEnemyTextures() {
@@ -260,11 +264,23 @@ void View::renderTowerLocations() {
         if (location.occupied) {
             SDL_Texture* towerTexture = nullptr;
             if (location.towerType.compare("Barracks") == 0) {
-                towerTexture = barracksTexture;
+                if (location.tower->isUpgraded()) {
+                    towerTexture = barracksUpgradeTexture;
+                } else {
+                    towerTexture = barracksTexture;
+                }
             } else if (location.towerType.compare("Bomb") == 0) {
-                towerTexture = bombTexture;
+                if (location.tower->isUpgraded()) {
+                    towerTexture = bombUpgradeTexture;
+                } else {
+                    towerTexture = bombTexture;
+                }
             } else if (location.towerType.compare("Laser") == 0) {
-                towerTexture = laserTexture;
+                if (location.tower->isUpgraded()) {
+                    towerTexture = laserUpgradeTexture;
+                } else {
+                    towerTexture = laserTexture;
+                }
             }
 
             if (towerTexture != nullptr) {
@@ -280,6 +296,7 @@ void View::renderTowerLocations() {
     }
 }
 
+// Render a circle around a tower, indicating its attack range
 void View::renderTowerRadius(const TowerLocation& location) {
     if (location.occupied) {
         int circleX = location.x + location.size / 2;
@@ -473,7 +490,12 @@ View::~View(){
     SDL_DestroyTexture(bombTexture);
     SDL_DestroyTexture(laserTexture);
     SDL_DestroyTexture(barracksSoldierTexture);
+    SDL_DestroyTexture(barracksUpgradeTexture);
+    SDL_DestroyTexture(bombUpgradeTexture);
+    SDL_DestroyTexture(laserUpgradeTexture);
+    
     SDL_DestroyTexture(humanRaiderTexture);
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
