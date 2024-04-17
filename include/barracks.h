@@ -14,7 +14,6 @@ class Barracks : public Tower {
     const std::vector<std::pair<int, int>> soldierLocations;
     static std::vector<Soldier> allSoldiers;
 
-    double fireRate;
     double elapsedTime;
     double timeSinceLastAttack;
     void handleSoldierRespawnTiming(double elapsedTime);

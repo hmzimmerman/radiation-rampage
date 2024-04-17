@@ -11,7 +11,6 @@ private:
     Enemy* target; // Current target enemy
     View* view;
 
-    double fireRate;
     double timeSinceLastAttack;
 
 public:

@@ -4,7 +4,7 @@
 std::vector<Soldier> Barracks::allSoldiers;
 
 Barracks::Barracks(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate, View* view)
-    : Tower(name, health, damage, range, damageType, location, buildCost), fireRate(fireRate), view(view), target(nullptr), elapsedTime(0.0), timeSinceLastAttack(0.0), soldierLocations({
+    : Tower(name, health, damage, range, damageType, location, buildCost, fireRate), view(view), target(nullptr), elapsedTime(0.0), timeSinceLastAttack(0.0), soldierLocations({
         {115, 109},
         {115, 441},
         {595, 544},
@@ -91,7 +91,7 @@ bool Barracks::isReadyToAttack(double elapsedTime) {
     timeSinceLastAttack += elapsedTime;
 
     // Check if enough time has elapsed to perform another attack
-    if (timeSinceLastAttack >= 1.0 / fireRate) {
+    if (timeSinceLastAttack >= 1.0 / getFireRate()) {
         timeSinceLastAttack = 0.0;
         return true;
     }

@@ -1,7 +1,7 @@
 #include "laserTower.h"
 
 LaserTower::LaserTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate, View* view)
-    : Tower(name, health, damage, range, damageType, location, buildCost), fireRate(fireRate), target(nullptr), view(view), timeSinceLastAttack(0.0) {
+    : Tower(name, health, damage, range, damageType, location, buildCost, fireRate), target(nullptr), view(view), timeSinceLastAttack(0.0) {
 }
 
 void LaserTower::attack() {
@@ -46,7 +46,7 @@ bool LaserTower::isReadyToAttack(double elapsedTime) {
     timeSinceLastAttack += elapsedTime;
 
     // Check if enough time has elapsed to perform another attack
-    if (timeSinceLastAttack >= 1.0 / fireRate) {
+    if (timeSinceLastAttack >= 1.0 / getFireRate()) {
         timeSinceLastAttack = 0.0;
         return true;
     }

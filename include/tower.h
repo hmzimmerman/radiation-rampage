@@ -21,12 +21,13 @@ class Tower {
         DamageType damageType;
         const TowerLocation& location;
         int buildCost;
+        double fireRate;
         bool upgraded = false;
         Enemy* target;
 
     public:
         // Constructor
-        Tower(const std::string& name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost);
+        Tower(const std::string& name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate);
 
         // Destructor
         virtual ~Tower();
@@ -50,6 +51,7 @@ class Tower {
         virtual int getDamage() const { return damage; }
         int getRange() const { return range; }
         const TowerLocation& getLocation() const { return location; }
+        int getFireRate() const { return fireRate; }
 
         int getBuildCost() const { return buildCost; }
         virtual int getUpgradeCost() const = 0;
