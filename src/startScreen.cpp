@@ -100,7 +100,9 @@ void startScreen::render() {
     }
     
     if(instruct){
-        SDL_Rect textBoxRect = {(screenWidth - boxWidth) / 2, (screenHeight - boxHeight) / 2, screenWidth * 0.75, screenHeight * 0.7};
+        int boxWidth = static_cast<int>(screenWidth * 0.75);
+        int boxHeight = static_cast<int>(screenHeight * 0.75);
+        SDL_Rect textBoxRect = {(screenWidth - boxWidth) / 2, (screenHeight - boxHeight) / 2, boxWidth, boxHeight};
 
         // Render the box background
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black color
