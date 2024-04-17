@@ -97,6 +97,8 @@ bool View::update(Logic& logic){
         	handleStartScreen(event);
         	if(start->getSelected() == 0){
         		logic.switchStart(false);
+        	}else if(start->getSelected() == 2){
+        		start->setInstruct(true);
         	}else if(start->getSelected() == 3){
                 running = false;
         	}

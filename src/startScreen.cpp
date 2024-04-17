@@ -3,7 +3,7 @@
 #include <string>
 
 startScreen::startScreen(SDL_Renderer* renderer, int screenWidth, int screenHeight)
-    : renderer(renderer), screenWidth(screenWidth), screenHeight(screenHeight), selected(0) {
+    : renderer(renderer), screenWidth(screenWidth), screenHeight(screenHeight), selected(0), instruct(false) {
     // Load background texture
     backgroundTexture = IMG_LoadTexture(renderer, "../resource/EmptyStartScreen.png");
     
@@ -43,18 +43,17 @@ void startScreen::render() {
     // Render background
     SDL_RenderCopy(renderer, backgroundTexture, nullptr, nullptr);
     
-    TTF_SetFontSize(font, 125);
-    textColor = {150, 0, 0}; // Red color for title    
-
+    TTF_SetFontSize(font, 100);
+    
     // Render title
     SDL_Surface* titleSurface = TTF_RenderText_Solid(font, "Radiation Rampage", textColor);
     SDL_Texture* titleTexture = SDL_CreateTextureFromSurface(renderer, titleSurface);
 
-    // Calculate title position
-    int titleWidth = titleSurface->w;
+	// Calculate title position
+	int titleWidth = titleSurface->w;
     int titleHeight = titleSurface->h;
     int titleX = (screenWidth - titleWidth) / 2;
-    int titleY = 140;
+    int titleY = 200;
 
     // Render title texture
     SDL_Rect titleRect = {titleX, titleY, titleWidth, titleHeight};
@@ -65,7 +64,6 @@ void startScreen::render() {
     SDL_FreeSurface(titleSurface);
     
     TTF_SetFontSize(font, 34);
-    textColor = {255, 255, 255};
 
     // Render boxes
     for (int i = 0; i < 4; i++) {
@@ -108,13 +106,58 @@ void startScreen::render() {
             SDL_RenderDrawRect(renderer, &boxes[i].rect);
         }
     }
+    
+    if(instruct){
+    	// Render bullet point text box
+        SDL_Rect textBoxRect = {100, 300, 600, 300};
+
+        // Render the box background
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // White color
+        SDL_RenderFillRect(renderer, &textBoxRect);
+
+        // Render the bullet point text
+        SDL_Color textColor = {0, 0, 0, 255}; // Black color
+        int textX = textBoxRect.x + 20;
+        int textY = textBoxRect.y + 20;
+        int lineHeight = 30; 
+
+        // Render "Instructions" text
+        renderText("Instructions:", textColor, textX, textY);
+        textY += lineHeight; // Move down to start rendering bullet points
+
+        renderText("- 1", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- 2", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- 3", textColor, textX, textY);
+    }
 
     // Present the renderer
     SDL_RenderPresent(renderer);
 }
 
+void startScreen::renderText(const std::string& text, const SDL_Color& color, int x, int y) {
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
+
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+
+    // Calculate text position
+    SDL_Rect textRect = {x, y, textSurface->w, textSurface->h};
+
+    // Render text texture
+    SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
+
+    // Clean up
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+}
+
 void startScreen::setSelected(int i){
 	selected = i;
+}
+
+void startScreen::setInstruct(bool i){
+	instruct = i;
 }
 
 // Move selection left or right
@@ -128,16 +171,11 @@ void startScreen::moveSelection(int direction) {
     }
 }
 
-
 // Select a specific box
 void startScreen::selectBox(int index) {
     for (int i = 0; i < 4; ++i) {
     	boxes[i].selected = (i == index);
 	}
-}
-    
-int startScreen::getSelected() const {
-	return selected;
 }
 
 const SelectableBox* startScreen::getBoxes() const {

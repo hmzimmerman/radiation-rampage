@@ -25,11 +25,16 @@ public:
     
     bool start(int mouseX, int mouseY);
     
+    void renderText(const std::string& text, const SDL_Color& color, int x, int y);
+    
     void moveSelection(int direction);
     void selectBox(int index);
-    int getSelected() const;
+    
+    int getSelected() const { return selected; }
+    bool getInstruct() const { return instruct; }
     
     void setSelected(int i);
+    void setInstruct(bool i);
     
     const SelectableBox* getBoxes() const;
 	
@@ -42,6 +47,8 @@ private:
     int screenWidth;
     int screenHeight;
     int selected;
+    
+    bool instruct;
 	
     SelectableBox boxes[4];
 };
