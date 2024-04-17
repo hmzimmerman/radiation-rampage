@@ -247,7 +247,7 @@ void View::handleStartScreen(const SDL_Event& event){
 	                break;
 	            }
 	        }
-        }else if (start->getInstruct() && SDL_PointInRect(&mousePosition, &start->getClose())) {
+        }else if (start->getInstruct() && SDL_PointInRect(&mousePosition, start->getClose())) {
         	// Check if the click is within the close button's rectangle
 	        start->setInstruct(false);
         }

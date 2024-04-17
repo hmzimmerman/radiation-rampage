@@ -32,7 +32,7 @@ public:
     
     int getSelected() const { return selected; }
     bool getInstruct() const { return instruct; }
-	const SDL_Rect& getClose() const { return close; }
+    const SDL_Rect* getClose() const { return &close; }
     
     void setSelected(int i);
     void setInstruct(bool i);

@@ -110,7 +110,7 @@ void startScreen::render() {
         
         int closeButtonSize = 40;
         int closeButtonPadding = 10;
-        SDL_Rect close = {
+        close = {
             textBoxRect.x + textBoxRect.w - closeButtonSize - closeButtonPadding,
             textBoxRect.y + closeButtonPadding,
             closeButtonSize,
