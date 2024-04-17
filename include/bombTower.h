@@ -23,6 +23,8 @@ public:
 
     int getRangeBombEffect() {return rangeBombEffect;}
 
+    void upgrade() override;
+
     int getUpgradeCost() const override;
 
     

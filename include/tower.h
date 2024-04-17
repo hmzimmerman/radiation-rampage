@@ -21,11 +21,13 @@ class Tower {
         DamageType damageType;
         const TowerLocation& location;
         int buildCost;
+        double fireRate;
+        bool upgraded = false;
         Enemy* target;
 
     public:
         // Constructor
-        Tower(const std::string& name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost);
+        Tower(const std::string& name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate);
 
         // Destructor
         virtual ~Tower();
@@ -36,7 +38,7 @@ class Tower {
 
         virtual void updateTarget(std::vector<Enemy>& enemies);
 
-        void upgrade();
+        virtual void upgrade() = 0;
 
         void repair();
 
@@ -49,14 +51,20 @@ class Tower {
         virtual int getDamage() const { return damage; }
         int getRange() const { return range; }
         const TowerLocation& getLocation() const { return location; }
+        double getFireRate() const { return fireRate; }
 
         int getBuildCost() const { return buildCost; }
         virtual int getUpgradeCost() const = 0;
+        bool isUpgraded() const { return upgraded; }
         int getRepairCost() const ;
         int getSellEarnings() const ;
 
         // Setters
-        void setHealth(int h) { health = h; }
+        void setHealth(int newHealth) { health = newHealth; }
+        void setDamage(int newDamage) { damage = newDamage; }
+        void setRange(int newRange) { range = newRange; }
+        void setFireRate(double newFireRate) { fireRate = newFireRate; }
+        void setUpgraded(bool upgraded) { this->upgraded = upgraded; }
         void setBuildCost(int newBuildCost) { buildCost = newBuildCost;}
 
         static std::shared_ptr<Tower> createTower(const std::string& type, const TowerLocation& location, View* view);

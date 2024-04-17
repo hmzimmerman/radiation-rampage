@@ -11,7 +11,6 @@ private:
     Enemy* target; // Current target enemy
     View* view;
 
-    double fireRate;
     double timeSinceLastAttack;
 
 public:
@@ -25,6 +24,8 @@ public:
 
     // Update the tower's target based on enemy positions
     void updateTarget(std::vector<Enemy>& enemies) override;
+
+    void upgrade() override;
 
     int getUpgradeCost() const override;
 

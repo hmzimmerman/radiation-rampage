@@ -157,10 +157,10 @@ std::vector<Enemy> WaveManager::createEnemies(){
     while (std::getline(inputFile, line)) {
         std::istringstream iss(line);
         std::string name;
-        int health, speed, x, y, damage;
+        int health, speed, x, y, damage, coins;
         std::string direct_str, weakness_str, strength_str; // Read as strings
 
-        if (!(iss >> name >> health >> speed >> x >> y >> direct_str >> damage >> weakness_str >> strength_str)) {
+        if (!(iss >> name >> health >> speed >> x >> y >> direct_str >> damage >> weakness_str >> strength_str >> coins)) {
             std::cerr << "Error reading line from file." << std::endl;
             continue;
         }
@@ -170,7 +170,7 @@ std::vector<Enemy> WaveManager::createEnemies(){
         DamageType weakness = stringToDamageType(weakness_str);
         DamageType strength = stringToDamageType(strength_str);
 
-        enemies.emplace_back(name, health, speed, x, y, direct, damage, weakness, strength);
+        enemies.emplace_back(name, health, speed, x, y, direct, damage, weakness, strength, coins);
     }
     
     return enemies;

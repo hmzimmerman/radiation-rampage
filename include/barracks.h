@@ -14,7 +14,6 @@ class Barracks : public Tower {
     const std::vector<std::pair<int, int>> soldierLocations;
     static std::vector<Soldier> allSoldiers;
 
-    double fireRate;
     double elapsedTime;
     double timeSinceLastAttack;
     void handleSoldierRespawnTiming(double elapsedTime);
@@ -35,6 +34,8 @@ public:
     bool isReadyToAttack(double elapsedTime);
 
     void printAllSoldiersHealth() const;
+
+    void upgrade() override;
 
     int getUpgradeCost() const override ;
 

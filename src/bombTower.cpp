@@ -15,6 +15,13 @@ int BombTower::getUpgradeCost() const {
     return tower::bombUpgradeCost;
 }
 
+void BombTower::upgrade() {
+    using namespace tower;
+    setUpgraded(true);
+    setDamage(tower::bombUpgradeDamage);
+    setFireRate(tower::bombUpgradeFireRate);
+}
+
 void BombTower::updateTarget(std::vector<Enemy>& enemies){
     // Find the target with the most distance traveled
     int maxDistance = -1;

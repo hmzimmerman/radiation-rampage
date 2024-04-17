@@ -53,6 +53,7 @@ void Logic::update(double elapsedTime){
 
             // Check if enemy is dead and remove from list
             if (!wave_manager->getActiveEnemies()[i].isAlive()) {
+            	moneyManager->gainMoney(wave_manager->getActiveEnemies()[i].getCoins());
                 wave_manager->getActiveEnemies().erase(wave_manager->getActiveEnemies().begin() + i);
                 i--;
                 continue;

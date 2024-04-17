@@ -56,6 +56,10 @@ void View::loadTowerTextures() {
     bombTexture = IMG_LoadTexture(renderer, "../resource/bombtower.png");
     laserTexture = IMG_LoadTexture(renderer, "../resource/lasertower.png");
     barracksSoldierTexture = IMG_LoadTexture(renderer, "../resource/BarracksSoldiers.png");
+
+    barracksUpgradeTexture = IMG_LoadTexture(renderer, "../resource/BarracksUpgradeTower.png");
+    bombUpgradeTexture = IMG_LoadTexture(renderer, "../resource/BombUpgradeTower.png");
+    laserUpgradeTexture = IMG_LoadTexture(renderer, "../resource/LaserUpgradeTower.png");
 }
 
 void View::loadEnemyTextures() {
@@ -97,6 +101,9 @@ bool View::update(Logic& logic){
         	handleStartScreen(event);
         	if(start->getSelected() == 0){
         		logic.switchStart(false);
+        	}else if(start->getSelected() == 2){
+        		start->setInstruct(true);
+        		start->setSelected(-1);
         	}else if(start->getSelected() == 3){
                 running = false;
         	}
@@ -215,7 +222,7 @@ void View::handleTowerTypeSelection(const SDL_Event& event, Logic& logic) {
 }
 
 void View::handleStartScreen(const SDL_Event& event){
-	if (event.type == SDL_KEYDOWN) {
+	if (event.type == SDL_KEYDOWN && start->getInstruct() == false) {
 		switch (event.key.keysym.sym) {
         	case SDLK_LEFT:
             	start->moveSelection(-1);
@@ -236,16 +243,21 @@ void View::handleStartScreen(const SDL_Event& event){
                 break;
             }
 	} else if (event.type == SDL_MOUSEBUTTONDOWN) {
-    	// Handle clicking to select a box
-        int mouseX, mouseY;
-    	SDL_GetMouseState(&mouseX, &mouseY);
-        for (int i = 0; i < 4; i++){
-        	SDL_Point mousePosition = {mouseX, mouseY};
-            if (SDL_PointInRect(&mousePosition, &start->getBoxes()[i].rect)) {
-            	start->selectBox(i);
-                start->setSelected(i);
-                break;
-            }
+		// Handle clicking to select a box
+	    int mouseX, mouseY;
+	    SDL_GetMouseState(&mouseX, &mouseY);
+	    SDL_Point mousePosition = {mouseX, mouseY};
+		if(start->getInstruct() == false){
+	        for (int i = 0; i < 4; i++){
+	            if (SDL_PointInRect(&mousePosition, &start->getBoxes()[i].rect)) {
+	            	start->selectBox(i);
+	                start->setSelected(i);
+	                break;
+	            }
+	        }
+        }else if (start->getInstruct() && SDL_PointInRect(&mousePosition, start->getClose())) {
+        	// Check if the click is within the close button's rectangle
+	        start->setInstruct(false);
         }
 	}
 }
@@ -256,11 +268,23 @@ void View::renderTowerLocations() {
         if (location.occupied) {
             SDL_Texture* towerTexture = nullptr;
             if (location.towerType.compare("Barracks") == 0) {
-                towerTexture = barracksTexture;
+                if (location.tower->isUpgraded()) {
+                    towerTexture = barracksUpgradeTexture;
+                } else {
+                    towerTexture = barracksTexture;
+                }
             } else if (location.towerType.compare("Bomb") == 0) {
-                towerTexture = bombTexture;
+                if (location.tower->isUpgraded()) {
+                    towerTexture = bombUpgradeTexture;
+                } else {
+                    towerTexture = bombTexture;
+                }
             } else if (location.towerType.compare("Laser") == 0) {
-                towerTexture = laserTexture;
+                if (location.tower->isUpgraded()) {
+                    towerTexture = laserUpgradeTexture;
+                } else {
+                    towerTexture = laserTexture;
+                }
             }
 
             if (towerTexture != nullptr) {
@@ -276,6 +300,7 @@ void View::renderTowerLocations() {
     }
 }
 
+// Render a circle around a tower, indicating its attack range
 void View::renderTowerRadius(const TowerLocation& location) {
     if (location.occupied) {
         int circleX = location.x + location.size / 2;
@@ -511,7 +536,12 @@ View::~View(){
     SDL_DestroyTexture(bombTexture);
     SDL_DestroyTexture(laserTexture);
     SDL_DestroyTexture(barracksSoldierTexture);
+    SDL_DestroyTexture(barracksUpgradeTexture);
+    SDL_DestroyTexture(bombUpgradeTexture);
+    SDL_DestroyTexture(laserUpgradeTexture);
+    
     SDL_DestroyTexture(humanRaiderTexture);
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
