@@ -54,7 +54,7 @@ void startScreen::render() {
 	int titleWidth = titleSurface->w;
     int titleHeight = titleSurface->h;
     int titleX = (screenWidth - titleWidth) / 2;
-    int titleY = 200;
+    int titleY = 140;
 
     // Render title texture
     SDL_Rect titleRect = {titleX, titleY, titleWidth, titleHeight};
@@ -101,30 +101,29 @@ void startScreen::render() {
     
     if(instruct){
         int boxWidth = static_cast<int>(screenWidth * 0.8);
-        int boxHeight = static_cast<int>(screenHeight * 0.8);
+        int boxHeight = static_cast<int>(screenHeight * 0.85);
         SDL_Rect textBoxRect = {(screenWidth - boxWidth) / 2, (screenHeight - boxHeight) / 2, boxWidth, boxHeight};
 
         // Render the box background
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black color
         SDL_RenderFillRect(renderer, &textBoxRect);
         
-        int closeButtonSize = 40;
-        int closeButtonPadding = 10;
+        int size = 40;
+        int pad = 10;
         close = {
-            textBoxRect.x + textBoxRect.w - closeButtonSize - closeButtonPadding,
-            textBoxRect.y + closeButtonPadding,
-            closeButtonSize,
-            closeButtonSize
+            textBoxRect.x + textBoxRect.w - size - pad,
+            textBoxRect.y + pad,
+            size,
+            size
         };
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red color
         SDL_RenderFillRect(renderer, &close);
 
-        // Render the letter "X" in white color inside the circle
-        SDL_Color whiteColor = {255, 255, 255, 255}; // White color
-        renderText("X", whiteColor, close.x + closeButtonSize / 2 - 5, close.y + closeButtonSize / 2 - 10);
+        // Render the letter "X" in white color inside the box
+        SDL_Color textColor = {255, 255, 255, 255}; // White color
+        renderText("X", textColor, close.x + size / 2 - 10, close.y + size / 2 - 16);
 
         // Render the bullet point text
-        SDL_Color textColor = {255, 255, 255, 255}; // White color
         int textX = textBoxRect.x + 20;
         int textY = textBoxRect.y + 20;
         int lineHeight = 30;
@@ -153,8 +152,14 @@ void startScreen::render() {
 }
 
 void startScreen::renderText(const std::string& text, const SDL_Color& color, int x, int y) {
-    SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
-
+	SDL_Surface* textSurface;
+	if(text == "X"){
+		TTF_Font* XFont = TTF_OpenFont("../resource/arial.ttf", 30);
+        textSurface = TTF_RenderText_Solid(XFont, text.c_str(), color);
+	}else{
+    	textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
+	}
+	
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 
     // Calculate text position
