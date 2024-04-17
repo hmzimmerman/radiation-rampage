@@ -108,18 +108,20 @@ void startScreen::render() {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black color
         SDL_RenderFillRect(renderer, &textBoxRect);
         
-        // Render the close button
-		int closeButtonSize = 40;
-		int closeButtonPadding = 10;
-		close = {screenWidth - closeButtonSize - closeButtonPadding, closeButtonPadding, closeButtonSize, closeButtonSize};
-		
-		// Render the filled red circle
-		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red color
-		SDL_RenderFillRect(renderer, &close);
-		
-		// Render the letter "X" in white color inside the circle
-		SDL_Color whiteColor = {255, 255, 255, 255}; // White color
-		renderText("X", whiteColor, close.x + closeButtonSize / 2 - 5, close.y + closeButtonSize / 2 - 10);
+        int closeButtonSize = 40;
+        int closeButtonPadding = 10;
+        SDL_Rect close = {
+            textBoxRect.x + textBoxRect.w - closeButtonSize - closeButtonPadding,
+            textBoxRect.y + closeButtonPadding,
+            closeButtonSize,
+            closeButtonSize
+        };
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red color
+        SDL_RenderFillRect(renderer, &close);
+
+        // Render the letter "X" in white color inside the circle
+        SDL_Color whiteColor = {255, 255, 255, 255}; // White color
+        renderText("X", whiteColor, close.x + closeButtonSize / 2 - 5, close.y + closeButtonSize / 2 - 10);
 
         // Render the bullet point text
         SDL_Color textColor = {255, 255, 255, 255}; // White color

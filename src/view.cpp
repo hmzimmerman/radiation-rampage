@@ -99,6 +99,7 @@ bool View::update(Logic& logic){
         		logic.switchStart(false);
         	}else if(start->getSelected() == 2){
         		start->setInstruct(true);
+        		start->setSelected(-1);
         	}else if(start->getSelected() == 3){
                 running = false;
         	}
