@@ -13,6 +13,8 @@ public:
 
     void attack() override;
 
+    void upgrade() override;
+
     int getUpgradeCost() const override;
 };
 

@@ -36,6 +36,8 @@ public:
 
     void printAllSoldiersHealth() const;
 
+    void upgrade() override;
+
     int getUpgradeCost() const override ;
 
     // Getters

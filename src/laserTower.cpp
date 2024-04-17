@@ -59,6 +59,10 @@ int LaserTower::getUpgradeCost() const {
     return tower::laserUpgradeCost;
 }
 
+void LaserTower::upgrade() {
+    setUpgraded(true);
+}
+
 void LaserTower::update(double elapsedTime) {
     if (isReadyToAttack(elapsedTime)) {
         attack();

@@ -12,3 +12,7 @@ int BombTower::getUpgradeCost() const {
     using namespace tower;
     return tower::bombUpgradeCost;
 }
+
+void BombTower::upgrade() {
+    setUpgraded(true);
+}

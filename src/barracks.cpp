@@ -168,6 +168,10 @@ int Barracks::getUpgradeCost() const{
     return tower::barracksUpgradeCost;
 }
 
+void Barracks::upgrade() {
+    setUpgraded(true);
+}
+
 void Barracks::update(double elapsedTime) {
     this->elapsedTime = elapsedTime;
     handleSoldierRespawnTiming(elapsedTime);
