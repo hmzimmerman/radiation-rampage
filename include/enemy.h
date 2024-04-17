@@ -22,6 +22,7 @@ private:
     int damage; 
     DamageType weakness;
     DamageType strength;
+    int coins;
 
     int distanceTraveled;
     bool halted = false;
@@ -31,7 +32,7 @@ private:
 
 public:
 	// Constructor
-    Enemy(std::string name, int health, int speed, int x, int y, Direction direct, int damage, DamageType weakness, DamageType strength);
+    Enemy(std::string name, int health, int speed, int x, int y, Direction direct, int damage, DamageType weakness, DamageType strength, int coin);
     
     // Deconstructor
     ~Enemy();
@@ -60,6 +61,7 @@ public:
     DamageType getWeakness() const { return weakness; }
     DamageType getStrength() const { return strength; }
     int getDistanceTraveled() const { return distanceTraveled; }
+    int getCoins() const { return coins; }
 
     // Setters
     void setName(std::string n) { name = n; }
