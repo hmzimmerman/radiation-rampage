@@ -32,6 +32,7 @@ public:
     
     int getSelected() const { return selected; }
     bool getInstruct() const { return instruct; }
+	const SDL_Rect& getClose() const { return close; }
     
     void setSelected(int i);
     void setInstruct(bool i);
@@ -51,6 +52,7 @@ private:
     bool instruct;
 	
     SelectableBox boxes[4];
+    SDL_Rect close; // Rectangle for the close button
 };
 	
 #endif

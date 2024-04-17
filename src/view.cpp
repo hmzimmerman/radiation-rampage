@@ -213,7 +213,7 @@ void View::handleTowerTypeSelection(const SDL_Event& event, Logic& logic) {
 }
 
 void View::handleStartScreen(const SDL_Event& event){
-	if (event.type == SDL_KEYDOWN) {
+	if (event.type == SDL_KEYDOWN && start->getInstruct() == false) {
 		switch (event.key.keysym.sym) {
         	case SDLK_LEFT:
             	start->moveSelection(-1);
@@ -234,16 +234,21 @@ void View::handleStartScreen(const SDL_Event& event){
                 break;
             }
 	} else if (event.type == SDL_MOUSEBUTTONDOWN) {
-    	// Handle clicking to select a box
-        int mouseX, mouseY;
-    	SDL_GetMouseState(&mouseX, &mouseY);
-        for (int i = 0; i < 4; i++){
-        	SDL_Point mousePosition = {mouseX, mouseY};
-            if (SDL_PointInRect(&mousePosition, &start->getBoxes()[i].rect)) {
-            	start->selectBox(i);
-                start->setSelected(i);
-                break;
-            }
+		// Handle clicking to select a box
+	    int mouseX, mouseY;
+	    SDL_GetMouseState(&mouseX, &mouseY);
+	    SDL_Point mousePosition = {mouseX, mouseY};
+		if(start->getInstruct() == false){
+	        for (int i = 0; i < 4; i++){
+	            if (SDL_PointInRect(&mousePosition, &start->getBoxes()[i].rect)) {
+	            	start->selectBox(i);
+	                start->setSelected(i);
+	                break;
+	            }
+	        }
+        }else if (start->getInstruct() && SDL_PointInRect(&mousePosition, &start->getClose())) {
+        	// Check if the click is within the close button's rectangle
+	        start->setInstruct(false);
         }
 	}
 }

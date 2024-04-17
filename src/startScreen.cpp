@@ -100,13 +100,26 @@ void startScreen::render() {
     }
     
     if(instruct){
-        int boxWidth = static_cast<int>(screenWidth * 0.75);
-        int boxHeight = static_cast<int>(screenHeight * 0.75);
+        int boxWidth = static_cast<int>(screenWidth * 0.8);
+        int boxHeight = static_cast<int>(screenHeight * 0.8);
         SDL_Rect textBoxRect = {(screenWidth - boxWidth) / 2, (screenHeight - boxHeight) / 2, boxWidth, boxHeight};
 
         // Render the box background
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black color
         SDL_RenderFillRect(renderer, &textBoxRect);
+        
+        // Render the close button
+		int closeButtonSize = 40;
+		int closeButtonPadding = 10;
+		close = {screenWidth - closeButtonSize - closeButtonPadding, closeButtonPadding, closeButtonSize, closeButtonSize};
+		
+		// Render the filled red circle
+		SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red color
+		SDL_RenderFillRect(renderer, &close);
+		
+		// Render the letter "X" in white color inside the circle
+		SDL_Color whiteColor = {255, 255, 255, 255}; // White color
+		renderText("X", whiteColor, close.x + closeButtonSize / 2 - 5, close.y + closeButtonSize / 2 - 10);
 
         // Render the bullet point text
         SDL_Color textColor = {255, 255, 255, 255}; // White color
@@ -118,11 +131,19 @@ void startScreen::render() {
         renderText("Instructions:", textColor, textX, textY);
         textY += lineHeight; // Move down to start rendering bullet points
 
-        renderText("- 1", textColor, textX, textY);
+        renderText("- Survive against endless waves to beat your high score", textColor, textX, textY);
         textY += lineHeight;
-        renderText("- 2", textColor, textX, textY);
+        renderText("- If you go to 0 health, you lose", textColor, textX, textY);
         textY += lineHeight;
-        renderText("- 3", textColor, textX, textY);
+        renderText("- Build towers to combat enemies walking along the path", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- Manage your money to buy, upgrade, and repair towers", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- Environmental effects will occur that will somehow affect the game", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- Enemies have strengths and weakness you must keep in mind", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- Towers will degrade over time so make sure to keep them repaired", textColor, textX, textY);
     }
 
     // Present the renderer
