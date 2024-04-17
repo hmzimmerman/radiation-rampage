@@ -15,7 +15,7 @@ struct TowerLocation {
     std::string towerType;
     std::shared_ptr<Tower> tower;
 
-    TowerLocation(int x, int y) : x(x), y(y), size(80), occupied(false), tower(nullptr) {}
+    TowerLocation(int x, int y) : x(x), y(y), size(90), occupied(false), tower(nullptr) {}
 
     // Equality operator overload
     bool operator==(const TowerLocation& other) const {

@@ -280,6 +280,7 @@ void View::renderTowerLocations() {
     }
 }
 
+// Render a circle around a tower, indicating its attack range
 void View::renderTowerRadius(const TowerLocation& location) {
     if (location.occupied) {
         int circleX = location.x + location.size / 2;
