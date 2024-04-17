@@ -23,8 +23,8 @@ class WaveManager {
         std::vector<Enemy> enemies_to_add;
 
         //how many miliseconds between waves
-        const int time_between_waves = 500;
-        int time_til_next_wave;
+        const int time_between_waves = 25;
+        double time_til_next_wave;
         
         // Current wave
         int currWave;
@@ -44,7 +44,7 @@ class WaveManager {
 
         //update called in logic
         //moves time until next wave down and sends enemy out if it hits 0
-        void update();
+        void update(double elapsedTime);
 
         //algorithm for generating waves past wave 10
         void waveAlgorithm();
@@ -53,7 +53,7 @@ class WaveManager {
 		std::vector<Enemy> createEnemies();
 
 		// Getter
-		int getWaveTime() const { return time_til_next_wave; }
+		double getWaveTime() const { return time_til_next_wave; }
 		int getCurrWave() const { return currWave; }
 };
 

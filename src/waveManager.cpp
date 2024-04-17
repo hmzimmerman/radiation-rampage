@@ -186,12 +186,12 @@ Uint32 WaveManager::TimerCallback(Uint32 interval, void* wave) {
     return 0;
 }
 
-void WaveManager::update() {
+void WaveManager::update(double elapsedTime) {
     //right now this is working on a per tick level, ideally we would want it to work in seconds (or we could just crank up the time
     //between rounds)
     //I am going to leave this for now but hopefully I will remember to bring this up at our 
     //next meeting
-    time_til_next_wave -= 1;
+    time_til_next_wave -= elapsedTime;
     if (time_til_next_wave < 1) {
         // Pop the last element from enemy waves
         if (!enemy_waves.empty()) {

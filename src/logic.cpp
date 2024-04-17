@@ -59,7 +59,7 @@ void Logic::update(double elapsedTime){
             }
         }
         
-        wave_manager->update();
+        wave_manager->update(elapsedTime);
 
         // Iterate through towers to update their targets and attack
 	    for (const TowerLocation& location : TowerLocationManager::getTowerLocations()) {
