@@ -8,7 +8,7 @@ startScreen::startScreen(SDL_Renderer* renderer, int screenWidth, int screenHeig
     backgroundTexture = IMG_LoadTexture(renderer, "../resource/EmptyStartScreen.png");
     
     // Load font
-    font = TTF_OpenFont("../resource/Overseer_Italic.otf", 34); // Adjust the font path and size as needed
+    font = TTF_OpenFont("../resource/Overseer_Italic.otf", 100);
     
     // Set text color
     textColor = {255, 255, 255}; // White color
@@ -42,9 +42,31 @@ startScreen::~startScreen() {
 void startScreen::render() {
     // Render background
     SDL_RenderCopy(renderer, backgroundTexture, nullptr, nullptr);
+    
+    TTF_SetFontSize(font, 100);
+    
+    // Render title
+    SDL_Surface* titleSurface = TTF_RenderText_Solid(font, "Radiation Rampage", textColor);
+    SDL_Texture* titleTexture = SDL_CreateTextureFromSurface(renderer, titleSurface);
+
+	// Calculate title position
+	int titleWidth = titleSurface->w;
+    int titleHeight = titleSurface->h;
+    int titleX = (screenWidth - titleWidth) / 2;
+    int titleY = 200;
+
+    // Render title texture
+    SDL_Rect titleRect = {titleX, titleY, titleWidth, titleHeight};
+    SDL_RenderCopy(renderer, titleTexture, nullptr, &titleRect);
+
+    // Clean up
+    SDL_DestroyTexture(titleTexture);
+    SDL_FreeSurface(titleSurface);
+    
+    TTF_SetFontSize(font, 34);
 
     // Render boxes
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 4; i++) {
         // Render box
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // White color
         SDL_RenderFillRect(renderer, &boxes[i].rect);
@@ -99,7 +121,6 @@ void startScreen::moveSelection(int direction) {
         if (boxes[i].selected) {
             int nextIndex = (i + direction + 4) % 4; // Wrap around
             selectBox(nextIndex);
-            //selected = nextIndex; // Update selected box
             break;
         }
     }
