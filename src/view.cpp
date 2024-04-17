@@ -44,6 +44,7 @@ View::View(){
     tower_gui = std::make_shared<TOWERGUI>(renderer);
     update_tower_gui = std::make_shared<TOWERGUI>(renderer);
     hud = std::make_shared<HUD>(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    start = std::make_shared<startScreen>(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     attackAnimation.active = false;
 
     loadTowerTextures();
@@ -92,6 +93,14 @@ bool View::update(Logic& logic){
         if (event.type == SDL_QUIT) {
             running = false;
         }
+        else if (logic.onStart()){
+        	handleStartScreen(event);
+        	if(start->getSelected() == 0){
+        		logic.switchStart(false);
+        	}else if(start->getSelected() == 3){
+                running = false;
+        	}
+        }
         else if (event.type == SDL_KEYDOWN) {
             if (event.key.keysym.sym == SDLK_q) {
                 running = false;
@@ -113,21 +122,26 @@ bool View::update(Logic& logic){
             logic.setUnpaused();
         }
     }
-
+    
     SDL_RenderClear(renderer);
     SDL_Texture* texture = IMG_LoadTexture(renderer, "../resource/Map.png");
-    SDL_Rect destination;
-    destination.x = 0;
-    destination.y = 0;
-    destination.w = SCREEN_WIDTH;
-    destination.h = SCREEN_HEIGHT;
-
-    SDL_RenderCopy(renderer, texture, NULL, &destination);
-    renderGUI();
-    renderTowerLocations();
-    renderSoldiers();
-    renderHUD(logic);
-    renderWaveTime(*logic.getManager());
+    
+    // Render the start screen
+    if (logic.onStart()) {
+        start->render();
+    } else {
+	    SDL_Rect destination;
+	    destination.x = 0;
+	    destination.y = 0;
+	    destination.w = SCREEN_WIDTH;
+	    destination.h = SCREEN_HEIGHT;
+	    SDL_RenderCopy(renderer, texture, NULL, &destination);
+	    renderGUI();
+	    renderTowerLocations();
+	    renderSoldiers();
+	    renderHUD(logic);
+	    renderWaveTime(*logic.getManager());
+    }
 
     if (attackAnimation.active) {
         thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
@@ -155,7 +169,7 @@ bool View::update(Logic& logic){
     // Render lost or pause screen
     if(logic.getHealth() <= 0){
     	renderLost(logic);
-    }else if(logic.isPaused()){
+    }else if(logic.isPaused() && !logic.onStart()){
     	renderPause();
     }
 
@@ -194,6 +208,42 @@ void View::handleTowerTypeSelection(const SDL_Event& event, Logic& logic) {
         failedTransMessage.active = true;
         failedTransMessage.startTime = SDL_GetTicks();
     }
+}
+
+void View::handleStartScreen(const SDL_Event& event){
+	if (event.type == SDL_KEYDOWN) {
+		switch (event.key.keysym.sym) {
+        	case SDLK_LEFT:
+            	start->moveSelection(-1);
+                break;
+            case SDLK_RIGHT:
+                start->moveSelection(1);
+                break;
+            case SDLK_RETURN:
+                if (start->getSelected() == -1) {
+                    start->setSelected(0);
+                }
+                for (int i = 0; i < 4; i++) {
+			        if (start->getBoxes()[i].selected) {
+						start->setSelected(i);
+			            break;
+			        }
+			    }
+                break;
+            }
+	} else if (event.type == SDL_MOUSEBUTTONDOWN) {
+    	// Handle clicking to select a box
+        int mouseX, mouseY;
+    	SDL_GetMouseState(&mouseX, &mouseY);
+        for (int i = 0; i < 4; i++){
+        	SDL_Point mousePosition = {mouseX, mouseY};
+            if (SDL_PointInRect(&mousePosition, &start->getBoxes()[i].rect)) {
+            	start->selectBox(i);
+                start->setSelected(i);
+                break;
+            }
+        }
+	}
 }
 
 // Render respective tower images

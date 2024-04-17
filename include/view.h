@@ -9,6 +9,7 @@
 
 #include "logic.h"
 #include "HUD.h"
+#include "startScreen.h"
 
 class TOWERGUI;
 struct TowerLocation;
@@ -38,11 +39,12 @@ class View{
 
         SDL_Window* window;
         SDL_Renderer* renderer;
-        
+
         std::shared_ptr<Logic> logic;
         std::shared_ptr<TOWERGUI> tower_gui;
         std::shared_ptr<TOWERGUI> update_tower_gui;
         std::shared_ptr<HUD> hud;
+        std::shared_ptr<startScreen> start;
 
         AttackAnimation attackAnimation;
         FailedTransMessage failedTransMessage;
@@ -71,6 +73,7 @@ class View{
         void renderSoldiers();
         void renderLost(Logic& logic);
         void renderPause();
+        void handleStartScreen(const SDL_Event& event);
         void renderWaveTime(const WaveManager& manager);
         void handleTowerClick(const SDL_Event& event);
         void handleTowerTypeSelection(const SDL_Event& event, Logic& logic);
