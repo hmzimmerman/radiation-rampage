@@ -43,7 +43,8 @@ void startScreen::render() {
     // Render background
     SDL_RenderCopy(renderer, backgroundTexture, nullptr, nullptr);
     
-    TTF_SetFontSize(font, 100);
+    TTF_SetFontSize(font, 125);
+    textColor = {150, 0, 0}; // Red color for title  
     
     // Render title
     SDL_Surface* titleSurface = TTF_RenderText_Solid(font, "Radiation Rampage", textColor);
@@ -64,6 +65,7 @@ void startScreen::render() {
     SDL_FreeSurface(titleSurface);
     
     TTF_SetFontSize(font, 34);
+    textColor = {255, 255, 255};
 
     // Render boxes
     for (int i = 0; i < 4; i++) {
@@ -74,17 +76,7 @@ void startScreen::render() {
         // Render text
         SDL_Color textColor = {0, 0, 0, 255}; // Black color
         SDL_Surface* textSurface = TTF_RenderText_Solid(font, boxes[i].text.c_str(), textColor);
-        if (textSurface == nullptr) {
-            std::cerr << "Error rendering text surface: " << TTF_GetError() << std::endl;
-            continue;
-        }
-
         SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-        if (textTexture == nullptr) {
-            std::cerr << "Error creating text texture: " << SDL_GetError() << std::endl;
-            SDL_FreeSurface(textSurface);
-            continue;
-        }
 
         // Calculate text position
         SDL_Rect textRect;
@@ -108,18 +100,17 @@ void startScreen::render() {
     }
     
     if(instruct){
-    	// Render bullet point text box
-        SDL_Rect textBoxRect = {100, 300, 600, 300};
+        SDL_Rect textBoxRect = {(screenWidth - boxWidth) / 2, (screenHeight - boxHeight) / 2, screenWidth * 0.75, screenHeight * 0.7};
 
         // Render the box background
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // White color
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black color
         SDL_RenderFillRect(renderer, &textBoxRect);
 
         // Render the bullet point text
-        SDL_Color textColor = {0, 0, 0, 255}; // Black color
+        SDL_Color textColor = {255, 255, 255, 255}; // White color
         int textX = textBoxRect.x + 20;
         int textY = textBoxRect.y + 20;
-        int lineHeight = 30; 
+        int lineHeight = 30;
 
         // Render "Instructions" text
         renderText("Instructions:", textColor, textX, textY);
