@@ -141,6 +141,9 @@ bool View::update(Logic& logic){
 	    renderSoldiers();
 	    renderHUD(logic);
 	    renderWaveTime(*logic.getManager());
+
+
+        
     }
 
     if (attackAnimation.active) {
