@@ -43,17 +43,18 @@ void startScreen::render() {
     // Render background
     SDL_RenderCopy(renderer, backgroundTexture, nullptr, nullptr);
     
-    TTF_SetFontSize(font, 100);
-    
+    TTF_SetFontSize(font, 125);
+    textColor = {150, 0, 0}; // Red color for title    
+
     // Render title
     SDL_Surface* titleSurface = TTF_RenderText_Solid(font, "Radiation Rampage", textColor);
     SDL_Texture* titleTexture = SDL_CreateTextureFromSurface(renderer, titleSurface);
 
-	// Calculate title position
-	int titleWidth = titleSurface->w;
+    // Calculate title position
+    int titleWidth = titleSurface->w;
     int titleHeight = titleSurface->h;
     int titleX = (screenWidth - titleWidth) / 2;
-    int titleY = 200;
+    int titleY = 140;
 
     // Render title texture
     SDL_Rect titleRect = {titleX, titleY, titleWidth, titleHeight};
@@ -64,6 +65,7 @@ void startScreen::render() {
     SDL_FreeSurface(titleSurface);
     
     TTF_SetFontSize(font, 34);
+    textColor = {255, 255, 255};
 
     // Render boxes
     for (int i = 0; i < 4; i++) {
