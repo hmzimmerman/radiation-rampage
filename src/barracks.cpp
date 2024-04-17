@@ -169,7 +169,10 @@ int Barracks::getUpgradeCost() const{
 }
 
 void Barracks::upgrade() {
+    using namespace tower;
     setUpgraded(true);
+    setDamage(tower::barracksUpgradeDamage);
+    setFireRate(tower::barracksUpgradeFireRate);
 }
 
 void Barracks::update(double elapsedTime) {

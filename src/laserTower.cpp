@@ -60,7 +60,10 @@ int LaserTower::getUpgradeCost() const {
 }
 
 void LaserTower::upgrade() {
+    using namespace tower;
     setUpgraded(true);
+    setDamage(tower::laserUpgradeDamage);
+    setFireRate(tower::laserUpgradeFireRate);
 }
 
 void LaserTower::update(double elapsedTime) {

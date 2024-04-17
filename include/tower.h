@@ -51,7 +51,7 @@ class Tower {
         virtual int getDamage() const { return damage; }
         int getRange() const { return range; }
         const TowerLocation& getLocation() const { return location; }
-        int getFireRate() const { return fireRate; }
+        double getFireRate() const { return fireRate; }
 
         int getBuildCost() const { return buildCost; }
         virtual int getUpgradeCost() const = 0;
@@ -63,6 +63,7 @@ class Tower {
         void setHealth(int newHealth) { health = newHealth; }
         void setDamage(int newDamage) { damage = newDamage; }
         void setRange(int newRange) { range = newRange; }
+        void setFireRate(double newFireRate) { fireRate = newFireRate; }
         void setUpgraded(bool upgraded) { this->upgraded = upgraded; }
         void setBuildCost(int newBuildCost) { buildCost = newBuildCost;}
 
