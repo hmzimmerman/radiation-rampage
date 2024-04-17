@@ -16,6 +16,7 @@ private:
     TowerLocation location;
     std::vector<std::string> options;
     std::vector<std::string> updateOptions;
+    std::vector<std::string> upgradedOptions;
     std::unordered_map<std::string, SDL_Texture*> towerTextures;
     
 public:

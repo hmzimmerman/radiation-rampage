@@ -2,8 +2,9 @@
 #include "constants.h"
 
 TOWERGUI::TOWERGUI(SDL_Renderer* renderer) : renderer(renderer), visible(false), location(0, 0) {
-    options = { "Barracks", "Bomb", "Laser" };
-    updateOptions = { "Upgrade", "Repair", "Sell" };
+    options = { "Barracks", "Bomb", "Laser" }; // No tower in location
+    updateOptions = { "Upgrade", "Repair", "Sell" }; // Tower in location
+    upgradedOptions = {"Repair", "Sell" }; // Fully upgraded tower in location
 }
 
 TOWERGUI::~TOWERGUI() {
@@ -35,10 +36,11 @@ void TOWERGUI::render() {
     SDL_Rect guiRect = { centerX, adjustedY, rectWidth, rectHeight };
     SDL_RenderFillRect(renderer, &guiRect);
 
-    // Determine options based on if the location is occupied
-    const auto& currentOptions = (location.occupied) ? updateOptions : options;
+    // Determine options based on if the location is occupied and the tower is fully upgraded
+    const auto& currentOptions = (location.occupied) ?
+        (location.tower->isUpgraded() ? upgradedOptions : updateOptions) : options;
 
-    int optionWidth = rectWidth / currentOptions.size();
+    int optionWidth = (currentOptions.size() > 2) ? (rectWidth / currentOptions.size()) : (rectWidth / 2);
 
     // Render GUI options
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -104,11 +106,19 @@ bool TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view, Logic& logic)
 
         // Check if mouse is within bounds of any option
         int rectWidth = 195;
-        int optionWidth = rectWidth / options.size();
         int optionHeight = 25;
 
-        // Determine options based on if the location is occupied
-        const auto& currentOptions = (location.occupied) ? updateOptions : options;
+        // Determine options based on if the location is occupied and if the tower is fully upgraded
+        const auto& currentOptions = (location.occupied) ?
+            (location.tower->isUpgraded() ? upgradedOptions : updateOptions) : options;
+
+        int optionWidth;
+        if (currentOptions.size() > 2) {
+            optionWidth = rectWidth / currentOptions.size();
+        } else {
+            // If only two options, each option is half the width
+            optionWidth = rectWidth / 2;
+        }
 
         for (int j = 0; j < currentOptions.size(); ++j) {
             int optionX = location.x - rectWidth / 2 + j * optionWidth;
@@ -170,8 +180,8 @@ bool TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view, Logic& logic)
 
 bool TOWERGUI::handleTowerAction(const std::string& action, Logic& logic) {
     if (action == "Upgrade") {
-        location.tower->upgrade();
-        return logic.updateMoneyTowerAction("Upgrade", location.tower->getUpgradeCost());
+            location.tower->upgrade();
+            return logic.updateMoneyTowerAction("Upgrade", location.tower->getUpgradeCost());
     } else if (action == "Repair") {
         return logic.updateMoneyTowerAction("Repair", location.tower->getRepairCost()); // TODO
     } else if (action == "Sell") {
