@@ -170,13 +170,11 @@ bool TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view, Logic& logic)
 
 bool TOWERGUI::handleTowerAction(const std::string& action, Logic& logic) {
     if (action == "Upgrade") {
-        // std::cout << "Upgraded" << std::endl;
-        return logic.updateMoneyTowerAction("Upgrade", location.tower->getUpgradeCost()); // TODO
+        location.tower->upgrade();
+        return logic.updateMoneyTowerAction("Upgrade", location.tower->getUpgradeCost());
     } else if (action == "Repair") {
-        // std::cout << "Repaired" << std::endl; 
         return logic.updateMoneyTowerAction("Repair", location.tower->getRepairCost()); // TODO
     } else if (action == "Sell") {
-        // std::cout << "Sold" << std::endl; 
         return logic.updateMoneyTowerAction("Sell", location.tower->getSellEarnings()); // TODO REMOVE TOWER FROM RENDER
     }
     // Should never reach here 

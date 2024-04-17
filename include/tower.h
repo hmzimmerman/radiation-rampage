@@ -21,7 +21,7 @@ class Tower {
         DamageType damageType;
         const TowerLocation& location;
         int buildCost;
-        bool upgraded;
+        bool upgraded = false;
         Enemy* target;
 
     public:
