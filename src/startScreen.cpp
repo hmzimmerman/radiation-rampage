@@ -3,7 +3,7 @@
 #include <string>
 
 startScreen::startScreen(SDL_Renderer* renderer, int screenWidth, int screenHeight)
-    : renderer(renderer), screenWidth(screenWidth), screenHeight(screenHeight), selected(0) {
+    : renderer(renderer), screenWidth(screenWidth), screenHeight(screenHeight), selected(0), instruct(false) {
     // Load background texture
     backgroundTexture = IMG_LoadTexture(renderer, "../resource/EmptyStartScreen.png");
     
@@ -44,14 +44,14 @@ void startScreen::render() {
     SDL_RenderCopy(renderer, backgroundTexture, nullptr, nullptr);
     
     TTF_SetFontSize(font, 125);
-    textColor = {150, 0, 0}; // Red color for title    
-
+    textColor = {150, 0, 0}; // Red color for title  
+    
     // Render title
     SDL_Surface* titleSurface = TTF_RenderText_Solid(font, "Radiation Rampage", textColor);
     SDL_Texture* titleTexture = SDL_CreateTextureFromSurface(renderer, titleSurface);
 
-    // Calculate title position
-    int titleWidth = titleSurface->w;
+	// Calculate title position
+	int titleWidth = titleSurface->w;
     int titleHeight = titleSurface->h;
     int titleX = (screenWidth - titleWidth) / 2;
     int titleY = 140;
@@ -76,17 +76,7 @@ void startScreen::render() {
         // Render text
         SDL_Color textColor = {0, 0, 0, 255}; // Black color
         SDL_Surface* textSurface = TTF_RenderText_Solid(font, boxes[i].text.c_str(), textColor);
-        if (textSurface == nullptr) {
-            std::cerr << "Error rendering text surface: " << TTF_GetError() << std::endl;
-            continue;
-        }
-
         SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-        if (textTexture == nullptr) {
-            std::cerr << "Error creating text texture: " << SDL_GetError() << std::endl;
-            SDL_FreeSurface(textSurface);
-            continue;
-        }
 
         // Calculate text position
         SDL_Rect textRect;
@@ -108,13 +98,87 @@ void startScreen::render() {
             SDL_RenderDrawRect(renderer, &boxes[i].rect);
         }
     }
+    
+    if(instruct){
+        int boxWidth = static_cast<int>(screenWidth * 0.8);
+        int boxHeight = static_cast<int>(screenHeight * 0.85);
+        SDL_Rect textBoxRect = {(screenWidth - boxWidth) / 2, (screenHeight - boxHeight) / 2, boxWidth, boxHeight};
+
+        // Render the box background
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black color
+        SDL_RenderFillRect(renderer, &textBoxRect);
+        
+        int size = 40;
+        int pad = 10;
+        close = {
+            textBoxRect.x + textBoxRect.w - size - pad,
+            textBoxRect.y + pad,
+            size,
+            size
+        };
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red color
+        SDL_RenderFillRect(renderer, &close);
+
+        // Render the letter "X" in white color inside the box
+        SDL_Color textColor = {255, 255, 255, 255}; // White color
+        renderText("X", textColor, close.x + size / 2 - 10, close.y + size / 2 - 16);
+
+        // Render the bullet point text
+        int textX = textBoxRect.x + 20;
+        int textY = textBoxRect.y + 20;
+        int lineHeight = 30;
+
+        // Render "Instructions" text
+        renderText("Instructions:", textColor, textX, textY);
+        textY += lineHeight; // Move down to start rendering bullet points
+
+        renderText("- Survive against endless waves to beat your high score", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- If you go to 0 health, you lose", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- Build towers to combat enemies walking along the path", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- Manage your money to buy, upgrade, and repair towers", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- Environmental effects will occur that will somehow affect the game", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- Enemies have strengths and weakness you must keep in mind", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- Towers will degrade over time so make sure to keep them repaired", textColor, textX, textY);
+    }
 
     // Present the renderer
     SDL_RenderPresent(renderer);
 }
 
+void startScreen::renderText(const std::string& text, const SDL_Color& color, int x, int y) {
+	SDL_Surface* textSurface;
+	if(text == "X"){
+		TTF_Font* XFont = TTF_OpenFont("../resource/arial.ttf", 30);
+        textSurface = TTF_RenderText_Solid(XFont, text.c_str(), color);
+	}else{
+    	textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
+	}
+	
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+
+    // Calculate text position
+    SDL_Rect textRect = {x, y, textSurface->w, textSurface->h};
+
+    // Render text texture
+    SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
+
+    // Clean up
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+}
+
 void startScreen::setSelected(int i){
 	selected = i;
+}
+
+void startScreen::setInstruct(bool i){
+	instruct = i;
 }
 
 // Move selection left or right
@@ -128,16 +192,11 @@ void startScreen::moveSelection(int direction) {
     }
 }
 
-
 // Select a specific box
 void startScreen::selectBox(int index) {
     for (int i = 0; i < 4; ++i) {
     	boxes[i].selected = (i == index);
 	}
-}
-    
-int startScreen::getSelected() const {
-	return selected;
 }
 
 const SelectableBox* startScreen::getBoxes() const {
