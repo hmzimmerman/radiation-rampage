@@ -6,6 +6,7 @@
 #include <sstream>
 #include <stdio.h>
 #include <vector>
+#include <memory>
 #include <SDL.h>
 
 //constructor
@@ -215,4 +216,29 @@ void WaveManager::update() {
         time_til_next_wave = time_between_waves;
     }
 
+}
+
+std::vector<std::shared_ptr<Enemy>> WaveManager::getEnemiesInRange(int x, int y, int radius){
+    std::vector<std::shared_ptr<Enemy>> enemiesInRange;
+    for (auto& enemy: active_enemies){
+        int distanceSquared = (x - enemy.getX()) * (x - enemy.getX()) + (y - enemy.getY()) * (y - enemy.getY());
+        int rangeSquared = radius * radius;
+        if (distanceSquared <= rangeSquared){
+            enemiesInRange.push_back(std::make_shared<Enemy>(enemy));
+            // enemiesInRange.push_back(enemy);
+        }
+    }
+    return enemiesInRange;
+}
+
+std::vector<std::shared_ptr<Enemy>> WaveManager::getFirstEnemyInRange(int x, int y, int radius){
+    std::vector<std::shared_ptr<Enemy>> enemyInRange;
+    for (auto& enemy: active_enemies){
+        int distanceSquared = (x - enemy.getX()) * (x - enemy.getX()) + (y - enemy.getY()) * (y - enemy.getY());
+        int rangeSquared = radius * radius;
+        if (distanceSquared <= rangeSquared){
+            enemyInRange.push_back(std::make_shared<Enemy>(enemy));
+        }
+    }
+    return enemyInRange;
 }

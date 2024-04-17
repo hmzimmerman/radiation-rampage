@@ -41,7 +41,7 @@ namespace enemy{
 }
 
 namespace moneyManager{
-    constexpr int startAmount {100};
+    constexpr int startAmount {1000};
     constexpr int slowGainAmount {5};
     constexpr int secondsBetweenSlowGain {3};
 }
@@ -57,11 +57,12 @@ namespace tower{
     constexpr int barracksUpgradeCost {35};
 
     constexpr int bombHealth {100};
-    constexpr int bombDamage {15};
+    constexpr int bombDamage {35};
     constexpr int bombRange {200};
     constexpr enum DamageType bombDamageType {DamageType::BOMB};
     constexpr int bombBuildCost {125};
     constexpr int bombFireRate {1};
+    constexpr int bombRangeBombEffect {15};
     constexpr int bombUpgradeCost {35};
 
     constexpr int laserHealth {100};

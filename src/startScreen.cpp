@@ -108,9 +108,6 @@ void startScreen::render() {
             SDL_RenderDrawRect(renderer, &boxes[i].rect);
         }
     }
-
-    // Present the renderer
-    SDL_RenderPresent(renderer);
 }
 
 void startScreen::setSelected(int i){
