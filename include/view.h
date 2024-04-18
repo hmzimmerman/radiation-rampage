@@ -58,6 +58,7 @@ class View{
         SDL_Texture* barracksUpgradeTexture;
         SDL_Texture* bombUpgradeTexture;
         SDL_Texture* laserUpgradeTexture;
+        SDL_Texture* bombEffectTexture;
 
         SDL_Texture* humanRaiderTexture;
 
@@ -86,7 +87,7 @@ class View{
         void triggerLaserAttackAnimation(int startX, int startY, int endX, int endY);
 
         // general attack. TODO might combine this with laser eventually to avoid repeat code
-        // void triggerAttackAnimation(int startX, int startY, int endX, int endY, DamageType attackType);
-        // void renderAttackAnimation();
+        void triggerAttackAnimation(int startX, int startY, int endX, int endY, DamageType attackType);
+        void renderAttackAnimation();
 };
 #endif

@@ -6,7 +6,6 @@
 
 class BombTower : public Tower {
 private:
-    int fireRate;
     int rangeBombEffect;
     double timeSinceLastAttack;
     View* view;

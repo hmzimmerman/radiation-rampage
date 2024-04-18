@@ -60,6 +60,7 @@ void View::loadTowerTextures() {
     barracksUpgradeTexture = IMG_LoadTexture(renderer, "../resource/BarracksUpgradeTower.png");
     bombUpgradeTexture = IMG_LoadTexture(renderer, "../resource/BombUpgradeTower.png");
     laserUpgradeTexture = IMG_LoadTexture(renderer, "../resource/LaserUpgradeTower.png");
+    bombEffectTexture = IMG_LoadTexture(renderer, "../resource/bombEffect.png");
 }
 
 void View::loadEnemyTextures() {
@@ -153,18 +154,6 @@ bool View::update(Logic& logic){
         
     }
 
-    if (attackAnimation.active) {
-        // renderAttackAnimation();
-        thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
-                      attackAnimation.endX, attackAnimation.endY,
-                      4, 255, 255, 0, 255); // Render a yellow line
-
-        // Disable animation again after a short moment
-        if (SDL_GetTicks() - attackAnimation.startTime >= 100) {
-            attackAnimation.active = false;
-        }
-    }
-
     if (failedTransMessage.active){
         // Render error message box when money transaction fails
         renderFailedTransMessage();
@@ -176,6 +165,21 @@ bool View::update(Logic& logic){
 
     // Render enemies
     renderEnemies(logic.getEnemiesOnField());
+
+    if (attackAnimation.active) {
+            renderAttackAnimation();
+
+
+            // thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
+            //               attackAnimation.endX, attackAnimation.endY,
+            //               4, 255, 255, 0, 255); // Render a yellow line
+
+            // // Disable animation again after a short moment
+            // if (SDL_GetTicks() - attackAnimation.startTime >= 100) {
+            //     attackAnimation.active = false;
+            // }
+        }
+
     
     // Render lost or pause screen
     if(logic.getHealth() <= 0){
@@ -332,46 +336,47 @@ void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int end
     attackAnimation.startTime = SDL_GetTicks();
 }
 
-// void View::triggerAttackAnimation(int startX, int startY, int endX, int endY, DamageType attackType){
-//     attackAnimation.type = attackType;
-//     attackAnimation.active = true;
-//     attackAnimation.startX = startX;
-//     attackAnimation.startY = startY;
-//     attackAnimation.endX = endX;
-//     attackAnimation.endY = endY;
-//     attackAnimation.startTime = SDL_GetTicks();
+void View::triggerAttackAnimation(int startX, int startY, int endX, int endY, DamageType attackType){
+    attackAnimation.type = attackType;
+    attackAnimation.active = true;
+    attackAnimation.startX = startX;
+    attackAnimation.startY = startY;
+    attackAnimation.endX = endX;
+    attackAnimation.endY = endY;
+    attackAnimation.startTime = SDL_GetTicks();
 
-// }
+}
 
-// void View::renderAttackAnimation(){
-//     if (attackAnimation.type == DamageType::LASER){
-//         thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
-//                       attackAnimation.endX, attackAnimation.endY,
-//                       4, 255, 255, 0, 255); // Render a yellow line
+void View::renderAttackAnimation(){
+    using namespace tower;
+    if (attackAnimation.type == DamageType::LASER){
+        thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
+                      attackAnimation.endX, attackAnimation.endY,
+                      4, 255, 255, 0, 255); // Render a yellow line
 
-//         // Disable animation again after a short moment
-//         if (SDL_GetTicks() - attackAnimation.startTime >= 100) {
-//             attackAnimation.active = false;
-//         }
-//     }
-//     else if (attackAnimation.type == DamageType::BOMB){
-//         std::cout << "Start " << attackAnimation.startX << " end " << attackAnimation.endX << std::endl;
-//         int dist = attackAnimation.endX - attackAnimation.startX;
-//         int frac = dist/10.0;
-//         std::cout << "dist" << dist << "...frac " << frac << ".. x " << attackAnimation.startX << "..proportion "<< attackAnimation.startX/dist << std::endl;
-        
-//         if (((attackAnimation.startX + frac)/dist) < 1.0){
-//             attackAnimation.startX += frac;
-//             filledCircleRGBA(renderer, attackAnimation.startX, attackAnimation.startY, 10, 255, 255, 255, 255);
-//         }else{
-//             attackAnimation.active = false;
-//         }
+        // Disable animation again after a short moment
+        if (SDL_GetTicks() - attackAnimation.startTime >= 100) {
+            attackAnimation.active = false;
+        }
+    }
+    else if (attackAnimation.type == DamageType::BOMB){
 
+        // filledCircleRGBA(renderer, attackAnimation.endX, attackAnimation.endY, 20, 255, 255, 255, 255);
+        ellipseRGBA(renderer, attackAnimation.endX, attackAnimation.endY, tower::bombRangeBombEffect, tower::bombRangeBombEffect, 255, 0, 0, 255);
 
-//     }
+        int bombEffectRectSize = 70;
+        SDL_Rect bombEffectRect = { attackAnimation.endX - (bombEffectRectSize/2) , attackAnimation.endY - (bombEffectRectSize/2), bombEffectRectSize, bombEffectRectSize };
+        SDL_RenderCopy(renderer, bombEffectTexture, nullptr, &bombEffectRect);
+        // Disable animation again after a short moment
+        if (SDL_GetTicks() - attackAnimation.startTime >= 700) {
+            attackAnimation.active = false;
+        }
 
 
-// }
+    }
+
+
+}
 
 void View::renderSoldiers() {
     for (const auto& location : TowerLocationManager::getTowerLocations()) {
@@ -541,6 +546,7 @@ View::~View(){
     SDL_DestroyTexture(laserUpgradeTexture);
     
     SDL_DestroyTexture(humanRaiderTexture);
+    SDL_DestroyTexture(bombEffectTexture);
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

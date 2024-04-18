@@ -3,7 +3,7 @@
 
 
 BombTower::BombTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, int fireRate, int rangeBombEffect, View* view)
-    : Tower(name, health, damage, range, damageType, location, buildCost), fireRate(fireRate), rangeBombEffect(rangeBombEffect), view(view), timeSinceLastAttack(0.0){
+    : Tower(name, health, damage, range, damageType, location, buildCost, fireRate), rangeBombEffect(rangeBombEffect), view(view), timeSinceLastAttack(0.0){
 }
 
 void BombTower::attack() {
@@ -43,7 +43,7 @@ void BombTower::updateTarget(std::vector<Enemy>& enemies){
         const TowerLocation& towerLocation = getLocation();
         int centerX = towerLocation.x + towerLocation.size / 2;
         int centerY = towerLocation.y + towerLocation.size / 2;
-        // view->triggerAttackAnimation(centerX, centerY, target->getX(), target->getY(), DamageType::BOMB); 
+        view->triggerAttackAnimation(centerX, centerY, target->getX(), target->getY(), DamageType::BOMB); 
         for (auto& enemy : enemies){
             if(inBombRange(target->getX(), target->getY(), enemy.getX(), enemy.getY())){
                 if (enemy.isAlive()){
@@ -58,7 +58,7 @@ bool BombTower::isReadyToAttack(double elapsedTime){
     // Increment the time since the last attack
     timeSinceLastAttack += elapsedTime;
 
-    if (timeSinceLastAttack >= 5.0 / fireRate ){
+    if (timeSinceLastAttack >= 5.0 / getFireRate() ){
         timeSinceLastAttack = 0.0;
         return true;
     }
