@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <vector>
 #include <SDL.h>
+#include <random>
 
 //constructor
 WaveManager::WaveManager() {
@@ -187,17 +188,17 @@ Uint32 WaveManager::TimerCallback(Uint32 interval, void* wave) {
 }
 
 void WaveManager::update(double elapsedTime) {
-    //right now this is working on a per tick level, ideally we would want it to work in seconds (or we could just crank up the time
-    //between rounds)
-    //I am going to leave this for now but hopefully I will remember to bring this up at our 
-    //next meeting
+    //subtract the elapsed time (in seconds)
     time_til_next_wave -= elapsedTime;
     if (time_til_next_wave < 1) {
         // Pop the last element from enemy waves
         if (!enemy_waves.empty()) {
         enemies_to_add = enemy_waves.back();
         enemy_waves.pop_back();
-        
+        }
+        else{
+            enemies_to_add = waveAlgorithm();
+        }
         // Update wave counter
         currWave += 1;
 
@@ -208,11 +209,29 @@ void WaveManager::update(double elapsedTime) {
             // Set the timer to trigger after 1000 milliseconds (1 seconds) per enemeny
             SDL_AddTimer(delay, TimerCallback, this);
             delay += 1000;
-            
-        }
         }
         //reset clock
         time_til_next_wave = time_between_waves;
     }
 
+}
+
+std::vector<Enemy> WaveManager::waveAlgorithm(){
+    //add a number of enemies equal to what wave it is
+    //which enemies are created is randomised
+    std::vector<Enemy> ranWave;
+
+    // Create a random number generator engine
+    std::random_device rd;  // Obtain a random number from hardware
+    std::mt19937 gen(rd()); // Seed the generator
+    std::uniform_int_distribution<int> distrib(0, 7); //add a number between 1 and 8
+    
+    int i = 0;
+    while (i < currWave){
+        int randomNumber = distrib(gen); // generate the number
+        ranWave.push_back(enemies[randomNumber]);
+        i++;
+    }
+
+    return ranWave;
 }

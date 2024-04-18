@@ -47,7 +47,7 @@ class WaveManager {
         void update(double elapsedTime);
 
         //algorithm for generating waves past wave 10
-        void waveAlgorithm();
+        std::vector<Enemy> waveAlgorithm();
 
         // Create vector of all enemy types
 		std::vector<Enemy> createEnemies();
