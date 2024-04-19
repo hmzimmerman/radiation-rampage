@@ -57,12 +57,12 @@ class Tower {
         int getRange() const { return range; }
         const TowerLocation& getLocation() const { return location; }
         double getFireRate() const { return fireRate; }
-
         int getBuildCost() const { return buildCost; }
         virtual int getUpgradeCost() const = 0;
         bool isUpgraded() const { return upgraded; }
         int getRepairCost() const ;
         int getSellEarnings() const ;
+        int getHealth() const {return health;}
 
         // Setters
         void setHealth(int newHealth) { health = newHealth; }

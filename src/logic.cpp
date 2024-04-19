@@ -71,16 +71,19 @@ void Logic::update(double elapsedTime){
                         tower->slowDegrade();
                     }
 
-                    // Update tower attacking 
-	                tower->updateTarget(wave_manager->getActiveEnemies());
-	                if (std::shared_ptr<LaserTower> laserTower = std::dynamic_pointer_cast<LaserTower>(tower)) {
-	                    laserTower->update(elapsedTime);
-	                } else if (std::shared_ptr<Barracks> barracksTower = std::dynamic_pointer_cast<Barracks>(tower)) {
-                        barracksTower->update(elapsedTime);
-	                } else {
-	                    // Other tower attacks
-	                    //tower->attack();
-	                }
+                    // Update tower attacking only if tower is not destroyed
+                    if (tower->getHealth() > 0){
+                        tower->updateTarget(wave_manager->getActiveEnemies());
+                        if (std::shared_ptr<LaserTower> laserTower = std::dynamic_pointer_cast<LaserTower>(tower)) {
+                            laserTower->update(elapsedTime);
+                        } else if (std::shared_ptr<Barracks> barracksTower = std::dynamic_pointer_cast<Barracks>(tower)) {
+                            barracksTower->update(elapsedTime);
+                        } else {
+                            // Other tower attacks
+                            //tower->attack();
+                        }
+                    }
+	     
 	            }
 	        }
 	    }

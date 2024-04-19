@@ -78,5 +78,9 @@ bool Tower::isReadyToSlowDegrade(double elapsedTime){
 
 void Tower::slowDegrade(){
     using namespace tower;
-    health-= tower::slowDegradeAmount;
+
+    // Tower health cannot be negative 
+    if (health - tower::slowDegradeAmount >= 0){
+        health-= tower::slowDegradeAmount;
+    }
 }
