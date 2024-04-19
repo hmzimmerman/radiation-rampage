@@ -147,8 +147,6 @@ void startScreen::render() {
         renderText("- Towers will degrade over time so make sure to keep them repaired", textColor, textX, textY);
     }
 
-    // Present the renderer
-    SDL_RenderPresent(renderer);
 }
 
 void startScreen::renderText(const std::string& text, const SDL_Color& color, int x, int y) {

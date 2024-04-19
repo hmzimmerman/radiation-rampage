@@ -24,6 +24,7 @@ class Tower {
         double fireRate;
         bool upgraded = false;
         Enemy* target;
+        double timeSinceLastSlowDegrade;
 
     public:
         // Constructor
@@ -45,6 +46,10 @@ class Tower {
         void sell();
 
         int repairCost();
+
+        bool isReadyToSlowDegrade(double elapsedTime); // Checks if enough time has passed to slowly degrade tower
+
+        void slowDegrade(); // Reduces tower health by slow degrade amount
 
         // Getters
         const std::string& getName() const { return name; }
