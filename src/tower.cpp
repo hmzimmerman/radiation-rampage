@@ -8,7 +8,7 @@
 #include "constants.h"
 
 Tower::Tower(const std::string& name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate)
-    : name(name), health(health), damage(damage), range(range), damageType(damageType), location(location), buildCost(buildCost), fireRate(fireRate) {}
+    : name(name), health(health), damage(damage), range(range), damageType(damageType), location(location), buildCost(buildCost), fireRate(fireRate), timeSinceLastSlowDegrade(0.0) {}
 
 Tower::~Tower() {}
 
@@ -62,4 +62,25 @@ int Tower::getSellEarnings() const{
 
     // tower is in perfect condition. can sell for build amount 
     return buildCost;
+}
+
+bool Tower::isReadyToSlowDegrade(double elapsedTime){
+    using namespace tower;
+    timeSinceLastSlowDegrade += elapsedTime;
+    if (timeSinceLastSlowDegrade < tower::secondsBetweenSlowDegrade){
+        return false;
+    }
+    // Enough time has passed. Can slow degrade now
+    timeSinceLastSlowDegrade = 0.0;
+    return true;
+}
+
+
+void Tower::slowDegrade(){
+    using namespace tower;
+
+    // Tower health cannot be negative 
+    if (health - tower::slowDegradeAmount >= 0){
+        health-= tower::slowDegradeAmount;
+    }
 }

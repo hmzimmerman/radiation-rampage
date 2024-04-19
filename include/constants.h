@@ -41,12 +41,17 @@ namespace enemy{
 }
 
 namespace moneyManager{
-    constexpr int startAmount {100};
+    //TODO CHANGE BACK TO 100 AFTER DONE WITH TESTING 
+    constexpr int startAmount {1000};
     constexpr int slowGainAmount {5};
     constexpr int secondsBetweenSlowGain {3};
 }
 
 namespace tower{
+    // tower degradation
+    constexpr int secondsBetweenSlowDegrade {10};
+    constexpr int slowDegradeAmount {5};
+
     // stats for specialized towers 
     constexpr int barracksHealth {100};
     constexpr int barracksDamage {35};
