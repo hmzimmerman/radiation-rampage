@@ -67,16 +67,13 @@ int Tower::getRepairCost() const {
 
 int Tower::getSellEarnings() const {
     float healthPercent = static_cast<float>(health) / 100.0f;
-    if (healthPercent >= 0.5f && healthPercent < 1.0f) {
-        // Tower health 50% - 99% 
+    if (healthPercent >= 0.5f && healthPercent <= 1.0f) {
+        // Tower health 50% - 100% 
         return static_cast<int>(buildCost * 0.6f);
-    } else if (healthPercent >= 0.0f && healthPercent < 0.5f) {
+    } else {
         // Tower health 0% - 49%
         return static_cast<int>(buildCost * 0.4f);
     }
-
-    // Tower is in perfect condition, can sell for build amount 
-    return buildCost;
 }
 
 bool Tower::isReadyToSlowDegrade(double elapsedTime){
