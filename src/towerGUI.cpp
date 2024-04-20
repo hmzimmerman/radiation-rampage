@@ -186,7 +186,7 @@ bool TOWERGUI::handleTowerAction(const std::string& action, Logic& logic) {
     } else if (action == "Repair") {
         actionCost = location.tower->getRepairCost();
     } else if (action == "Sell") {
-        actionCost = 0;
+        actionCost = location.tower->getSellEarnings();
     }
 
     // Perform action only if player has enough money
@@ -196,8 +196,7 @@ bool TOWERGUI::handleTowerAction(const std::string& action, Logic& logic) {
         } else if (action == "Repair") {
             location.tower->repair();
         } else if (action == "Sell") {
-            // location.tower->sell()
-            // give money, delete tower
+            TowerLocationManager::removeTower(*location.tower);
         }
 
         return true; // Successful transaction

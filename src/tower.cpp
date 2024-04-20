@@ -48,34 +48,34 @@ void Tower::repair() {
     }
 }
 
-int Tower::getRepairCost() const{
+int Tower::getRepairCost() const {
     if (health == 0) {
         return buildCost;
     }
 
     float healthPercent = static_cast<float>(health) / 100.0f;
     if (healthPercent >= 0.5f && healthPercent < 1.0f) {
-        // Tower health 50% - 90%
+        // Tower health 50% - 99%
         return static_cast<int>(buildCost * 0.4f);
     } else if (healthPercent > 0.0f && healthPercent < 0.5f) {
         // Tower health 1% - 49%
         return static_cast<int>(buildCost * 0.6f);
     }
-    // Tower health is already 100% no need to repair
+    // Tower health is already 100%, no need to repair
     return 0;
 }
 
-int Tower::getSellEarnings() const{
-    float healthPercent = health/100;
-    if (healthPercent >= 0.50 && healthPercent <= 0.99){
-        // tower health 50% - 90% 
-        return buildCost * 0.6;
-    }else if(healthPercent >= 0.01 && healthPercent <= 0.49){
-        // tower health 1% - 49%
-        return buildCost * 0.4;
+int Tower::getSellEarnings() const {
+    float healthPercent = static_cast<float>(health) / 100.0f;
+    if (healthPercent >= 0.5f && healthPercent < 1.0f) {
+        // Tower health 50% - 99% 
+        return static_cast<int>(buildCost * 0.6f);
+    } else if (healthPercent >= 0.0f && healthPercent < 0.5f) {
+        // Tower health 0% - 49%
+        return static_cast<int>(buildCost * 0.4f);
     }
 
-    // tower is in perfect condition. can sell for build amount 
+    // Tower is in perfect condition, can sell for build amount 
     return buildCost;
 }
 
