@@ -1,10 +1,56 @@
 #include <iostream>
 #include <stdio.h>
+#include <random>
 
 #include "weather.h"
 
-
+//constructor
 Weather::Weather(){
+    weatherSetNone();
+    time_til_next_weather = time_between_weather;
+}
+
+void Weather::updateWeather(double elapsedTime){
+    //subtract the elapsed time (in seconds)
+    time_til_next_weather -= elapsedTime;
+    if (time_til_next_weather < 1) {
+        //return to default weather if weather not default
+        if (name != "none") {
+            weatherSetNone();
+        }
+        else {
+            // Create a random number generator engine
+            std::random_device rd;  // Obtain a random number from hardware
+            std::mt19937 gen(rd()); // Seed the generator
+            std::uniform_int_distribution<int> distrib(1, 5); //add a number between 1 and 8
+
+            int randomNumber = distrib(gen); // generate the number
+            switch (randomNumber) {
+                case 1:
+                    weatherSetAcidRain();
+                    break;
+                case 2:
+                    weatherSetSandstorm();
+                    break;
+                case 3:
+                    weatherSetRadiation();
+                    break;
+                case 4:
+                    weatherSetEarthquake();
+                    break;
+                case 5:
+                    weatherSetWind();
+                    break;
+            }
+        }
+
+        //reset clock
+        time_til_next_weather = time_between_weather;
+    }
+}
+
+void Weather::weatherSetNone(){
+    name = "none";
     towerHpMod = 0;
     towerRangeMod = 0;
     enemyHpMod = 0;
@@ -12,6 +58,7 @@ Weather::Weather(){
 }
 
 void Weather::weatherSetAcidRain(){
+    name = "Acid Rain";
     towerHpMod = 2;
     towerRangeMod = 0;
     enemyHpMod = 0;
@@ -19,6 +66,7 @@ void Weather::weatherSetAcidRain(){
 }
 
 void Weather::weatherSetSandstorm(){
+    name = "Sandstorm";
     towerHpMod = 0;
     towerRangeMod = 2;
     enemyHpMod = 0;
@@ -26,6 +74,7 @@ void Weather::weatherSetSandstorm(){
 }
 
 void Weather::weatherSetRadiation(){
+    name = "Radiation";
     towerHpMod = 0;
     towerRangeMod = 0;
     enemyHpMod = 2;
@@ -33,6 +82,7 @@ void Weather::weatherSetRadiation(){
 }
 
 void Weather::weatherSetEarthquake(){
+    name = "Earthquake";
     towerHpMod = 3;
     towerRangeMod = 0;
     enemyHpMod = 0;
@@ -40,23 +90,10 @@ void Weather::weatherSetEarthquake(){
 }
 
 void Weather::weatherSetWind(){
-
+    name = "Wind";
+    towerHpMod = 0;
+    towerRangeMod = 0;
+    enemyHpMod = 0;
+    enemySpeedMod = 0;
 }
 
-
-
-float Weather::getTowerHpMod(){
-    return towerHpMod;
-}
-
-float Weather::getTowerRangeMod(){
-    return towerRangeMod;
-}
-
-float Weather::getenemyHpMod(){
-    return enemyHpMod;
-}
-
-float Weather::getenemySpeedMod(){
-    return enemySpeedMod;
-}

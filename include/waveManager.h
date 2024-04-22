@@ -22,7 +22,7 @@ class WaveManager {
         //this is need to be stored in wave manager because the timer callback needs to be static
         std::vector<Enemy> enemies_to_add;
 
-        //how many miliseconds between waves
+        //how many seconds between waves
         const int time_between_waves = 25;
         double time_til_next_wave;
         

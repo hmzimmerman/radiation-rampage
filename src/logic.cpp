@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "waveManager.h"
+#include "weather.h"
 #include "enemy.h"
 #include "tower.h"
 #include "laserTower.h"
@@ -18,6 +19,7 @@ Logic::Logic() {
     start = true;
     wave_manager = std::make_shared<WaveManager>();
     moneyManager = std::make_shared<MoneyManager>();
+    weather = std::make_shared<Weather>();
 }
 
 bool Logic::updateMoneyTowerAction(const std::string& action, int coinAmount){
@@ -60,6 +62,7 @@ void Logic::update(double elapsedTime){
         }
         
         wave_manager->update(elapsedTime);
+        weather->updateWeather(elapsedTime);
 
         // Iterate through towers to update their targets and attack
 	    for (const TowerLocation& location : TowerLocationManager::getTowerLocations()) {
