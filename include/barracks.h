@@ -29,6 +29,8 @@ public:
 
     void updateTarget(std::vector<Enemy>& enemies) override;
 
+    void resumeEnemyMovement();
+
     bool isEnemyNearSoldier(const Enemy& enemy);
 
     bool isReadyToAttack(double elapsedTime);

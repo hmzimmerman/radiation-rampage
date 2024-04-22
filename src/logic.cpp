@@ -8,6 +8,7 @@
 #include "tower.h"
 #include "laserTower.h"
 #include "barracks.h"
+#include "bombTower.h"
 #include "constants.h"
 
 // Constructor
@@ -69,20 +70,30 @@ void Logic::update(double elapsedTime){
 	        if (location.occupied) {
 	            std::shared_ptr<Tower> tower = location.tower;
 	            if (tower) {
-	                tower->updateTarget(wave_manager->getActiveEnemies());
-	                
-	                if (std::shared_ptr<LaserTower> laserTower = std::dynamic_pointer_cast<LaserTower>(tower)) {
-	                    laserTower->update(elapsedTime);
-	                } else if (std::shared_ptr<Barracks> barracksTower = std::dynamic_pointer_cast<Barracks>(tower)) {
-                        barracksTower->update(elapsedTime);
-	                } else {
-	                    // Other tower attacks
-	                    //tower->attack();
+                    // Update tower degradation
+                    if (tower->isReadyToSlowDegrade(elapsedTime)){
+                        tower->slowDegrade();
+                    }
+
+                    // Update tower attacking only if tower is not destroyed
+                    if (tower->isDestroyed() == false){
+                        if (std::shared_ptr<LaserTower> laserTower = std::dynamic_pointer_cast<LaserTower>(tower)) {
+                            laserTower->updateTarget(wave_manager->getActiveEnemies());
+                            laserTower->update(elapsedTime);
+                        } else if (std::shared_ptr<Barracks> barracksTower = std::dynamic_pointer_cast<Barracks>(tower)) {
+                            barracksTower->updateTarget(wave_manager->getActiveEnemies());
+                            barracksTower->update(elapsedTime);
+                        } else if (std::shared_ptr<BombTower> bombTower = std::dynamic_pointer_cast<BombTower>(tower)){
+                            if (bombTower->isReadyToAttack(elapsedTime)){
+                                bombTower->updateTarget(wave_manager->getActiveEnemies());
+                            }
+                        }
+	     
 	                }
 	            }
 	        }
-	    }
-	}
+        }
+    }
 }
 
 void Logic::switchStart(bool s){

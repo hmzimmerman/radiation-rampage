@@ -71,6 +71,13 @@ void Barracks::updateTarget(std::vector<Enemy>& enemies) {
     }
 }
 
+// Used to resume enemy movement if enemy is halted while tower is sold
+void Barracks::resumeEnemyMovement() {
+    if (target && target->isAlive()) {
+        target->resumeMovement();
+    }
+}
+
 // Determine if an enemy is within range of a soldier
 bool Barracks::isEnemyNearSoldier(const Enemy& enemy) {
     // Get the soldier location associated with a barracks tower
@@ -150,18 +157,6 @@ void Barracks::handleSoldierRespawnTiming(double elapsedTime) {
         soldier.setTimeSinceDeath(0.0);
     }
 }
-
-// Uncomment for testing
-/*void Barracks::printAllSoldiersHealth() const {
-    std::cout << "All Soldiers' Health: ";
-    for (size_t i = 0; i < allSoldiers.size(); ++i) {
-        if (i != 0) {
-            std::cout << ", ";
-        }
-        std::cout << allSoldiers[i].getHealth();
-    }
-    std::cout << std::endl;
-}*/
 
 int Barracks::getUpgradeCost() const{
     using namespace tower;
