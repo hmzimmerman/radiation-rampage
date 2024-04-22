@@ -9,6 +9,7 @@
 #include "towerGUI.h"
 #include "barracks.h"
 #include "constants.h"
+#include "weather.h"
 
 using namespace std;
 
@@ -149,8 +150,7 @@ bool View::update(Logic& logic){
 	    renderSoldiers();
 	    renderHUD(logic);
 	    renderWaveTime(*logic.getManager());
-
-
+        renderWeatherName(*logic.getWeather());
         
     }
 
@@ -503,6 +503,48 @@ void View::renderWaveTime(const WaveManager& manager){
     // Get the time until the next wave from the WaveManager
     int timeUntilNextWave = int(trunc(manager.getWaveTime()));
     std::string text = "Next Wave in " + std::to_string(timeUntilNextWave) + " seconds";
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+
+    // Create a texture from the text surface
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+
+    // Get the dimensions of the rendered text
+    int textWidth = textSurface->w;
+    int textHeight = textSurface->h;
+
+    // Set the position of the text
+    int x = rectX + (rectWidth - textWidth) / 2; // Center horizontally within the rectangle
+    int y = rectY + (rectHeight - textHeight) / 2; // Center vertically within the rectangle
+
+    // Render the text texture
+    SDL_Rect renderQuad = { x, y, textWidth, textHeight };
+    SDL_RenderCopy(renderer, textTexture, nullptr, &renderQuad);
+
+    // Cleanup resources
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(font);
+}
+
+void View::renderWeatherName(const Weather& weather){
+    SDL_Color textColor = { 255, 255, 255, 255 }; // White color
+
+    int rectWidth = 250;
+    int rectHeight = 50;
+    int rectX = SCREEN_WIDTH - rectWidth - 20;
+    int rectY = SCREEN_HEIGHT - rectHeight - 20; // 20 pixels from the bottom
+
+    // Render the filled rectangle
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200); // Semi-transparent black color
+    SDL_Rect rect = { rectX, rectY, rectWidth, rectHeight };
+    SDL_RenderFillRect(renderer, &rect);
+
+    // Create a font
+    TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 18);
+
+    // Get the time until the next wave from the WaveManager
+    std::string name = weather.getWeatherName();
+    std::string text = "cur weather: " + name;
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
 
     // Create a texture from the text surface
