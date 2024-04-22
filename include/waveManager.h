@@ -55,6 +55,13 @@ class WaveManager {
 		// Getter
 		double getWaveTime() const { return time_til_next_wave; }
 		int getCurrWave() const { return currWave; }
+
+        std::vector<std::shared_ptr<Enemy>> getEnemiesInRange(int x, int y, int radius);
+
+
+        std::vector<std::shared_ptr<Enemy>> getFirstEnemyInRange(int x, int y, int radius);
+ 
+
 };
 
 

@@ -19,7 +19,7 @@ std::shared_ptr<Tower> Tower::createTower(const std::string& type, const TowerLo
                             tower::barracksDamageType, location, tower::barracksBuildCost, tower::barracksFireRate, view);
     } else if (type == "Bomb") {
         return std::make_shared<BombTower>("BombTower", tower::bombHealth, tower::bombDamage, tower::bombRange, 
-                            tower::bombDamageType, location, tower::bombBuildCost, tower::bombFireRate);
+                            tower::bombDamageType, location, tower::bombBuildCost, tower::bombFireRate, tower::bombRangeBombEffect, view);
     } else if (type == "Laser") {
         return std::make_shared<LaserTower>("LaserTower", tower::laserHealth, tower::laserDamage, tower::laserRange,
                             tower::laserDamageType, location, tower::laserBuildCost, tower::laserFireRate, view);
@@ -90,9 +90,23 @@ bool Tower::isReadyToSlowDegrade(double elapsedTime){
 
 void Tower::slowDegrade(){
     using namespace tower;
+    takeDamage(tower::slowDegradeAmount);
+}
 
+bool Tower::isDestroyed(){
+    if (health == 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+void Tower::takeDamage(int damageAmount){
     // Tower health cannot be negative 
-    if (health - tower::slowDegradeAmount >= 0){
-        health-= tower::slowDegradeAmount;
+    if (health - damageAmount >= 0){
+        health-= damageAmount;
+    }else if (health - damageAmount < 0 ){
+        // if the damage is more than tower health set health to 0
+        health = 0;
     }
 }

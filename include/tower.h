@@ -47,6 +47,10 @@ class Tower {
 
         void slowDegrade(); // Reduces tower health by slow degrade amount
 
+        bool isDestroyed();
+
+        void takeDamage(int damageAmount);
+
         // Getters
         const std::string& getName() const { return name; }
         virtual int getDamage() const { return damage; }

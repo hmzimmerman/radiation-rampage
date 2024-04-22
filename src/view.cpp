@@ -60,6 +60,7 @@ void View::loadTowerTextures() {
     barracksUpgradeTexture = IMG_LoadTexture(renderer, "../resource/BarracksUpgradeTower.png");
     bombUpgradeTexture = IMG_LoadTexture(renderer, "../resource/BombUpgradeTower.png");
     laserUpgradeTexture = IMG_LoadTexture(renderer, "../resource/LaserUpgradeTower.png");
+    bombEffectTexture = IMG_LoadTexture(renderer, "../resource/bombEffect.png");
 }
 
 void View::loadEnemyTextures() {
@@ -148,17 +149,9 @@ bool View::update(Logic& logic){
 	    renderSoldiers();
 	    renderHUD(logic);
 	    renderWaveTime(*logic.getManager());
-    }
 
-    if (attackAnimation.active) {
-        thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
-                      attackAnimation.endX, attackAnimation.endY,
-                      4, 255, 255, 0, 255); // Render a yellow line
 
-        // Disable animation again after a short moment
-        if (SDL_GetTicks() - attackAnimation.startTime >= 100) {
-            attackAnimation.active = false;
-        }
+        
     }
 
     if (failedTransMessage.active){
@@ -172,6 +165,21 @@ bool View::update(Logic& logic){
 
     // Render enemies
     renderEnemies(logic.getEnemiesOnField());
+
+    if (attackAnimation.active) {
+            renderAttackAnimation();
+
+
+            // thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
+            //               attackAnimation.endX, attackAnimation.endY,
+            //               4, 255, 255, 0, 255); // Render a yellow line
+
+            // // Disable animation again after a short moment
+            // if (SDL_GetTicks() - attackAnimation.startTime >= 100) {
+            //     attackAnimation.active = false;
+            // }
+        }
+
     
     // Render lost or pause screen
     if(logic.getHealth() <= 0){
@@ -305,7 +313,7 @@ void View::renderTowerLocations() {
             }
             
             // Render health progress 
-            if (location.tower->getHealth() > 0){
+            if (location.tower->isDestroyed() == false){
                 SDL_SetRenderDrawColor(renderer, 63, 195, 128, 1);
                 SDL_Rect towerHealthProgress = {location.x, location.y + location.size, (int)(location.size * curHealthPercent), 5};
                 SDL_RenderFillRect(renderer, &towerHealthProgress);
@@ -336,13 +344,43 @@ void View::renderHUD(const Logic& logic){
 	hud->render();
 }
 
-void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int endY){
+void View::triggerAttackAnimation(int startX, int startY, int endX, int endY, DamageType attackType){
+    attackAnimation.type = attackType;
     attackAnimation.active = true;
     attackAnimation.startX = startX;
     attackAnimation.startY = startY;
     attackAnimation.endX = endX;
     attackAnimation.endY = endY;
     attackAnimation.startTime = SDL_GetTicks();
+
+}
+
+void View::renderAttackAnimation(){
+    using namespace tower;
+    if (attackAnimation.type == DamageType::LASER){
+        thickLineRGBA(renderer, attackAnimation.startX, attackAnimation.startY,
+                      attackAnimation.endX, attackAnimation.endY,
+                      4, 255, 255, 0, 255); // Render a yellow line
+
+        // Disable animation again after a short moment
+        if (SDL_GetTicks() - attackAnimation.startTime >= 100) {
+            attackAnimation.active = false;
+        }
+    }
+    else if (attackAnimation.type == DamageType::BOMB){
+        ellipseRGBA(renderer, attackAnimation.endX, attackAnimation.endY, tower::bombRangeBombEffect, tower::bombRangeBombEffect, 255, 0, 0, 255);
+
+        int bombEffectRectSize = 70;
+        SDL_Rect bombEffectRect = { attackAnimation.endX - (bombEffectRectSize/2) , attackAnimation.endY - (bombEffectRectSize/2), bombEffectRectSize, bombEffectRectSize };
+        SDL_RenderCopy(renderer, bombEffectTexture, nullptr, &bombEffectRect);
+        // Disable animation again after a short moment
+        if (SDL_GetTicks() - attackAnimation.startTime >= 700) {
+            attackAnimation.active = false;
+        }
+
+    }
+
+
 }
 
 void View::renderSoldiers() {
@@ -513,6 +551,7 @@ View::~View(){
     SDL_DestroyTexture(laserUpgradeTexture);
     
     SDL_DestroyTexture(humanRaiderTexture);
+    SDL_DestroyTexture(bombEffectTexture);
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
