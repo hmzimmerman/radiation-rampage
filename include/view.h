@@ -10,6 +10,7 @@
 #include "logic.h"
 #include "HUD.h"
 #include "startScreen.h"
+#include "damage_type.h"
 
 class TOWERGUI;
 struct TowerLocation;
@@ -17,6 +18,7 @@ struct FailedTransMessage;
 
 
 struct AttackAnimation {
+    DamageType type;
     bool active;
     int startX;
     int startY;
@@ -56,6 +58,7 @@ class View{
         SDL_Texture* barracksUpgradeTexture;
         SDL_Texture* bombUpgradeTexture;
         SDL_Texture* laserUpgradeTexture;
+        SDL_Texture* bombEffectTexture;
 
         SDL_Texture* humanRaiderTexture;
 
@@ -81,6 +84,7 @@ class View{
         void renderWaveTime(const WaveManager& manager);
         void handleTowerClick(const SDL_Event& event);
         void handleTowerTypeSelection(const SDL_Event& event, Logic& logic);
-        void triggerLaserAttackAnimation(int startX, int startY, int endX, int endY);
+        void triggerAttackAnimation(int startX, int startY, int endX, int endY, DamageType attackType);
+        void renderAttackAnimation();
 };
 #endif
