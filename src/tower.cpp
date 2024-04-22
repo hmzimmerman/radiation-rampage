@@ -90,9 +90,23 @@ bool Tower::isReadyToSlowDegrade(double elapsedTime){
 
 void Tower::slowDegrade(){
     using namespace tower;
+    takeDamage(tower::slowDegradeAmount);
+}
 
+bool Tower::isDestroyed(){
+    if (health == 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+void Tower::takeDamage(int damageAmount){
     // Tower health cannot be negative 
-    if (health - tower::slowDegradeAmount >= 0){
-        health-= tower::slowDegradeAmount;
+    if (health - damageAmount >= 0){
+        health-= damageAmount;
+    }else if (health - damageAmount < 0 ){
+        // if the damage is more than tower health set health to 0
+        health = 0;
     }
 }

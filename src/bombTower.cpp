@@ -7,7 +7,7 @@ BombTower::BombTower(std::string name, int health, int damage, int range, Damage
 }
 
 void BombTower::attack() {
-    // NOT NEEDED FOR BOMB 
+    // Bomb attacks in update target
 }
 
 int BombTower::getUpgradeCost() const {

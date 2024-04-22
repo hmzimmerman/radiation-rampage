@@ -41,7 +41,7 @@ namespace enemy{
 }
 
 namespace moneyManager{
-    constexpr int startAmount {1000};
+    constexpr int startAmount {100};
     constexpr int slowGainAmount {5};
     constexpr int secondsBetweenSlowGain {3};
 }

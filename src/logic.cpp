@@ -73,7 +73,7 @@ void Logic::update(double elapsedTime){
                     }
 
                     // Update tower attacking only if tower is not destroyed
-                    if (tower->getHealth() > 0){
+                    if (tower->isDestroyed() == false){
                         if (std::shared_ptr<LaserTower> laserTower = std::dynamic_pointer_cast<LaserTower>(tower)) {
                             laserTower->updateTarget(wave_manager->getActiveEnemies());
                             laserTower->update(elapsedTime);
@@ -84,13 +84,13 @@ void Logic::update(double elapsedTime){
                             if (bombTower->isReadyToAttack(elapsedTime)){
                                 bombTower->updateTarget(wave_manager->getActiveEnemies());
                             }
-                    }
+                        }
 	     
+	                }
 	            }
 	        }
-	
-	}
-}
+        }
+    }
 }
 
 void Logic::switchStart(bool s){

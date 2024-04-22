@@ -84,9 +84,6 @@ class View{
         void renderWaveTime(const WaveManager& manager);
         void handleTowerClick(const SDL_Event& event);
         void handleTowerTypeSelection(const SDL_Event& event, Logic& logic);
-        void triggerLaserAttackAnimation(int startX, int startY, int endX, int endY);
-
-        // general attack. TODO might combine this with laser eventually to avoid repeat code
         void triggerAttackAnimation(int startX, int startY, int endX, int endY, DamageType attackType);
         void renderAttackAnimation();
 };

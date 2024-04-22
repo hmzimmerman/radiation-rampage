@@ -313,7 +313,7 @@ void View::renderTowerLocations() {
             }
             
             // Render health progress 
-            if (location.tower->getHealth() > 0){
+            if (location.tower->isDestroyed() == false){
                 SDL_SetRenderDrawColor(renderer, 63, 195, 128, 1);
                 SDL_Rect towerHealthProgress = {location.x, location.y + location.size, (int)(location.size * curHealthPercent), 5};
                 SDL_RenderFillRect(renderer, &towerHealthProgress);
@@ -344,16 +344,6 @@ void View::renderHUD(const Logic& logic){
 	hud->render();
 }
 
-void View::triggerLaserAttackAnimation(int startX, int startY, int endX, int endY){
-    attackAnimation.type = DamageType::LASER;
-    attackAnimation.active = true;
-    attackAnimation.startX = startX;
-    attackAnimation.startY = startY;
-    attackAnimation.endX = endX;
-    attackAnimation.endY = endY;
-    attackAnimation.startTime = SDL_GetTicks();
-}
-
 void View::triggerAttackAnimation(int startX, int startY, int endX, int endY, DamageType attackType){
     attackAnimation.type = attackType;
     attackAnimation.active = true;
@@ -378,8 +368,6 @@ void View::renderAttackAnimation(){
         }
     }
     else if (attackAnimation.type == DamageType::BOMB){
-
-        // filledCircleRGBA(renderer, attackAnimation.endX, attackAnimation.endY, 20, 255, 255, 255, 255);
         ellipseRGBA(renderer, attackAnimation.endX, attackAnimation.endY, tower::bombRangeBombEffect, tower::bombRangeBombEffect, 255, 0, 0, 255);
 
         int bombEffectRectSize = 70;
@@ -389,7 +377,6 @@ void View::renderAttackAnimation(){
         if (SDL_GetTicks() - attackAnimation.startTime >= 700) {
             attackAnimation.active = false;
         }
-
 
     }
 
