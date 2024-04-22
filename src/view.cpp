@@ -151,9 +151,6 @@ bool View::update(Logic& logic){
 	    renderHUD(logic);
 	    renderWaveTime(*logic.getManager());
         renderWeatherName(*logic.getWeather());
-    }
-
-
         
     }
 

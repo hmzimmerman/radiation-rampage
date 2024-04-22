@@ -10,11 +10,9 @@
 #include "logic.h"
 #include "HUD.h"
 #include "startScreen.h"
-<<<<<<< include/view.h
+
 #include "weather.h"
-=======
 #include "damage_type.h"
->>>>>>> include/view.h
 
 class TOWERGUI;
 struct TowerLocation;
@@ -89,6 +87,7 @@ class View{
         void handleTowerClick(const SDL_Event& event);
         void handleTowerTypeSelection(const SDL_Event& event, Logic& logic);
         void triggerAttackAnimation(int startX, int startY, int endX, int endY, DamageType attackType);
-        void renderAttackAnimation(const Weather& weather);
+        void renderAttackAnimation();
+        void renderWeatherName(const Weather& weather);
 };
 #endif
