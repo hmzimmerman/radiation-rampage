@@ -9,8 +9,8 @@ class Weather {
         std::string name;
         float towerHpMod;
         float towerRangeMod;
-        float enemyHpMod;
-        float enemySpeedMod;
+        int enemyHpMod; //number to divide damadge by
+        int enemySpeedMod; //number to add to speed
 
         //how many seconds between weather
         const double time_between_weather = 30;
@@ -23,7 +23,8 @@ class Weather {
         void weatherSetSandstorm();
         void weatherSetRadiation();
         void weatherSetEarthquake();
-        void weatherSetWind();
+        void weatherSetWindEast();
+        void weatherSetWindWest();
 
     public:
         //constructor

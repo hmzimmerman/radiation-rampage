@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <vector>
 #include <SDL.h>
+#include <memory>
 
 class WaveManager {
     private:
@@ -33,9 +34,12 @@ class WaveManager {
 		Direction stringToDirection(const std::string& str);
 		DamageType stringToDamageType(const std::string& str);
 
+        //weather for mods to enemys
+        std::shared_ptr<Weather> weather;
+
     public:
-        //constructor, create the first 10 waves and add them to the enemy waves, and set time bwtween waves
-        WaveManager();
+        //constructor, create the first 10 waves and add them to the enemy waves, and set time bwtween waves. also sets the weather pointer to the one saved in logic
+        WaveManager(std::shared_ptr<Weather> weatherpntr);
 
         //gives list of enemies on the field
         std::vector<Enemy>& getActiveEnemies();

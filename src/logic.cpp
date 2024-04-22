@@ -17,9 +17,9 @@ Logic::Logic() {
     game_over = false;
     paused = false;
     start = true;
-    wave_manager = std::make_shared<WaveManager>();
-    moneyManager = std::make_shared<MoneyManager>();
     weather = std::make_shared<Weather>();
+    wave_manager = std::make_shared<WaveManager>(getWeather());
+    moneyManager = std::make_shared<MoneyManager>();
 }
 
 bool Logic::updateMoneyTowerAction(const std::string& action, int coinAmount){

@@ -3,6 +3,7 @@
 #include <random>
 
 #include "weather.h"
+#include "logic.h"
 
 //constructor
 Weather::Weather(){
@@ -22,7 +23,7 @@ void Weather::updateWeather(double elapsedTime){
             // Create a random number generator engine
             std::random_device rd;  // Obtain a random number from hardware
             std::mt19937 gen(rd()); // Seed the generator
-            std::uniform_int_distribution<int> distrib(1, 5); //add a number between 1 and 8
+            std::uniform_int_distribution<int> distrib(1, 6); //add a number between 1 and 8
 
             int randomNumber = distrib(gen); // generate the number
             switch (randomNumber) {
@@ -39,7 +40,10 @@ void Weather::updateWeather(double elapsedTime){
                     weatherSetEarthquake();
                     break;
                 case 5:
-                    weatherSetWind();
+                    weatherSetWindEast();
+                    break;
+                case 6:
+                    weatherSetWindWest();
                     break;
             }
         }
@@ -86,14 +90,21 @@ void Weather::weatherSetEarthquake(){
     towerHpMod = 3;
     towerRangeMod = 0;
     enemyHpMod = 0;
-    enemySpeedMod = 2;
+    enemySpeedMod = -2;
 }
 
-void Weather::weatherSetWind(){
+void Weather::weatherSetWindEast(){
     name = "Wind";
     towerHpMod = 0;
     towerRangeMod = 0;
     enemyHpMod = 0;
-    enemySpeedMod = 0;
+    enemySpeedMod = 2;
 }
 
+void Weather::weatherSetWindWest(){
+    name = "Wind";
+    towerHpMod = 0;
+    towerRangeMod = 0;
+    enemyHpMod = 0;
+    enemySpeedMod = -2;
+}
