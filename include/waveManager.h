@@ -1,12 +1,13 @@
 #ifndef WAVEMANAGER_H
 #define WAVEMANAGER_H
 
-#include "enemy.h"
-
 #include <iostream>
 #include <stdio.h>
 #include <vector>
 #include <SDL.h>
+#include <memory>
+
+#include "enemy.h"
 
 class WaveManager {
     private:
