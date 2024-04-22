@@ -1,19 +1,21 @@
 #include "enemy.h" 
 #include "constants.h" 
+#include "weather.h"
 #include <iostream>
 #include <algorithm>
+#include <memory>
 
 const int UPDATE_DIVISOR = 2;
 
-Enemy::Enemy(std::string n, int h, int s, int x1, int y1, Direction direct, int d, DamageType w, DamageType st, int c)
-    : name(n), health(h), speed(s), x(x1), y(y1), dir(direct), damage(d), weakness(w), strength(st), coins(c){}
+Enemy::Enemy(std::string n, int h, int s, int x1, int y1, Direction direct, int d, DamageType dt, DamageType st, int c, std::shared_ptr<Weather> w)
+    : name(n), health(h), speed(s), x(x1), y(y1), dir(direct), damage(d), weakness(dt), strength(st), coins(c), weather(w){}
 
 Enemy::~Enemy() {
     // Destructor implementation
 }
 
 void Enemy::takeDamage(int d){
-	health -= d;
+	health -= d / weather->getenemyHpMod();
 }
 
 bool Enemy::isAlive() const{
@@ -23,18 +25,19 @@ bool Enemy::isAlive() const{
 void Enemy::move() {
 	if (!halted) {
 		pathCornerCollision();
+		int disToMov = speed + weather->getenemySpeedMod();
 
 		if (dir == Direction::EAST) {
-			x += speed;
+			x += disToMov;
 		} else if (dir == Direction::WEST) {
-			x -= speed;
+			x -= disToMov;
 		} else if (dir == Direction::NORTH) {
-			y -= speed;
+			y -= disToMov;
 		} else if (dir == Direction::SOUTH) {
-			y += speed;
+			y += disToMov;
 		}
 
-        distanceTraveled += std::abs(speed);
+        distanceTraveled += std::abs(disToMov);
 	}
 }
 

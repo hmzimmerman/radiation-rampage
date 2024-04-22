@@ -9,6 +9,7 @@
 #include "waveManager.h"
 #include "enemy.h"
 #include "moneyManager.h"
+#include "weather.h"
 
 class Logic {
     private:
@@ -21,6 +22,7 @@ class Logic {
 
         std::shared_ptr<WaveManager> wave_manager;
         std::shared_ptr<MoneyManager> moneyManager;
+        std::shared_ptr<Weather> weather;
 
 
     public:
@@ -51,6 +53,8 @@ class Logic {
         bool onStart() const { return start; }
 
         std::shared_ptr<WaveManager> getManager() const { return wave_manager; }
+
+        std::shared_ptr<Weather> getWeather() const { return weather; }
 
         std::vector<Enemy> getEnemiesOnField() const { return wave_manager->getActiveEnemies(); }
 

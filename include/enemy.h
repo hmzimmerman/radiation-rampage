@@ -2,7 +2,9 @@
 #define ENEMY_H
 
 #include "damage_type.h"
+#include "weather.h"
 #include <string>
+#include <memory>
 
 enum class Direction {
 	NORTH,
@@ -27,12 +29,15 @@ private:
     int distanceTraveled;
     bool halted = false;
 
+    //weather stored for helping getting modifiers
+    std::shared_ptr<Weather> weather;
+
     void pathCornerCollision(); // updates enemy direction when an enemy collides with a path corner 
     bool inPathCornerRange(int cornerX1, int cornerY1, int cornerX2, int cornerY2); // helper function for pathCornerCollision(), checks if enemy is in range of a path corner
 
 public:
 	// Constructor
-    Enemy(std::string name, int health, int speed, int x, int y, Direction direct, int damage, DamageType weakness, DamageType strength, int coin);
+    Enemy(std::string name, int health, int speed, int x, int y, Direction direct, int damage, DamageType weakness, DamageType strength, int coin, std::shared_ptr<Weather> weather);
     
     // Deconstructor
     ~Enemy();

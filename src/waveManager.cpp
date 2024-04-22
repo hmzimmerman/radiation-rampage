@@ -8,11 +8,14 @@
 #include <vector>
 #include <SDL.h>
 #include <random>
+#include <memory>
 
 //constructor
-WaveManager::WaveManager() {
+WaveManager::WaveManager(std::shared_ptr<Weather> weatherpntr) {
     //setting timing
     time_til_next_wave = 1;
+
+    weather = weatherpntr;
 
     //create list of enemies
     enemies = createEnemies();
@@ -170,7 +173,7 @@ std::vector<Enemy> WaveManager::createEnemies(){
         DamageType weakness = stringToDamageType(weakness_str);
         DamageType strength = stringToDamageType(strength_str);
 
-        enemies.emplace_back(name, health, speed, x, y, direct, damage, weakness, strength, coins);
+        enemies.emplace_back(name, health, speed, x, y, direct, damage, weakness, strength, coins, weather);
     }
     
     return enemies;
