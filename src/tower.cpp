@@ -8,7 +8,7 @@
 #include "constants.h"
 
 Tower::Tower(const std::string& name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate)
-    : name(name), health(health), damage(damage), range(range), damageType(damageType), location(location), buildCost(buildCost), fireRate(fireRate) {}
+    : name(name), health(health), damage(damage), range(range), damageType(damageType), location(location), buildCost(buildCost), fireRate(fireRate), timeSinceLastSlowDegrade(0.0) {}
 
 Tower::~Tower() {}
 
@@ -37,29 +37,62 @@ bool Tower::isInRange(int x, int y) const {
     return distanceSquared <= rangeSquared;
 }
 
-int Tower::getRepairCost() const{
-    float healthPercent = health/100;
-    if (healthPercent >= 0.50 && healthPercent <= 0.99){
-        // tower health 50% - 90%
-        return buildCost * 0.4;
-    }else if(healthPercent >= 0.01 && healthPercent <=0.49){
-        // tower health 1% - 49%
-        return buildCost * 0.6;
+void Tower::repair() {
+    using namespace tower;
+    if (name == "Barracks") {
+        setHealth(tower::barracksHealth);
+    } else if (name == "BombTower") {
+        setHealth(tower::bombHealth);
+    } else if (name == "LaserTower") {
+        setHealth(tower::laserHealth);
     }
-    // tower health is already 100% no need to repair
+}
+
+int Tower::getRepairCost() const {
+    if (health == 0) {
+        return buildCost;
+    }
+
+    float healthPercent = static_cast<float>(health) / 100.0f;
+    if (healthPercent >= 0.5f && healthPercent < 1.0f) {
+        // Tower health 50% - 99%
+        return static_cast<int>(buildCost * 0.4f);
+    } else if (healthPercent > 0.0f && healthPercent < 0.5f) {
+        // Tower health 1% - 49%
+        return static_cast<int>(buildCost * 0.6f);
+    }
+    // Tower health is already 100%, no need to repair
     return 0;
 }
 
-int Tower::getSellEarnings() const{
-    float healthPercent = health/100;
-    if (healthPercent >= 0.50 && healthPercent <= 0.99){
-        // tower health 50% - 90% 
-        return buildCost * 0.6;
-    }else if(healthPercent >= 0.01 && healthPercent <= 0.49){
-        // tower health 1% - 49%
-        return buildCost * 0.4;
+int Tower::getSellEarnings() const {
+    float healthPercent = static_cast<float>(health) / 100.0f;
+    if (healthPercent >= 0.5f && healthPercent <= 1.0f) {
+        // Tower health 50% - 100% 
+        return static_cast<int>(buildCost * 0.6f);
+    } else {
+        // Tower health 0% - 49%
+        return static_cast<int>(buildCost * 0.4f);
     }
+}
 
-    // tower is in perfect condition. can sell for build amount 
-    return buildCost;
+bool Tower::isReadyToSlowDegrade(double elapsedTime){
+    using namespace tower;
+    timeSinceLastSlowDegrade += elapsedTime;
+    if (timeSinceLastSlowDegrade < tower::secondsBetweenSlowDegrade){
+        return false;
+    }
+    // Enough time has passed. Can slow degrade now
+    timeSinceLastSlowDegrade = 0.0;
+    return true;
+}
+
+
+void Tower::slowDegrade(){
+    using namespace tower;
+
+    // Tower health cannot be negative 
+    if (health - tower::slowDegradeAmount >= 0){
+        health-= tower::slowDegradeAmount;
+    }
 }

@@ -60,24 +60,32 @@ void Logic::update(double elapsedTime){
             }
         }
         
-        wave_manager->update();
+        wave_manager->update(elapsedTime);
 
         // Iterate through towers to update their targets and attack
 	    for (const TowerLocation& location : TowerLocationManager::getTowerLocations()) {
 	        if (location.occupied) {
 	            std::shared_ptr<Tower> tower = location.tower;
 	            if (tower) {
-	                if (std::shared_ptr<LaserTower> laserTower = std::dynamic_pointer_cast<LaserTower>(tower)) {
-                        laserTower->updateTarget(wave_manager->getActiveEnemies());
-	                    laserTower->update(elapsedTime);
-	                } else if (std::shared_ptr<Barracks> barracksTower = std::dynamic_pointer_cast<Barracks>(tower)) {
-                        barracksTower->updateTarget(wave_manager->getActiveEnemies());
-                        barracksTower->update(elapsedTime);
-	                } else if (std::shared_ptr<BombTower> bombTower = std::dynamic_pointer_cast<BombTower>(tower)){
-                        if (bombTower->isReadyToAttack(elapsedTime)){
-                            bombTower->updateTarget(wave_manager->getActiveEnemies());
-                        }
-	                }
+                    // Update tower degradation
+                    if (tower->isReadyToSlowDegrade(elapsedTime)){
+                        tower->slowDegrade();
+                    }
+
+                    // Update tower attacking only if tower is not destroyed
+                    if (tower->getHealth() > 0){
+                        if (std::shared_ptr<LaserTower> laserTower = std::dynamic_pointer_cast<LaserTower>(tower)) {
+                            laserTower->updateTarget(wave_manager->getActiveEnemies());
+                            laserTower->update(elapsedTime);
+                        } else if (std::shared_ptr<Barracks> barracksTower = std::dynamic_pointer_cast<Barracks>(tower)) {
+                            barracksTower->updateTarget(wave_manager->getActiveEnemies());
+                            barracksTower->update(elapsedTime);
+                        } else if (std::shared_ptr<BombTower> bombTower = std::dynamic_pointer_cast<BombTower>(tower)){
+                            if (bombTower->isReadyToAttack(elapsedTime)){
+                                bombTower->updateTarget(wave_manager->getActiveEnemies());
+                            }
+                    }
+	     
 	            }
 	        }
 	

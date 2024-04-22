@@ -179,16 +179,30 @@ bool TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view, Logic& logic)
 }
 
 bool TOWERGUI::handleTowerAction(const std::string& action, Logic& logic) {
+    int actionCost = 0;
+
     if (action == "Upgrade") {
-            location.tower->upgrade();
-            return logic.updateMoneyTowerAction("Upgrade", location.tower->getUpgradeCost());
+        actionCost = location.tower->getUpgradeCost();
     } else if (action == "Repair") {
-        return logic.updateMoneyTowerAction("Repair", location.tower->getRepairCost()); // TODO
+        actionCost = location.tower->getRepairCost();
     } else if (action == "Sell") {
-        return logic.updateMoneyTowerAction("Sell", location.tower->getSellEarnings()); // TODO REMOVE TOWER FROM RENDER
+        actionCost = location.tower->getSellEarnings();
     }
-    // Should never reach here 
-    return false;
+
+    // Perform action only if player has enough money
+    if (logic.updateMoneyTowerAction(action, actionCost)) {
+        if (action == "Upgrade") {
+            location.tower->upgrade();
+        } else if (action == "Repair") {
+            location.tower->repair();
+        } else if (action == "Sell") {
+            TowerLocationManager::removeTower(*location.tower);
+        }
+
+        return true; // Successful transaction
+    } else {
+        return false; // Failed transaction (not enough money)
+    }
 }
 
 // Uncomment for testing

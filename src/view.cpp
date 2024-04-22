@@ -268,29 +268,40 @@ void View::handleStartScreen(const SDL_Event& event){
 
 // Render respective tower images
 void View::renderTowerLocations() {
+    using namespace tower;
     for (const auto& location : TowerLocationManager::getTowerLocations()) {
         if (location.occupied) {
             SDL_Texture* towerTexture = nullptr;
+
+            // Render background health bar
+            SDL_SetRenderDrawColor(renderer, 211,211,211, 1);
+            SDL_Rect towerHealthBackground = {location.x, location.y + location.size, location.size, 5};
+            SDL_RenderFillRect(renderer, &towerHealthBackground);
+            float curHealthPercent;
+
             if (location.towerType.compare("Barracks") == 0) {
                 if (location.tower->isUpgraded()) {
                     towerTexture = barracksUpgradeTexture;
                 } else {
                     towerTexture = barracksTexture;
                 }
+                curHealthPercent = (location.tower->getHealth()*1.0) / (tower::barracksHealth * 1.0);
             } else if (location.towerType.compare("Bomb") == 0) {
                 if (location.tower->isUpgraded()) {
                     towerTexture = bombUpgradeTexture;
                 } else {
                     towerTexture = bombTexture;
                 }
+                curHealthPercent = (location.tower->getHealth()*1.0) / (tower::bombHealth * 1.0);
+
             } else if (location.towerType.compare("Laser") == 0) {
                 if (location.tower->isUpgraded()) {
                     towerTexture = laserUpgradeTexture;
                 } else {
                     towerTexture = laserTexture;
                 }
+                curHealthPercent = (location.tower->getHealth()*1.0) / (tower::laserHealth * 1.0);
             }
-
             if (towerTexture != nullptr) {
                 SDL_Rect towerRect = { location.x, location.y, location.size, location.size };
                 SDL_RenderCopy(renderer, towerTexture, nullptr, &towerRect);
@@ -299,6 +310,13 @@ void View::renderTowerLocations() {
                 if (update_tower_gui->isVisible()) {
                     renderTowerRadius(update_tower_gui->getLocation());
                 }
+            }
+            
+            // Render health progress 
+            if (location.tower->getHealth() > 0){
+                SDL_SetRenderDrawColor(renderer, 63, 195, 128, 1);
+                SDL_Rect towerHealthProgress = {location.x, location.y + location.size, (int)(location.size * curHealthPercent), 5};
+                SDL_RenderFillRect(renderer, &towerHealthProgress);
             }
         }
     }
@@ -496,7 +514,7 @@ void View::renderWaveTime(const WaveManager& manager){
     TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 18);
 
     // Get the time until the next wave from the WaveManager
-    int timeUntilNextWave = manager.getWaveTime()/18;
+    int timeUntilNextWave = int(trunc(manager.getWaveTime()));
     std::string text = "Next Wave in " + std::to_string(timeUntilNextWave) + " seconds";
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
 
