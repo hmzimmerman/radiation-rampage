@@ -72,7 +72,24 @@ void Logic::update(double elapsedTime){
 	            if (tower) {
                     // Update tower degradation
                     if (tower->isReadyToSlowDegrade(elapsedTime)){
-                        tower->slowDegrade();
+                        tower->slowDegrade(weather->getTowerHpMod());
+                    }
+                    //change range based on weather
+                    if (weather->getWeatherName() == "Sandstorm") {
+                        if (tower->getName() == "Laser") {
+                            tower->setRange(tower::laserRange / weather->getTowerRangeMod());
+                        }
+                        if (tower->getName() == "Bomb") {
+                            tower->setRange(tower::bombRange / weather->getTowerRangeMod());
+                        }
+                    }
+                    else {
+                        if (tower->getName() == "Laser") {
+                            tower->setRange(tower::laserRange);
+                        }
+                        if (tower->getName() == "Bomb") {
+                            tower->setRange(tower::bombRange);
+                        }
                     }
 
                     // Update tower attacking only if tower is not destroyed

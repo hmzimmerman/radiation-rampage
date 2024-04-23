@@ -88,9 +88,9 @@ bool Tower::isReadyToSlowDegrade(double elapsedTime){
 }
 
 
-void Tower::slowDegrade(){
+void Tower::slowDegrade(int mod){
     using namespace tower;
-    takeDamage(tower::slowDegradeAmount);
+    takeDamage((tower::slowDegradeAmount * mod));
 }
 
 bool Tower::isDestroyed(){
