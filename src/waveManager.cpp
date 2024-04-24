@@ -17,6 +17,8 @@ WaveManager::WaveManager(std::shared_ptr<Weather> weatherpntr) {
 
     weather = weatherpntr;
 
+    currWave = 0;
+
     //create list of enemies
     enemies = createEnemies();
 

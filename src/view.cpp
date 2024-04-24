@@ -111,7 +111,11 @@ bool View::update(Logic& logic){
         	}
         }
         else if (event.type == SDL_KEYDOWN) {
-            if (event.key.keysym.sym == SDLK_q) {
+    		if(logic.getHealth() <= 0){
+    			logic.reset();
+    			start->setSelected(-1);
+
+            }else if (event.key.keysym.sym == SDLK_q) {
                 running = false;
             }else if (event.key.keysym.sym == SDLK_p) {
             	if(logic.isPaused()){
@@ -438,6 +442,21 @@ void View::renderLost(Logic& logic) {
 	SDL_Rect renderQuad = {x, y, textWidth, textHeight};
 	SDL_RenderCopy(renderer, textTexture, nullptr, &renderQuad);
 	
+    TTF_SetFontSize(font, 23);
+	
+	text = "Press any button to return to the start screen";
+	textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+	textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+	
+	textWidth = textSurface->w;
+	textHeight = textSurface->h;
+	
+	x = (SCREEN_WIDTH - textWidth) / 2; // Center horizontally
+	y = (SCREEN_HEIGHT - textHeight) / 2 + 100;
+	
+	renderQuad = {x, y, textWidth, textHeight};
+	SDL_RenderCopy(renderer, textTexture, nullptr, &renderQuad);
+	
 	// Cleanup resources
 	SDL_FreeSurface(textSurface);
 	SDL_DestroyTexture(textTexture);
@@ -581,6 +600,24 @@ void View::renderFailedTransMessage(){
     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
     SDL_FreeSurface(textSurface);
     SDL_DestroyTexture(textTexture);
+}
+
+void View::reset(){
+	logic = nullptr;
+    tower_gui = nullptr;
+    update_tower_gui = nullptr;
+    hud = nullptr;
+    start = nullptr;
+    
+    logic = std::make_shared<Logic>();
+    tower_gui = std::make_shared<TOWERGUI>(renderer);
+    update_tower_gui = std::make_shared<TOWERGUI>(renderer);
+    hud = std::make_shared<HUD>(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    start = std::make_shared<startScreen>(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    attackAnimation.active = false;
+
+    loadTowerTextures();
+    loadEnemyTextures();
 }
 
 View::~View(){
