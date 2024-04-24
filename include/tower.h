@@ -45,7 +45,7 @@ class Tower {
 
         bool isReadyToSlowDegrade(double elapsedTime); // Checks if enough time has passed to slowly degrade tower
 
-        void slowDegrade(); // Reduces tower health by slow degrade amount
+        void slowDegrade(int mod); // Reduces tower health by slow degrade amount
 
         bool isDestroyed();
 
