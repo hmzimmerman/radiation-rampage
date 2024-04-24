@@ -112,8 +112,9 @@ bool View::update(Logic& logic){
         }
         else if (event.type == SDL_KEYDOWN) {
     		if(logic.getHealth() <= 0){
-    			reset();
-    			//logic.reset();
+    			logic.reset();
+    			start->setSelected(-1);
+
             }else if (event.key.keysym.sym == SDLK_q) {
                 running = false;
             }else if (event.key.keysym.sym == SDLK_p) {
@@ -441,7 +442,7 @@ void View::renderLost(Logic& logic) {
 	SDL_Rect renderQuad = {x, y, textWidth, textHeight};
 	SDL_RenderCopy(renderer, textTexture, nullptr, &renderQuad);
 	
-    TTF_SetFontSize(font, 25);
+    TTF_SetFontSize(font, 23);
 	
 	text = "Press any button to return to the start screen";
 	textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
