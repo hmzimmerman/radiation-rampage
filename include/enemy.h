@@ -24,6 +24,7 @@ private:
     int damage; 
     DamageType weakness;
     DamageType strength;
+    bool flying;
     int coins;
 
     int distanceTraveled;
@@ -37,7 +38,7 @@ private:
 
 public:
 	// Constructor
-    Enemy(std::string name, int health, int speed, int x, int y, Direction direct, int damage, DamageType weakness, DamageType strength, int coin, std::shared_ptr<Weather> weather);
+    Enemy(std::string name, int health, int speed, int x, int y, Direction direct, int damage, DamageType weakness, DamageType strength, bool flying, int coin, std::shared_ptr<Weather> weather);
     
     // Deconstructor
     ~Enemy();
@@ -67,6 +68,7 @@ public:
     DamageType getStrength() const { return strength; }
     int getDistanceTraveled() const { return distanceTraveled; }
     int getCoins() const { return coins; }
+    bool getFlying() const { return flying; }
 
     // Setters
     void setName(std::string n) { name = n; }

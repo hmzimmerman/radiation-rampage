@@ -58,7 +58,7 @@ void Barracks::updateTarget(std::vector<Enemy>& enemies) {
             break;
         }
         for (auto& enemy : enemies) {
-            if (isEnemyNearSoldier(enemy)) {
+            if (isEnemyNearSoldier(enemy) && !enemy.getFlying()) {
                 double distance = calculateDistance(enemy.getX(), enemy.getY(), soldier.getX(), soldier.getY());
                 
                 if (distance < minDistance) {

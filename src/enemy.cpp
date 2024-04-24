@@ -7,8 +7,8 @@
 
 const int UPDATE_DIVISOR = 2;
 
-Enemy::Enemy(std::string n, int h, int s, int x1, int y1, Direction direct, int d, DamageType dt, DamageType st, int c, std::shared_ptr<Weather> w)
-    : name(n), health(h), speed(s), x(x1), y(y1), dir(direct), damage(d), weakness(dt), strength(st), coins(c), weather(w){}
+Enemy::Enemy(std::string n, int h, int s, int x1, int y1, Direction direct, int d, DamageType dt, DamageType st, bool flying, int c, std::shared_ptr<Weather> w)
+    : name(n), health(h), speed(s), x(x1), y(y1), dir(direct), damage(d), weakness(dt), strength(st), flying(flying), coins(c), weather(w){}
 
 Enemy::~Enemy() {
     // Destructor implementation
