@@ -72,18 +72,18 @@ namespace tower{
     constexpr int bombRangeBombEffect {100};
     constexpr int bombUpgradeCost {35};
 
-    constexpr int bombUpgradeDamage {25};
+    constexpr int bombUpgradeDamage {45};
     constexpr double bombUpgradeFireRate {1};
 
     constexpr int laserHealth {100};
-    constexpr int laserDamage {35};
+    constexpr int laserDamage {10};
     constexpr int laserRange {300};
     constexpr enum DamageType laserDamageType {DamageType::LASER};
     constexpr int laserBuildCost {70};
     constexpr double laserFireRate {1};
     constexpr int laserUpgradeCost {35};
 
-    constexpr int laserUpgradeDamage {30};
+    constexpr int laserUpgradeDamage {20};
     constexpr double laserUpgradeFireRate {1.5};
 }
 
