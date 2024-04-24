@@ -3,7 +3,6 @@
 #include <random>
 
 #include "weather.h"
-#include "logic.h"
 
 //constructor
 Weather::Weather(){
@@ -55,32 +54,32 @@ void Weather::updateWeather(double elapsedTime){
 
 void Weather::weatherSetNone(){
     name = "none";
-    towerHpMod = 0;
-    towerRangeMod = 0;
-    enemyHpMod = 0;
+    towerHpMod = 1;
+    towerRangeMod = 1;
+    enemyHpMod = 1;
     enemySpeedMod = 0;
 }
 
 void Weather::weatherSetAcidRain(){
     name = "Acid Rain";
     towerHpMod = 2;
-    towerRangeMod = 0;
-    enemyHpMod = 0;
+    towerRangeMod = 1;
+    enemyHpMod = 1;
     enemySpeedMod = 0;
 }
 
 void Weather::weatherSetSandstorm(){
     name = "Sandstorm";
-    towerHpMod = 0;
+    towerHpMod = 1;
     towerRangeMod = 2;
-    enemyHpMod = 0;
+    enemyHpMod = 1;
     enemySpeedMod = 0;
 }
 
 void Weather::weatherSetRadiation(){
     name = "Radiation";
-    towerHpMod = 0;
-    towerRangeMod = 0;
+    towerHpMod = 1;
+    towerRangeMod = 1;
     enemyHpMod = 2;
     enemySpeedMod = 0;
 }
@@ -88,23 +87,23 @@ void Weather::weatherSetRadiation(){
 void Weather::weatherSetEarthquake(){
     name = "Earthquake";
     towerHpMod = 3;
-    towerRangeMod = 0;
-    enemyHpMod = 0;
+    towerRangeMod = 1;
+    enemyHpMod = 1;
     enemySpeedMod = -2;
 }
 
 void Weather::weatherSetWindEast(){
     name = "Wind";
-    towerHpMod = 0;
-    towerRangeMod = 0;
-    enemyHpMod = 0;
+    towerHpMod = 1;
+    towerRangeMod = 1;
+    enemyHpMod = 1;
     enemySpeedMod = 2;
 }
 
 void Weather::weatherSetWindWest(){
     name = "Wind";
-    towerHpMod = 0;
-    towerRangeMod = 0;
-    enemyHpMod = 0;
+    towerHpMod = 1;
+    towerRangeMod = 1;
+    enemyHpMod = 1;
     enemySpeedMod = -2;
 }
