@@ -114,7 +114,6 @@ bool View::update(Logic& logic){
     		if(logic.getHealth() <= 0){
     			logic.reset();
     			start->setSelected(-1);
-
             }else if (event.key.keysym.sym == SDLK_q) {
                 running = false;
             }else if (event.key.keysym.sym == SDLK_p) {
@@ -125,7 +124,7 @@ bool View::update(Logic& logic){
             	}
             }
         }
-        else if (event.type == SDL_MOUSEBUTTONDOWN) {
+        else if (event.type == SDL_MOUSEBUTTONDOWN && logic.isPaused() == false) {
             handleTowerClick(event);
             handleTowerTypeSelection(event, logic);
         }
