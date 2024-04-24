@@ -111,7 +111,9 @@ bool View::update(Logic& logic){
         	}
         }
         else if (event.type == SDL_KEYDOWN) {
-            if (event.key.keysym.sym == SDLK_q) {
+    		if(logic.getHealth() <= 0){
+    			logic.reset();
+            }else if (event.key.keysym.sym == SDLK_q) {
                 running = false;
             }else if (event.key.keysym.sym == SDLK_p) {
             	if(logic.isPaused()){
@@ -436,6 +438,21 @@ void View::renderLost(Logic& logic) {
 	
 	// Render the text texture
 	SDL_Rect renderQuad = {x, y, textWidth, textHeight};
+	SDL_RenderCopy(renderer, textTexture, nullptr, &renderQuad);
+	
+    TTF_SetFontSize(font, 25);
+	
+	text = "Press any button to return to the start screen";
+	textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+	textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+	
+	textWidth = textSurface->w;
+	textHeight = textSurface->h;
+	
+	x = (SCREEN_WIDTH - textWidth) / 2; // Center horizontally
+	y = (SCREEN_HEIGHT - textHeight) / 2; // Center vertically
+	
+	renderQuad = {x, y, textWidth, textHeight};
 	SDL_RenderCopy(renderer, textTexture, nullptr, &renderQuad);
 	
 	// Cleanup resources
