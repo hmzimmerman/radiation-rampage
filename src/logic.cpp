@@ -108,12 +108,21 @@ void Logic::reset(){
     start = true;
     
     // Release the resources held by the shared pointers
-    weather = nullptr;
-    wave_manager = nullptr;
-    moneyManager = nullptr;
+//    weather = nullptr;
+//    wave_manager = nullptr;
+//    moneyManager = nullptr;
 
     // Reinitialize the shared pointers
     weather = std::make_shared<Weather>();
     wave_manager = std::make_shared<WaveManager>(getWeather());
     moneyManager = std::make_shared<MoneyManager>();
+
+    // Delete all the towers
+    std::vector<TowerLocation>& towerLocations = TowerLocationManager::getTowerLocations();
+    for (size_t i = 0; i < towerLocations.size(); ++i) {
+	if(towerLocations[i].occupied == true){
+            towerLocations[i].tower = nullptr;
+            towerLocations[i].occupied = false;
+	}
+    }
 }
