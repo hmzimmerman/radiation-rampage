@@ -51,7 +51,7 @@ void HUD::render() {
     SDL_RenderCopy(renderer, coinTexture, NULL, &coinRect);
 
     // Render health image
-    SDL_Rect healthRect = { backgroundRect.x + 120, backgroundRect.y, 50, 50 };
+    SDL_Rect healthRect = { backgroundRect.x + 150, backgroundRect.y, 50, 50 };
     SDL_RenderCopy(renderer, healthTexture, NULL, &healthRect);
     
     // Render text for coin count
@@ -59,8 +59,13 @@ void HUD::render() {
     renderText(coinText, backgroundRect.x + 55, backgroundRect.y + 10);
 
     // Render text for health
-    std::string healthText = ": " + std::to_string(playerHealth);
-    renderText(healthText, backgroundRect.x + 170, backgroundRect.y + 10);
+        std::string healthText = "";
+    if(playerHealth < 0){
+	healthText = ": 0";
+    }else{
+    	healthText = ": " + std::to_string(playerHealth);
+    }
+    renderText(healthText, backgroundRect.x + 200, backgroundRect.y + 10);
 
     // Render wave text
     std::string waveText = "Wave: " + std::to_string(currentWave);

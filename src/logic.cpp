@@ -99,3 +99,21 @@ void Logic::update(double elapsedTime){
 void Logic::switchStart(bool s){
 	start = s;
 }
+
+void Logic::reset(){
+	score = 0;
+    health = 20;
+    game_over = false;
+    paused = false;
+    start = true;
+    
+    // Release the resources held by the shared pointers
+    weather = nullptr;
+    wave_manager = nullptr;
+    moneyManager = nullptr;
+
+    // Reinitialize the shared pointers
+    weather = std::make_shared<Weather>();
+    wave_manager = std::make_shared<WaveManager>(getWeather());
+    moneyManager = std::make_shared<MoneyManager>();
+}
