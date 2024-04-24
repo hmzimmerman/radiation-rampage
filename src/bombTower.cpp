@@ -58,7 +58,7 @@ bool BombTower::isReadyToAttack(double elapsedTime){
     // Increment the time since the last attack
     timeSinceLastAttack += elapsedTime;
 
-    if (timeSinceLastAttack >= 5.0 / getFireRate() ){
+    if (timeSinceLastAttack >= 3.0 / getFireRate() ){
         timeSinceLastAttack = 0.0;
         return true;
     }
