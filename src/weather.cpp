@@ -55,7 +55,7 @@ void Weather::updateWeather(double elapsedTime){
 void Weather::weatherSetNone(){
     name = "none";
     towerHpMod = 1;
-    towerRangeMod = 1;
+    towerRangeMod = 0;
     enemyHpMod = 1;
     enemySpeedMod = 0;
 }
@@ -63,7 +63,7 @@ void Weather::weatherSetNone(){
 void Weather::weatherSetAcidRain(){
     name = "Acid Rain";
     towerHpMod = 2;
-    towerRangeMod = 1;
+    towerRangeMod = 0;
     enemyHpMod = 1;
     enemySpeedMod = 0;
 }
@@ -71,7 +71,7 @@ void Weather::weatherSetAcidRain(){
 void Weather::weatherSetSandstorm(){
     name = "Sandstorm";
     towerHpMod = 1;
-    towerRangeMod = 2;
+    towerRangeMod = -75;
     enemyHpMod = 1;
     enemySpeedMod = 0;
 }
@@ -79,7 +79,7 @@ void Weather::weatherSetSandstorm(){
 void Weather::weatherSetRadiation(){
     name = "Radiation";
     towerHpMod = 1;
-    towerRangeMod = 1;
+    towerRangeMod = 0;
     enemyHpMod = 2;
     enemySpeedMod = 0;
 }
@@ -87,7 +87,7 @@ void Weather::weatherSetRadiation(){
 void Weather::weatherSetEarthquake(){
     name = "Earthquake";
     towerHpMod = 3;
-    towerRangeMod = 1;
+    towerRangeMod = 0;
     enemyHpMod = 1;
     enemySpeedMod = -2;
 }
@@ -95,7 +95,7 @@ void Weather::weatherSetEarthquake(){
 void Weather::weatherSetWindEast(){
     name = "Wind";
     towerHpMod = 1;
-    towerRangeMod = 1;
+    towerRangeMod = 0;
     enemyHpMod = 1;
     enemySpeedMod = 2;
 }

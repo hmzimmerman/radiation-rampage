@@ -77,10 +77,10 @@ void Logic::update(double elapsedTime){
                     //change range based on weather
                     if (weather->getWeatherName() == "Sandstorm") {
                         if (tower->getName() == "LaserTower") {
-                            tower->setRange(tower::laserRange / weather->getTowerRangeMod());
+                            tower->setRange(tower::laserRange + weather->getTowerRangeMod());
                         }
                         if (tower->getName() == "BombTower") {
-                            tower->setRange(tower::bombRange / weather->getTowerRangeMod());
+                            tower->setRange(tower::bombRange + weather->getTowerRangeMod());
                         }
                     }
                     else {

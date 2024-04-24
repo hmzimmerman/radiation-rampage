@@ -8,7 +8,7 @@ class Weather {
     private:
         std::string name;
         int towerHpMod;//number to multiply to tower degrade
-        int towerRangeMod; // number to divide tower range by
+        int towerRangeMod; // number to add tower range to
         int enemyHpMod; //number to divide damadge by
         int enemySpeedMod; //number to add to speed
 
