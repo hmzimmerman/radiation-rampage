@@ -49,7 +49,7 @@ namespace moneyManager{
 namespace tower{
     // tower degradation
     constexpr int secondsBetweenSlowDegrade {10};
-    constexpr int slowDegradeAmount {5};
+    constexpr int slowDegradeAmount {10};
 
     // stats for specialized towers 
     constexpr int barracksHealth {100};
@@ -62,6 +62,8 @@ namespace tower{
 
     constexpr int barracksUpgradeDamage {45};
     constexpr double barracksUpgradeFireRate {1};
+
+    constexpr int barracksSoldierHealth {10};
 
     constexpr int bombHealth {100};
     constexpr int bombDamage {35};

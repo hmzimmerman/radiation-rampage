@@ -1,5 +1,6 @@
 #include <limits>
 #include "barracks.h"
+#include "constants.h"
 
 std::vector<Soldier> Barracks::allSoldiers;
 
@@ -11,10 +12,11 @@ Barracks::Barracks(std::string name, int health, int damage, int range, DamageTy
         {900, 155},
         {1060, 290}
     }) {
+    using namespace tower;
     // Initialize soldiers
     if (allSoldiers.empty()) {
         for (const auto& location : soldierLocations) {
-            allSoldiers.emplace_back(5, location.first, location.second);
+            allSoldiers.emplace_back(tower::barracksSoldierHealth, location.first, location.second);
         }
     }
 }
@@ -149,7 +151,7 @@ void Barracks::handleSoldierRespawnTiming(double elapsedTime) {
         timeSinceDeath += elapsedTime;
         soldier.setTimeSinceDeath(timeSinceDeath);
 
-        if (timeSinceDeath >= 8.0) {
+        if (timeSinceDeath >= 5.0) {
             soldier.respawn();
         }
 
