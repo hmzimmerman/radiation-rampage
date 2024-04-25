@@ -10,7 +10,6 @@
 Tower::Tower(const std::string& name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate)
     : name(name), health(health), damage(damage), range(range), damageType(damageType), location(location), buildCost(buildCost), fireRate(fireRate), timeSinceLastSlowDegrade(0.0) {}
 
-Tower::~Tower() {}
 
 std::shared_ptr<Tower> Tower::createTower(const std::string& type, const TowerLocation& location, View* view) {
     using namespace tower;

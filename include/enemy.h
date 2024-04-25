@@ -39,9 +39,6 @@ private:
 public:
 	// Constructor
     Enemy(std::string name, int health, int speed, int x, int y, Direction direct, int damage, DamageType weakness, DamageType strength, bool flying, int coin, std::shared_ptr<Weather> weather);
-    
-    // Deconstructor
-    ~Enemy();
 
     // Enemy takes damage
     void takeDamage(int damage);

@@ -15,8 +15,6 @@ private:
 public:
     Soldier(int health, int x, int y);
 
-    ~Soldier();
-
     void attack(Enemy& enemy);
 
     void takeDamage(int damage);
