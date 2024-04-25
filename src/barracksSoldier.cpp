@@ -4,10 +4,6 @@
 Soldier::Soldier(int health, int x, int y)
     : health(health), x(x), y(y) {}
 
-Soldier::~Soldier() {
-    // Destructor implementation
-}
-
 void Soldier::attack(Enemy& enemy) {
     using namespace tower;
     enemy.takeDamage(barracksDamage);
