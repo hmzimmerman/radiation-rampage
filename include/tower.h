@@ -30,9 +30,6 @@ class Tower {
         // Constructor
         Tower(const std::string& name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate);
 
-        // Destructor
-        virtual ~Tower();
-
         virtual void attack() = 0;
 
         bool isInRange(int x, int y) const;

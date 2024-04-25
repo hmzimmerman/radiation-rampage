@@ -19,7 +19,6 @@ struct SelectableBox {
 class startScreen {
 public:
     startScreen(SDL_Renderer* renderer, int screenWidth, int screenHeight);
-    ~startScreen();
     
     void render();
     

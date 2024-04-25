@@ -36,9 +36,6 @@ startScreen::startScreen(SDL_Renderer* renderer, int screenWidth, int screenHeig
     selected = -1;
 }
 
-startScreen::~startScreen() {
-}
-
 void startScreen::render() {
     // Render background
     SDL_RenderCopy(renderer, backgroundTexture, nullptr, nullptr);
