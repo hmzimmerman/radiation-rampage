@@ -22,6 +22,7 @@ void Soldier::setTimeSinceDeath(double time) {
 }
 
 void Soldier::respawn() {
+    using namespace tower;
     timeSinceDeath = 0.0;
-    health = 5;
+    health = tower::barracksSoldierHealth;
 }

@@ -15,7 +15,6 @@
 Logic::Logic() {
     score = 0;
     health = 20;
-    game_over = false;
     paused = false;
     start = true;
     weather = std::make_shared<Weather>();
@@ -120,7 +119,6 @@ void Logic::switchStart(bool s){
 void Logic::reset(){
 	score = 0;
     health = 20;
-    game_over = false;
     paused = false;
     start = true;
     
