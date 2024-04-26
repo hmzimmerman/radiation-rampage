@@ -104,8 +104,11 @@ void Logic::update(double elapsedTime){
                                 bombTower->updateTarget(wave_manager->getActiveEnemies());
                             }
                         }
-	     
-	                }
+	                } else {
+                        if (std::shared_ptr<Barracks> barracksTower = std::dynamic_pointer_cast<Barracks>(tower)) {
+                            barracksTower->resumeEnemyMovement();
+                        }
+                    }
 	            }
 	        }
         }

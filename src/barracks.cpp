@@ -28,7 +28,7 @@ void Barracks::attack() {
         std::pair<int, int> soldierLocation = getTowerSoldierMapping();
         Soldier& soldier = getSoldierAtLocation(soldierLocation);
         
-        if (soldier.isAlive()) {
+        if (soldier.isAlive() && !isDestroyed()) {
             target->haltMovement();
             if (isReadyToAttack(elapsedTime)) {
                 soldier.attack(*target);
@@ -36,12 +36,12 @@ void Barracks::attack() {
             }
         }
 
-        if (!soldier.isAlive()) {
+        if (!soldier.isAlive() || isDestroyed()) {
             target->resumeMovement();
         }
     }
-    // Render alive soldiers
-    view->renderSoldiers();
+// Render alive soldiers
+view->renderSoldiers();
 }
 
 // Calculate distance between soldier and enemy
