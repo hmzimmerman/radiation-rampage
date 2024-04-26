@@ -395,8 +395,8 @@ void View::renderSoldiers() {
                 std::pair<int, int> soldierLocation = barracksTower->getTowerSoldierMapping();
                 Soldier& soldier = barracksTower->getSoldierAtLocation(soldierLocation);
                 
-                // Render soldier if it is alive
-                if (soldier.isAlive()) {
+                // Render soldier if it is alive and the tower is not destroyed
+                if (soldier.isAlive() && !barracksTower->isDestroyed()) {
                     SDL_Rect soldierRect = { soldierLocation.first, soldierLocation.second, 120, 50 };
                     SDL_RenderCopy(renderer, barracksSoldierTexture, nullptr, &soldierRect);
                 }

@@ -11,6 +11,8 @@
 #include "moneyManager.h"
 #include "weather.h"
 
+class Tower;
+
 class Logic {
     private:
         int score;
@@ -31,6 +33,9 @@ class Logic {
         
         // Update money manager based on tower action. Returns true if transaction went through, false if it didn't
         bool updateMoneyTowerAction(const std::string& action, int coinAmount);
+
+        // Update tower range based on weather
+        void updateTowerWeatherRange(std::shared_ptr<Tower> towerPtr);
 
         // Update method
         void update(double inTime);

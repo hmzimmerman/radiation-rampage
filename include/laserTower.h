@@ -16,8 +16,6 @@ private:
 public:
     LaserTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate, View* view);
 
-    void update(double elapsedTime);
-
     void attack() override;
 
     bool isReadyToAttack(double elapsedTime);
