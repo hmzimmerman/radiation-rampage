@@ -36,6 +36,22 @@ bool Logic::updateMoneyTowerAction(const std::string& action, int coinAmount){
     return false;
 }
 
+void Logic::updateTowerWeatherRange(std::shared_ptr<Tower> towerPtr) {
+    if (weather->getWeatherName() == "Sandstorm") {
+        if (towerPtr->getName() == "LaserTower") {
+            towerPtr->setRange(tower::laserRange + weather->getTowerRangeMod());
+        } else if (towerPtr->getName() == "BombTower") {
+            towerPtr->setRange(tower::bombRange + weather->getTowerRangeMod());
+        }
+    } else {
+        if (towerPtr->getName() == "LaserTower") {
+            towerPtr->setRange(tower::laserRange);
+        } else if (towerPtr->getName() == "BombTower") {
+            towerPtr->setRange(tower::bombRange);
+        }
+    }
+}
+
 void Logic::update(double elapsedTime){
     using namespace window;
     if(isPaused() == false && onStart() == false){
@@ -70,26 +86,11 @@ void Logic::update(double elapsedTime){
 	            std::shared_ptr<Tower> tower = location.tower;
 	            if (tower) {
                     // Update tower degradation
-                    if (tower->isReadyToSlowDegrade(elapsedTime)){
+                    if (tower->isReadyToSlowDegrade(elapsedTime)) {
                         tower->slowDegrade(weather->getTowerHpMod());
                     }
-                    //change range based on weather
-                    if (weather->getWeatherName() == "Sandstorm") {
-                        if (tower->getName() == "LaserTower") {
-                            tower->setRange(tower::laserRange + weather->getTowerRangeMod());
-                        }
-                        if (tower->getName() == "BombTower") {
-                            tower->setRange(tower::bombRange + weather->getTowerRangeMod());
-                        }
-                    }
-                    else {
-                        if (tower->getName() == "LaserTower") {
-                            tower->setRange(tower::laserRange);
-                        }
-                        if (tower->getName() == "BombTower") {
-                            tower->setRange(tower::bombRange);
-                        }
-                    }
+
+                    updateTowerWeatherRange(tower);
 
                     // Update tower attacking only if tower is not destroyed
                     if (tower->isDestroyed() == false) {
