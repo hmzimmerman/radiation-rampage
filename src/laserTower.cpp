@@ -65,9 +65,3 @@ void LaserTower::upgrade() {
     setDamage(tower::laserUpgradeDamage);
     setFireRate(tower::laserUpgradeFireRate);
 }
-
-void LaserTower::update(double elapsedTime) {
-    if (isReadyToAttack(elapsedTime)) {
-        attack();
-    }
-}
