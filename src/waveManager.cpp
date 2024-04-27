@@ -244,8 +244,6 @@ void WaveManager::reset(){
     //create list of enemies
     enemies = createEnemies();
 
-    SDL_Init( SDL_INIT_TIMER );
-
     //create first 10 waves of enemies
     std::vector<Enemy> wave1;
         wave1.push_back(enemies[0]);
