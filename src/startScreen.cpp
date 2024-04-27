@@ -139,8 +139,6 @@ void startScreen::render() {
         textY += lineHeight;
         renderText("- Environmental effects will occur that will somehow affect the game", textColor, textX, textY);
         textY += lineHeight;
-        renderText("- Enemies have strengths and weakness you must keep in mind", textColor, textX, textY);
-        textY += lineHeight;
         renderText("- Towers will degrade over time so make sure to keep them repaired", textColor, textX, textY);
     }
 }

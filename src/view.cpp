@@ -605,25 +605,6 @@ void View::renderFailedTransMessage(){
     SDL_DestroyTexture(textTexture);
 }
 
-void View::reset(){
-	logic = nullptr;
-    tower_gui = nullptr;
-    update_tower_gui = nullptr;
-    hud = nullptr;
-    start = nullptr;
-    
-    logic = std::make_shared<Logic>();
-    tower_gui = std::make_shared<TOWERGUI>(renderer);
-    update_tower_gui = std::make_shared<TOWERGUI>(renderer);
-    hud = std::make_shared<HUD>(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
-    start = std::make_shared<startScreen>(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
-    laserAttackAnimation.active = false;
-    bombAttackAnimation.active = false;
-
-    loadTowerTextures();
-    loadEnemyTextures();
-}
-
 View::~View(){
     SDL_DestroyTexture(barracksTexture);
     SDL_DestroyTexture(bombTexture);
