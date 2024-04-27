@@ -218,7 +218,7 @@ void View::handleTowerTypeSelection(const SDL_Event& event, Logic& logic) {
         errorFreeTowerAction = update_tower_gui->selectTowerType(event.button.x, event.button.y, this, logic);
     }
 
-    if (errorFreeTowerAction == false){
+    if (errorFreeTowerAction == false && !logic.onStart()){
         failedTransMessage.active = true;
         failedTransMessage.startTime = SDL_GetTicks();
     }

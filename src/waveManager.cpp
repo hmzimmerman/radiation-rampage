@@ -234,15 +234,14 @@ std::vector<Enemy> WaveManager::waveAlgorithm(){
     return ranWave;
 }
 
-void WaveManager::reset(){
+void WaveManager::reset(std::shared_ptr<Weather> weatherpntr){
+    weather = weatherpntr;
+
 	enemy_waves.clear();
 
 	time_til_next_wave = 1;
 
     currWave = 0;
-
-    //create list of enemies
-    enemies = createEnemies();
 
     //create first 10 waves of enemies
     std::vector<Enemy> wave1;
