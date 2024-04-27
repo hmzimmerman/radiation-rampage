@@ -132,7 +132,6 @@ void Logic::reset(){
 //    weather = nullptr;
 //    wave_manager = nullptr;
 //    moneyManager = nullptr;
-
     // Reinitialize the shared pointers
     weather = std::make_shared<Weather>();
     wave_manager = std::make_shared<WaveManager>(getWeather());

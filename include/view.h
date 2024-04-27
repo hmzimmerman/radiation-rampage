@@ -20,7 +20,6 @@ struct FailedTransMessage;
 
 
 struct AttackAnimation {
-    DamageType type;
     bool active;
     int startX;
     int startY;
@@ -50,7 +49,8 @@ class View{
         std::shared_ptr<HUD> hud;
         std::shared_ptr<startScreen> start;
 
-        AttackAnimation attackAnimation;
+        AttackAnimation laserAttackAnimation;
+        AttackAnimation bombAttackAnimation;
         FailedTransMessage failedTransMessage;
 
         SDL_Texture* barracksTexture;
@@ -88,7 +88,7 @@ class View{
         void handleTowerClick(const SDL_Event& event);
         void handleTowerTypeSelection(const SDL_Event& event, Logic& logic);
         void triggerAttackAnimation(int startX, int startY, int endX, int endY, DamageType attackType);
-        void renderAttackAnimation();
+        void renderAttackAnimation(DamageType attackType);
         void renderWeatherName(const Weather& weather);
 };
 #endif
