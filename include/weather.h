@@ -39,7 +39,9 @@ class Weather {
         float getenemyHpMod() const { return enemyHpMod; };
         float getenemySpeedMod() const { return enemySpeedMod; };
         std::string getWeatherName() const { return name; };
-
+        
+        // Reset method
+		void reset();
 };
 
 

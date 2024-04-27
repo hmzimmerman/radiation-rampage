@@ -191,8 +191,8 @@ void WaveManager::update(double elapsedTime) {
     if (time_til_next_wave < 1) {
         // Pop the last element from enemy waves
         if (!enemy_waves.empty()) {
-        enemies_to_add = enemy_waves.back();
-        enemy_waves.pop_back();
+	        enemies_to_add = enemy_waves.back();
+	        enemy_waves.pop_back();
         }
         else{
             enemies_to_add = waveAlgorithm();
@@ -232,4 +232,121 @@ std::vector<Enemy> WaveManager::waveAlgorithm(){
     }
 
     return ranWave;
+}
+
+void WaveManager::reset(){
+	enemy_waves.clear();
+
+	time_til_next_wave = 1;
+
+    currWave = 0;
+
+    //create list of enemies
+    enemies = createEnemies();
+
+    SDL_Init( SDL_INIT_TIMER );
+
+    //create first 10 waves of enemies
+    std::vector<Enemy> wave1;
+        wave1.push_back(enemies[0]);
+        wave1.push_back(enemies[0]);
+        wave1.push_back(enemies[0]);
+        wave1.push_back(enemies[0]);
+        wave1.push_back(enemies[0]);
+    std::vector<Enemy> wave2;
+        wave2.push_back(enemies[0]);
+        wave2.push_back(enemies[0]);
+        wave2.push_back(enemies[1]);
+        wave2.push_back(enemies[0]);
+        wave2.push_back(enemies[0]);
+        wave2.push_back(enemies[0]);
+        wave2.push_back(enemies[1]);
+    std::vector<Enemy> wave3;
+        wave3.push_back(enemies[2]);
+        wave3.push_back(enemies[2]);
+        wave3.push_back(enemies[1]);
+        wave3.push_back(enemies[2]);
+        wave3.push_back(enemies[2]);
+        wave3.push_back(enemies[2]);
+        wave3.push_back(enemies[1]);
+    std::vector<Enemy> wave4;
+        wave4.push_back(enemies[4]);
+        wave4.push_back(enemies[4]);
+        wave4.push_back(enemies[1]);
+        wave4.push_back(enemies[0]);
+        wave4.push_back(enemies[0]);
+        wave4.push_back(enemies[4]);
+        wave4.push_back(enemies[5]);
+    std::vector<Enemy> wave5;
+        wave5.push_back(enemies[6]);
+        wave5.push_back(enemies[6]);
+        wave5.push_back(enemies[1]);
+        wave5.push_back(enemies[6]);
+        wave5.push_back(enemies[6]);
+        wave5.push_back(enemies[6]);
+        wave5.push_back(enemies[1]);
+    std::vector<Enemy> wave6;
+        wave6.push_back(enemies[3]);
+        wave6.push_back(enemies[3]);
+        wave6.push_back(enemies[3]);
+        wave6.push_back(enemies[3]);
+        wave6.push_back(enemies[3]);
+        wave6.push_back(enemies[0]);
+        wave6.push_back(enemies[0]);
+        wave6.push_back(enemies[0]);
+    std::vector<Enemy> wave7;
+        wave7.push_back(enemies[1]);
+        wave7.push_back(enemies[0]);
+        wave7.push_back(enemies[0]);
+        wave7.push_back(enemies[0]);
+        wave7.push_back(enemies[0]);
+        wave7.push_back(enemies[0]);
+        wave7.push_back(enemies[0]);
+        wave7.push_back(enemies[0]);
+        wave7.push_back(enemies[0]);
+        wave7.push_back(enemies[0]);
+        wave7.push_back(enemies[0]);
+    std::vector<Enemy> wave8;
+        wave8.push_back(enemies[3]);
+        wave8.push_back(enemies[3]);
+        wave8.push_back(enemies[3]);
+        wave8.push_back(enemies[3]);
+        wave8.push_back(enemies[3]);
+        wave8.push_back(enemies[7]);
+        wave8.push_back(enemies[7]);
+        wave8.push_back(enemies[7]);
+        wave8.push_back(enemies[7]);
+        wave8.push_back(enemies[7]);
+    std::vector<Enemy> wave9;
+        wave9.push_back(enemies[7]);
+        wave9.push_back(enemies[1]);
+        wave9.push_back(enemies[7]);
+        wave9.push_back(enemies[7]);
+        wave9.push_back(enemies[7]);
+        wave9.push_back(enemies[1]);
+        wave9.push_back(enemies[1]);
+        wave9.push_back(enemies[7]);
+        wave9.push_back(enemies[1]);
+    std::vector<Enemy> wave10;
+        wave10.push_back(enemies[5]);
+        wave10.push_back(enemies[5]);
+        wave10.push_back(enemies[5]);
+        wave10.push_back(enemies[5]);
+        wave10.push_back(enemies[5]);
+        wave10.push_back(enemies[5]);
+        wave10.push_back(enemies[5]);
+        wave10.push_back(enemies[5]);
+        wave10.push_back(enemies[5]);
+
+    //push back waves in reverse order so they can easily be poped off
+    enemy_waves.push_back(wave10);
+    enemy_waves.push_back(wave9);
+    enemy_waves.push_back(wave8);
+    enemy_waves.push_back(wave7);
+    enemy_waves.push_back(wave6);
+    enemy_waves.push_back(wave5);
+    enemy_waves.push_back(wave4);
+    enemy_waves.push_back(wave3);
+    enemy_waves.push_back(wave2);
+    enemy_waves.push_back(wave1);
 }
