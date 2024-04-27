@@ -56,7 +56,7 @@ class WaveManager {
 		std::vector<Enemy> createEnemies();
 		
 		// Reset method
-		void reset(std::shared_ptr<Weather> weatherpntr);
+		void reset(std::shared_ptr<Weather> w);
 
 		// Getter
 		double getWaveTime() const { return time_til_next_wave; }

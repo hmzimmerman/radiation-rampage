@@ -1,4 +1,4 @@
- #include "enemy.h"
+#include "enemy.h"
 #include "waveManager.h"
 
 #include <iostream>
@@ -234,8 +234,8 @@ std::vector<Enemy> WaveManager::waveAlgorithm(){
     return ranWave;
 }
 
-void WaveManager::reset(std::shared_ptr<Weather> weatherpntr){
-    weather = weatherpntr;
+void WaveManager::reset(std::shared_ptr<Weather> w){
+    weather = w;
 
 	enemy_waves.clear();
 

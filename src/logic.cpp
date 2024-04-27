@@ -129,9 +129,9 @@ void Logic::reset(){
     start = true;
 
     // Resetart everything
-    weather.reset();
-    wave_manager.reset();
-    moneyManager.reset();
+    weather = std::make_shared<Weather>();
+    wave_manager->reset(getWeather());
+    moneyManager->reset();
 
     // Delete all the towers
     std::vector<TowerLocation>& towerLocations = TowerLocationManager::getTowerLocations();
