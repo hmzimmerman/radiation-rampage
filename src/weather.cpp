@@ -107,3 +107,8 @@ void Weather::weatherSetWindWest(){
     enemyHpMod = 1;
     enemySpeedMod = -2;
 }
+
+void Weather::reset(){
+    weatherSetNone();
+    time_til_next_weather = time_between_weather;
+}
