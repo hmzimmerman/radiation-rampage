@@ -40,3 +40,8 @@ bool MoneyManager::isReadyToSlowGain(double elapsedTime){
     return true;
 
 }
+
+void MoneyManager::reset(){
+    money = moneyManager::startAmount;
+    timeSinceLastSlowGain = 0.0;
+}

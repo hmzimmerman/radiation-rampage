@@ -18,6 +18,9 @@ class MoneyManager{
         bool isReadyToSlowGain(double elapsedTime); // Checks if enough time has passed to slowly gain money
         void slowGain(); // Increments money by constant amount
 
+		// Reset method
+		void reset();
+
         // Getters 
         int getMoney() const;
 };
