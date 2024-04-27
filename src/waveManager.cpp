@@ -142,14 +142,6 @@ Direction WaveManager::stringToDirection(const std::string& str) {
     return Direction::SOUTH; // Default value
 }
 
-DamageType WaveManager::stringToDamageType(const std::string& str) {
-    if (str == "LASER") return DamageType::LASER;
-    if (str == "BOMB") return DamageType::BOMB;
-    if (str == "NORMAL") return DamageType::NORMAL;
-
-    return DamageType::NORMAL; // Default value
-}
-
 std::vector<Enemy> WaveManager::createEnemies(){
     std::ifstream inputFile("../src/stats.txt");
     if (!inputFile) {
@@ -163,22 +155,20 @@ std::vector<Enemy> WaveManager::createEnemies(){
         std::istringstream iss(line);
         std::string name;
         int health, speed, x, y, damage, coins;
-        std::string direct_str, weakness_str, strength_str, flying_str; // Read as strings
+        std::string direct_str, flying_str; // Read as strings
 
-        if (!(iss >> name >> health >> speed >> x >> y >> direct_str >> damage >> weakness_str >> strength_str >> flying_str >> coins)) {
+        if (!(iss >> name >> health >> speed >> x >> y >> direct_str >> damage >> flying_str >> coins)) {
             std::cerr << "Error reading line from file." << std::endl;
             continue;
         }
 
         // Convert strings to enums
         Direction direct = stringToDirection(direct_str);
-        DamageType weakness = stringToDamageType(weakness_str);
-        DamageType strength = stringToDamageType(strength_str);
 
         // Convert string to boolean
         bool flying = (flying_str == "TRUE");
 
-        enemies.emplace_back(name, health, speed, x, y, direct, damage, weakness, strength, flying, coins, weather);
+        enemies.emplace_back(name, health, speed, x, y, direct, damage, flying, coins, weather);
     }
     
     return enemies;

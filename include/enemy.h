@@ -1,7 +1,6 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "damage_type.h"
 #include "weather.h"
 #include <string>
 #include <memory>
@@ -22,8 +21,6 @@ private:
     int y; // center y coordinate of the enemy
     Direction dir;
     int damage; 
-    DamageType weakness;
-    DamageType strength;
     bool flying;
     int coins;
 
@@ -38,7 +35,7 @@ private:
 
 public:
 	// Constructor
-    Enemy(std::string name, int health, int speed, int x, int y, Direction direct, int damage, DamageType weakness, DamageType strength, bool flying, int coin, std::shared_ptr<Weather> weather);
+    Enemy(std::string name, int health, int speed, int x, int y, Direction direct, int damage, bool flying, int coin, std::shared_ptr<Weather> weather);
 
     // Enemy takes damage
     void takeDamage(int damage);
@@ -61,8 +58,6 @@ public:
     int getY() const { return y; }
     Direction getDirection() const { return dir; }
     int getDamage() const { return damage; }
-    DamageType getWeakness() const { return weakness; }
-    DamageType getStrength() const { return strength; }
     int getDistanceTraveled() const { return distanceTraveled; }
     int getCoins() const { return coins; }
     bool getFlying() const { return flying; }
@@ -75,8 +70,6 @@ public:
     void setY(int y1) { y = y1; }
     void setDirection(Direction d) { dir = d; }
     void setDamage(int d) { damage = d; }
-    void setWeakness(DamageType w) { weakness = w; }
-    void setStrength(DamageType s) { strength = s; }
 };
 
 #endif
