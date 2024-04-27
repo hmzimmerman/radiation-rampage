@@ -238,6 +238,7 @@ void WaveManager::reset(std::shared_ptr<Weather> w){
     weather = w;
 
 	enemy_waves.clear();
+	active_enemies.clear();
 
 	time_til_next_wave = 1;
 
