@@ -67,6 +67,8 @@ void View::loadTowerTextures() {
 
 void View::loadEnemyTextures() {
     humanRaiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
+    hawkTexture = IMG_LoadTexture(renderer, "../resource/Hawk.png");
+    mutantHawkTexture = IMG_LoadTexture(renderer, "../resource/MutantHawk.png");
 }
 
 // Render all enemies at once
@@ -83,7 +85,17 @@ void View::renderEnemies(const std::vector<Enemy>& enemies) {
         enemyRects.push_back(enemyRect);
 
         // TODO: Add other enemy textures
-        enemyTextures.push_back(humanRaiderTexture);
+        std::string enemyName = enemy.getName();
+        if (enemyName == "HumanRaider"){
+            enemyTextures.push_back(humanRaiderTexture);
+        }else if (enemyName == "Hawk"){
+            enemyTextures.push_back(hawkTexture);
+        }else if (enemyName == "MutantHawk"){
+            enemyTextures.push_back(mutantHawkTexture);
+        }else{
+            enemyTextures.push_back(bombTexture);
+            //TODO 
+        }
     }
 
     for (size_t i = 0; i < enemies.size(); ++i) {
