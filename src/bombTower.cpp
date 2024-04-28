@@ -27,7 +27,8 @@ void BombTower::updateTarget(std::vector<Enemy>& enemies){
     int maxDistance = -1;
     std::shared_ptr<Enemy> target;
     for (auto& enemy : enemies) {
-        if (isInRange(enemy.getX(), enemy.getY()) && enemy.isAlive()) {
+        if (isInRange(enemy.getX(), enemy.getY()) && enemy.isAlive() && enemy.getFlying() == false) {
+            // Bomb can only target alive and NON-flying enemies
             int distance = enemy.getDistanceTraveled();
             if (distance > maxDistance) {
                 target = std::make_shared<Enemy>(enemy);
@@ -46,7 +47,8 @@ void BombTower::updateTarget(std::vector<Enemy>& enemies){
         view->triggerAttackAnimation(centerX, centerY, target->getX(), target->getY(), DamageType::BOMB); 
         for (auto& enemy : enemies){
             if(inBombRange(target->getX(), target->getY(), enemy.getX(), enemy.getY())){
-                if (enemy.isAlive()){
+                if (enemy.isAlive() && enemy.getFlying() == false){
+                    // Bomb can only hit enemies that are alive and NON-flying enemies
                     enemy.takeDamage(getDamage());
                 }
             }
