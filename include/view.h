@@ -65,6 +65,12 @@ class View{
         SDL_Texture* humanRaiderTexture;
         SDL_Texture* hawkTexture;
         SDL_Texture* mutantHawkTexture;
+        SDL_Texture* dogTexture;
+        SDL_Texture* mutantDogTexture;
+        SDL_Texture* humanRaiderLeaderTexture;
+        SDL_Texture* mutantRaiderTexture;
+        SDL_Texture* mutantLeaderTexture;
+
 
         void loadTowerTextures();
         void loadEnemyTextures();
