@@ -1,8 +1,10 @@
 #include "startScreen.h"
+#include "score.h"
 
 #include <string>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 #include <fstream>
 #include <sstream>
 #include <stdio.h>
@@ -154,7 +156,9 @@ void startScreen::render() {
 
     if(leaderboard){
 
-        std::vector<std::string> board = readLeaderboard();
+        std::vector<Score> board = readLeaderboard();
+        std::sort(board.begin(), board.end(), [](const Score& a, const Score& b) {
+        return a.getScore() > b.getScore();});
 
         int boxWidth = static_cast<int>(screenWidth * 0.8);
         int boxHeight = static_cast<int>(screenHeight * 0.85);
@@ -190,45 +194,46 @@ void startScreen::render() {
 
         renderText("Initials:         Score:", textColor, textX, textY);
         textY += lineHeight * 2;
-        renderText(board[0], textColor, textX, textY);
+        renderText(board[0].getString(), textColor, textX, textY);
         textY += lineHeight * 2;
-        renderText(board[1], textColor, textX, textY);
+        renderText(board[1].getString(), textColor, textX, textY);
         textY += lineHeight * 2;
-        renderText(board[2], textColor, textX, textY);
+        renderText(board[2].getString(), textColor, textX, textY);
         textY += lineHeight * 2;
-        renderText(board[3], textColor, textX, textY);
+        renderText(board[3].getString(), textColor, textX, textY);
         textY += lineHeight * 2;
-        renderText(board[4], textColor, textX, textY);
+        renderText(board[4].getString(), textColor, textX, textY);
         textY += lineHeight * 2;
-        renderText(board[5], textColor, textX, textY);
+        renderText(board[5].getString(), textColor, textX, textY);
         textY += lineHeight * 2;
-        renderText(board[6], textColor, textX, textY);
+        renderText(board[6].getString(), textColor, textX, textY);
         textY += lineHeight * 2;
-        renderText(board[7], textColor, textX, textY);
+        renderText(board[7].getString(), textColor, textX, textY);
     }
 
 
 }
 
-std::vector<std::string> startScreen::readLeaderboard(){
+std::vector<Score> startScreen::readLeaderboard(){
     std::ifstream inputFile("../src/leaderboard.txt");
     if (!inputFile) {
         std::cerr << "Failed to open file." << std::endl;
     }
 
-    std::vector<std::string> board;
+    std::vector<Score> board;
 
     std::string line;
     while (std::getline(inputFile, line)) {
         std::istringstream iss(line);
-        std::string name, score;
+        std::string name;
+        int score;
 
         if (!(iss >> name >> score)) {
             std::cerr << "Error reading line from file." << std::endl;
             continue;
         }
 
-        board.emplace_back(" " + name + "              " + score);
+        board.emplace_back(name, score);
     }
     
     return board;

@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdio.h>
+#include "score.h"
 	
 struct SelectableBox {
     SDL_Rect rect;
@@ -45,7 +46,7 @@ public:
     
     const SelectableBox* getBoxes() const;
 
-    std::vector<std::string> readLeaderboard();
+    std::vector<Score> readLeaderboard();
 	
 private:
     SDL_Renderer* renderer;
