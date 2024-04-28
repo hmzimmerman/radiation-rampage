@@ -22,7 +22,7 @@ void Weather::updateWeather(double elapsedTime){
             // Create a random number generator engine
             std::random_device rd;  // Obtain a random number from hardware
             std::mt19937 gen(rd()); // Seed the generator
-            std::uniform_int_distribution<int> distrib(1, 6); //add a number between 1 and 8
+            std::uniform_int_distribution<int> distrib(1, 6); //add a number between 1 and 6
 
             int randomNumber = distrib(gen); // generate the number
             switch (randomNumber) {
