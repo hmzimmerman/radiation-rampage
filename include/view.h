@@ -63,6 +63,8 @@ class View{
         SDL_Texture* bombEffectTexture;
 
         SDL_Texture* humanRaiderTexture;
+        SDL_Texture* hawkTexture;
+        SDL_Texture* mutantHawkTexture;
 
         void loadTowerTextures();
         void loadEnemyTextures();
