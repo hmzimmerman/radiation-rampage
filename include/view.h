@@ -30,7 +30,7 @@ struct AttackAnimation {
 
 struct FailedTransMessage{
     // Message box displayed when a money transaction fails
-    bool active;
+    bool active = false;
     Uint32 startTime;
 };
 
