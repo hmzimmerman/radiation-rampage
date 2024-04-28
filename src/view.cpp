@@ -69,6 +69,12 @@ void View::loadEnemyTextures() {
     humanRaiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
     hawkTexture = IMG_LoadTexture(renderer, "../resource/Hawk.png");
     mutantHawkTexture = IMG_LoadTexture(renderer, "../resource/MutantHawk.png");
+    dogTexture = IMG_LoadTexture(renderer, "../resource/Dog.png");
+    mutantDogTexture = IMG_LoadTexture(renderer, "../resource/MutantDog.png");
+    humanRaiderLeaderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaiderLeader.png");
+    mutantRaiderTexture = IMG_LoadTexture(renderer, "../resource/MutantRaider.png");
+    mutantLeaderTexture = IMG_LoadTexture(renderer, "../resource/MutantLeader.png");
+
 }
 
 // Render all enemies at once
@@ -92,9 +98,16 @@ void View::renderEnemies(const std::vector<Enemy>& enemies) {
             enemyTextures.push_back(hawkTexture);
         }else if (enemyName == "MutantHawk"){
             enemyTextures.push_back(mutantHawkTexture);
-        }else{
-            enemyTextures.push_back(bombTexture);
-            //TODO 
+        }else if (enemyName == "RaiderLeader"){
+            enemyTextures.push_back(humanRaiderLeaderTexture); 
+        }else if (enemyName == "Dog"){
+            enemyTextures.push_back(dogTexture);  
+        }else if (enemyName == "MutantDog"){
+            enemyTextures.push_back(mutantDogTexture);  
+        }else if (enemyName == "MutantRaider"){
+            enemyTextures.push_back(mutantRaiderTexture);  
+        }else if (enemyName == "MutantLeader"){
+            enemyTextures.push_back(mutantLeaderTexture);  
         }
     }
 
@@ -167,29 +180,23 @@ bool View::update(Logic& logic){
 	    renderHUD(logic);
 	    renderWaveTime(*logic.getManager());
         renderWeatherName(*logic.getWeather());
-        
-    }
+        renderEnemies(logic.getEnemiesOnField());
+        if (failedTransMessage.active){
+            // Render error message box when money transaction fails
+            renderFailedTransMessage();
 
-    if (failedTransMessage.active){
-        // Render error message box when money transaction fails
-        renderFailedTransMessage();
-
-        if (SDL_GetTicks() - failedTransMessage.startTime >= 3000){
-            failedTransMessage.active = false;
+            if (SDL_GetTicks() - failedTransMessage.startTime >= 3000){
+                failedTransMessage.active = false;
+            }   
         }
-    }
 
-    // Render enemies
-    renderEnemies(logic.getEnemiesOnField());
-
-
-    // Render attack animations
-    if (laserAttackAnimation.active){
-        renderAttackAnimation(DamageType::LASER);
-    }
-    
-    if (bombAttackAnimation.active){
-        renderAttackAnimation(DamageType::BOMB);
+        // Render attack animations
+        if (laserAttackAnimation.active){
+            renderAttackAnimation(DamageType::LASER);
+        }
+        if (bombAttackAnimation.active){
+            renderAttackAnimation(DamageType::BOMB);
+        }
     }
     
     // Render lost or pause screen
@@ -627,6 +634,15 @@ View::~View(){
     SDL_DestroyTexture(laserUpgradeTexture);
     
     SDL_DestroyTexture(humanRaiderTexture);
+    SDL_DestroyTexture(hawkTexture);
+    SDL_DestroyTexture(mutantHawkTexture);
+    SDL_DestroyTexture(dogTexture);
+    SDL_DestroyTexture(humanRaiderTexture);
+    SDL_DestroyTexture(mutantDogTexture);
+    SDL_DestroyTexture(humanRaiderLeaderTexture);
+    SDL_DestroyTexture(mutantRaiderTexture);
+    SDL_DestroyTexture(mutantLeaderTexture);
+
     SDL_DestroyTexture(bombEffectTexture);
 
     SDL_DestroyRenderer(renderer);
