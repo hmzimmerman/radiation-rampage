@@ -193,7 +193,6 @@ void Logic::reset(){
 
     // Close the file
     outFile.close();
-    std::cout << "Scores written to file successfully." << std::endl;
 
     //code for resetting the game
 	score = 0;
