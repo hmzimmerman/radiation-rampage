@@ -15,7 +15,7 @@ void Weather::updateWeather(double elapsedTime){
     time_til_next_weather -= elapsedTime;
     if (time_til_next_weather < 1) {
         //return to default weather if weather not default
-        if (name != "none") {
+        if (name != "None") {
             weatherSetNone();
         }
         else {
@@ -53,7 +53,7 @@ void Weather::updateWeather(double elapsedTime){
 }
 
 void Weather::weatherSetNone(){
-    name = "none";
+    name = "None";
     towerHpMod = 1;
     towerRangeMod = 0;
     enemyHpMod = 1;
@@ -93,7 +93,7 @@ void Weather::weatherSetEarthquake(){
 }
 
 void Weather::weatherSetWindEast(){
-    name = "Wind";
+    name = "East Wind";
     towerHpMod = 1;
     towerRangeMod = 0;
     enemyHpMod = 1;
@@ -101,7 +101,7 @@ void Weather::weatherSetWindEast(){
 }
 
 void Weather::weatherSetWindWest(){
-    name = "Wind";
+    name = "West Wind";
     towerHpMod = 1;
     towerRangeMod = 1;
     enemyHpMod = 1;
