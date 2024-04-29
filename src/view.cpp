@@ -74,8 +74,7 @@ void View::loadEnemyTextures() {
     mutantDogTexture = IMG_LoadTexture(renderer, "../resource/MutantDog.png");
     humanRaiderLeaderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaiderLeader.png");
     mutantRaiderTexture = IMG_LoadTexture(renderer, "../resource/MutantRaider.png");
-    mutantLeaderTexture = IMG_LoadTexture(renderer, "../resource/MutantLeader.png");
-
+    mutantLeaderTexture = IMG_LoadTexture(renderer, "../resource/MutantRaiderLeader.png");
 }
 
 // Render all enemies at once
@@ -612,13 +611,14 @@ void View::renderWeatherName(const Weather& weather){
     std::map<std::string, int> map = {
         {"Acid Rain", 1},
         {"Sandstorm", 2},
-        {"Radition", 3},
+        {"Radiation", 3},
         {"Earthquake", 4},
-        {"Wind", 5}
+        {"East Wind", 5},
+	{"West Wind", 6}
     };
     
    // Add tint to screen based on weather
-   SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
    switch(map[name]){
         case 1: // Acid Rain
             SDL_SetRenderDrawColor(renderer, 0, 255, 0, 50); // Green
@@ -634,6 +634,12 @@ void View::renderWeatherName(const Weather& weather){
             break;
         case 5: // Wind
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 50); // White
+            break;
+	case 6:
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 50); // White
+            break;
+	default: 
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0); // No color
             break;
     }
 
