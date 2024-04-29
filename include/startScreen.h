@@ -5,6 +5,11 @@
 #include <SDL_ttf.h>
 #include <SDL_image.h>
 #include <iostream>
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <stdio.h>
+#include "score.h"
 	
 struct SelectableBox {
     SDL_Rect rect;
@@ -31,12 +36,16 @@ public:
     
     int getSelected() const { return selected; }
     bool getInstruct() const { return instruct; }
+    bool getLeaderboard() const { return leaderboard; }
     const SDL_Rect* getClose() const { return &close; }
     
     void setSelected(int i);
     void setInstruct(bool i);
+    void setLeaderboard(bool i);
     
     const SelectableBox* getBoxes() const;
+
+    std::vector<Score> readLeaderboard();
 	
 private:
     SDL_Renderer* renderer;
@@ -49,6 +58,7 @@ private:
     int selected;
     
     bool instruct;
+    bool leaderboard;
 	
     SelectableBox boxes[4];
     SDL_Rect close; // Rectangle for the close button
