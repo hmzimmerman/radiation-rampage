@@ -93,7 +93,7 @@ void Weather::weatherSetEarthquake(){
 }
 
 void Weather::weatherSetWindEast(){
-    name = "Wind";
+    name = "Wind East";
     towerHpMod = 1;
     towerRangeMod = 0;
     enemyHpMod = 1;
@@ -101,7 +101,7 @@ void Weather::weatherSetWindEast(){
 }
 
 void Weather::weatherSetWindWest(){
-    name = "Wind";
+    name = "Wind West";
     towerHpMod = 1;
     towerRangeMod = 1;
     enemyHpMod = 1;
