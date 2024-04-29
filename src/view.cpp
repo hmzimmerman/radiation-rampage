@@ -618,31 +618,29 @@ void View::renderWeatherName(const Weather& weather){
     };
     
    // Add tint to screen based on weather
+   SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
    switch(map[name]){
         case 1: // Acid Rain
-        	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
             SDL_SetRenderDrawColor(renderer, 0, 255, 0, 50); // Green
             break;
         case 2: // Sandstorm
-            SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
             SDL_SetRenderDrawColor(renderer, 244, 164, 96, 50); // Sand color
             break;
         case 3: // Radiation
-        	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
             SDL_SetRenderDrawColor(renderer, 0, 128, 0, 50); // Neon green
             break;
         case 4: // Earthquake
-        	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
             SDL_SetRenderDrawColor(renderer, 245, 245, 220, 50); // Beige
             break;
         case 5: // Wind
-        	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 50); // White
             break;
     }
 
     SDL_Rect overlayRect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
     SDL_RenderFillRect(renderer, &overlayRect);
+    
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
 
     // Cleanup resources
     SDL_FreeSurface(textSurface);
