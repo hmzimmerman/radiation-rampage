@@ -1,9 +1,16 @@
 #include "startScreen.h"
+#include "score.h"
 
 #include <string>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include <fstream>
+#include <sstream>
+#include <stdio.h>
 
 startScreen::startScreen(SDL_Renderer* renderer, int screenWidth, int screenHeight)
-    : renderer(renderer), screenWidth(screenWidth), screenHeight(screenHeight), selected(0), instruct(false) {
+    : renderer(renderer), screenWidth(screenWidth), screenHeight(screenHeight), selected(0), instruct(false), leaderboard(false) {
     // Load background texture
     backgroundTexture = IMG_LoadTexture(renderer, "../resource/EmptyStartScreen.png");
     
@@ -141,6 +148,90 @@ void startScreen::render() {
         textY += lineHeight;
         renderText("- Towers will degrade over time so make sure to keep them repaired", textColor, textX, textY);
     }
+
+    if(leaderboard){
+
+        std::vector<Score> board = readLeaderboard();
+        std::sort(board.begin(), board.end(), [](const Score& a, const Score& b) {
+        return a.getScore() > b.getScore();});
+
+        int boxWidth = static_cast<int>(screenWidth * 0.8);
+        int boxHeight = static_cast<int>(screenHeight * 0.85);
+        SDL_Rect textBoxRect = {(screenWidth - boxWidth) / 2, (screenHeight - boxHeight) / 2, boxWidth, boxHeight};
+
+        // Render the box background
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black color
+        SDL_RenderFillRect(renderer, &textBoxRect);
+        
+        int size = 40;
+        int pad = 10;
+        close = {
+            textBoxRect.x + textBoxRect.w - size - pad,
+            textBoxRect.y + pad,
+            size,
+            size
+        };
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red color
+        SDL_RenderFillRect(renderer, &close);
+
+        // Render the letter "X" in white color inside the box
+        SDL_Color textColor = {255, 255, 255, 255}; // White color
+        renderText("X", textColor, close.x + size / 2 - 10, close.y + size / 2 - 16);
+
+        // Render the bullet point text
+        int textX = textBoxRect.x + 20;
+        int textY = textBoxRect.y + 20;
+        int lineHeight = 30;
+
+        // Render "Leaderboard" text
+        renderText("Leaderboard:", textColor, textX, textY);
+        textY += lineHeight + 10; // Move down to start rendering bullet points
+
+        renderText("Date:            Score:", textColor, textX, textY);
+        textY += lineHeight * 2;
+        renderText(board[0].getString(), textColor, textX, textY);
+        textY += lineHeight * 2;
+        renderText(board[1].getString(), textColor, textX, textY);
+        textY += lineHeight * 2;
+        renderText(board[2].getString(), textColor, textX, textY);
+        textY += lineHeight * 2;
+        renderText(board[3].getString(), textColor, textX, textY);
+        textY += lineHeight * 2;
+        renderText(board[4].getString(), textColor, textX, textY);
+        textY += lineHeight * 2;
+        renderText(board[5].getString(), textColor, textX, textY);
+        textY += lineHeight * 2;
+        renderText(board[6].getString(), textColor, textX, textY);
+        textY += lineHeight * 2;
+        renderText(board[7].getString(), textColor, textX, textY);
+    }
+
+
+}
+
+std::vector<Score> startScreen::readLeaderboard(){
+    std::ifstream inputFile("../src/leaderboard.txt");
+    if (!inputFile) {
+        std::cerr << "Failed to open file." << std::endl;
+    }
+
+    std::vector<Score> board;
+
+    std::string line;
+    while (std::getline(inputFile, line)) {
+        std::istringstream iss(line);
+        std::string date;
+        int score;
+
+        if (!(iss >> date >> score)) {
+            std::cerr << "Error reading line from file." << std::endl;
+            continue;
+        }
+
+        board.emplace_back(date, score);
+    }
+    
+    return board;
 }
 
 void startScreen::renderText(const std::string& text, const SDL_Color& color, int x, int y) {
@@ -171,6 +262,9 @@ void startScreen::setSelected(int i){
 
 void startScreen::setInstruct(bool i){
 	instruct = i;
+}
+void startScreen::setLeaderboard(bool i){
+    leaderboard = i;
 }
 
 // Move selection left or right
