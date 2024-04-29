@@ -190,9 +190,9 @@ void startScreen::render() {
 
         // Render "Leaderboard" text
         renderText("Leaderboard:", textColor, textX, textY);
-        textY += lineHeight; // Move down to start rendering bullet points
+        textY += lineHeight + 10; // Move down to start rendering bullet points
 
-        renderText("Initials:         Score:", textColor, textX, textY);
+        renderText("Date:            Score:", textColor, textX, textY);
         textY += lineHeight * 2;
         renderText(board[0].getString(), textColor, textX, textY);
         textY += lineHeight * 2;
@@ -225,15 +225,15 @@ std::vector<Score> startScreen::readLeaderboard(){
     std::string line;
     while (std::getline(inputFile, line)) {
         std::istringstream iss(line);
-        std::string name;
+        std::string date;
         int score;
 
-        if (!(iss >> name >> score)) {
+        if (!(iss >> date >> score)) {
             std::cerr << "Error reading line from file." << std::endl;
             continue;
         }
 
-        board.emplace_back(name, score);
+        board.emplace_back(date, score);
     }
     
     return board;

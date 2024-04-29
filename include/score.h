@@ -7,12 +7,13 @@
 class Score {
     private:
         int score;
-        std::string name;
+        std::string date;
 
     public:
-        Score(std::string n, int s) : score(s), name(n) {}
-        std::string getString() const {std::string str = " " + name + "              " +  std::to_string(score); return str; };
+        Score(std::string n, int s) : score(s), date(n) {}
+        std::string getString() const {std::string str = " " + date + "          " +  std::to_string(score); return str; };
         int getScore() const { return score; };
+        std::string getDate() const { return date; };
 
 };
 
