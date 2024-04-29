@@ -3,6 +3,7 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <iostream>
+#include <map>
 
 #include "view.h"
 #include "logic.h"
@@ -589,7 +590,7 @@ void View::renderWeatherName(const Weather& weather){
 
     // Get the time until the next wave from the WaveManager
     std::string name = weather.getWeatherName();
-    std::string text = "cur weather: " + name;
+    std::string text = "Weather: " + name;
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
 
     // Create a texture from the text surface
@@ -606,6 +607,38 @@ void View::renderWeatherName(const Weather& weather){
     // Render the text texture
     SDL_Rect renderQuad = { x, y, textWidth, textHeight };
     SDL_RenderCopy(renderer, textTexture, nullptr, &renderQuad);
+    
+    // Define the mapping of strings to actions
+    std::map<std::string, int> map = {
+        {"Acid Rain", 1},
+        {"Sandstorm", 2},
+        {"Radition", 3},
+        {"Earthquake", 4},
+        {"Wind", 5}
+    };
+    
+    // Add tint to screen based on weather
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+   switch(map[name]){
+        case 1: // Acid Rain
+            SDL_SetRenderDrawColor(renderer, 0, 255, 0, 128); // Green
+            break;
+        case 2: // Sandstorm
+            SDL_SetRenderDrawColor(renderer, 244, 164, 96, 128); // Sand color
+            break;
+        case 3: // Radiation
+            SDL_SetRenderDrawColor(renderer, 0, 128, 0, 128); // Neon green
+            break;
+        case 4: // Earthquake
+            SDL_SetRenderDrawColor(renderer, 245, 245, 220, 128); // Beige
+            break;
+        case 5: // Wind
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 128); // White
+            break;
+    }
+
+    SDL_Rect overlayRect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+    SDL_RenderFillRect(renderer, &overlayRect);
 
     // Cleanup resources
     SDL_FreeSurface(textSurface);
