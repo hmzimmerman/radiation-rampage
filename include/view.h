@@ -63,8 +63,12 @@ class View{
         SDL_Texture* bombEffectTexture;
 
         SDL_Texture* humanRaiderTexture;
-        SDL_Texture* hawkTexture;
-        SDL_Texture* mutantHawkTexture;
+        SDL_Texture* hawkNorthTexture;
+        SDL_Texture* mutantHawkNorthTexture;
+        SDL_Texture* hawkSouthTexture;
+        SDL_Texture* mutantHawkSouthTexture;
+        SDL_Texture* hawkEastTexture;
+        SDL_Texture* mutantHawkEastTexture;
         SDL_Texture* dogTexture;
         SDL_Texture* mutantDogTexture;
         SDL_Texture* humanRaiderLeaderTexture;

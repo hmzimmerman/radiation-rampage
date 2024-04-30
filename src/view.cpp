@@ -68,8 +68,12 @@ void View::loadTowerTextures() {
 
 void View::loadEnemyTextures() {
     humanRaiderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaider.png");
-    hawkTexture = IMG_LoadTexture(renderer, "../resource/Hawk.png");
-    mutantHawkTexture = IMG_LoadTexture(renderer, "../resource/MutantHawk.png");
+    hawkNorthTexture = IMG_LoadTexture(renderer, "../resource/HawkNorth.png");
+    mutantHawkNorthTexture = IMG_LoadTexture(renderer, "../resource/MutantHawkNorth.png");
+    hawkSouthTexture = IMG_LoadTexture(renderer, "../resource/HawkSouth.png");
+    mutantHawkSouthTexture = IMG_LoadTexture(renderer, "../resource/MutantHawkSouth.png");
+    hawkEastTexture = IMG_LoadTexture(renderer, "../resource/HawkEast.png");
+    mutantHawkEastTexture = IMG_LoadTexture(renderer, "../resource/MutantHawkEast.png");    
     dogTexture = IMG_LoadTexture(renderer, "../resource/Dog.png");
     mutantDogTexture = IMG_LoadTexture(renderer, "../resource/MutantDog.png");
     humanRaiderLeaderTexture = IMG_LoadTexture(renderer, "../resource/HumanRaiderLeader.png");
@@ -95,9 +99,21 @@ void View::renderEnemies(const std::vector<Enemy>& enemies) {
         if (enemyName == "HumanRaider"){
             enemyTextures.push_back(humanRaiderTexture);
         }else if (enemyName == "Hawk"){
-            enemyTextures.push_back(hawkTexture);
+            if (enemy.getDirection() == Direction::SOUTH) {
+                enemyTextures.push_back(hawkSouthTexture);
+            } else if (enemy.getDirection() == Direction::NORTH) {
+                enemyTextures.push_back(hawkNorthTexture);
+            } else {
+                enemyTextures.push_back(hawkEastTexture);
+            }
         }else if (enemyName == "MutantHawk"){
-            enemyTextures.push_back(mutantHawkTexture);
+            if (enemy.getDirection() == Direction::SOUTH) {
+                enemyTextures.push_back(mutantHawkSouthTexture);
+            } else if (enemy.getDirection() == Direction::NORTH) {
+                enemyTextures.push_back(mutantHawkNorthTexture);
+            } else {
+                enemyTextures.push_back(mutantHawkEastTexture);
+            }
         }else if (enemyName == "RaiderLeader"){
             enemyTextures.push_back(humanRaiderLeaderTexture); 
         }else if (enemyName == "Dog"){
@@ -679,8 +695,12 @@ View::~View(){
     SDL_DestroyTexture(laserUpgradeTexture);
     
     SDL_DestroyTexture(humanRaiderTexture);
-    SDL_DestroyTexture(hawkTexture);
-    SDL_DestroyTexture(mutantHawkTexture);
+    SDL_DestroyTexture(hawkNorthTexture);
+    SDL_DestroyTexture(mutantHawkNorthTexture);
+    SDL_DestroyTexture(hawkSouthTexture);
+    SDL_DestroyTexture(mutantHawkSouthTexture);
+    SDL_DestroyTexture(hawkEastTexture);
+    SDL_DestroyTexture(mutantHawkEastTexture);
     SDL_DestroyTexture(dogTexture);
     SDL_DestroyTexture(humanRaiderTexture);
     SDL_DestroyTexture(mutantDogTexture);
