@@ -6,6 +6,7 @@
 #include "laserTower.h"
 #include "towerGUI.h"
 #include "constants.h"
+#include "initAudio.h"
 
 Tower::Tower(const std::string& name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate)
     : name(name), health(health), damage(damage), range(range), damageType(damageType), location(location), buildCost(buildCost), fireRate(fireRate), timeSinceLastSlowDegrade(0.0) {}
@@ -13,6 +14,7 @@ Tower::Tower(const std::string& name, int health, int damage, int range, DamageT
 
 std::shared_ptr<Tower> Tower::createTower(const std::string& type, const TowerLocation& location, View* view) {
     using namespace tower;
+    playSound("../resource/build.wav");
     if (type == "Barracks") {
         return std::make_shared<Barracks>("Barracks", tower::barracksHealth, tower::barracksDamage, tower::barracksRange, 
                             tower::barracksDamageType, location, tower::barracksBuildCost, tower::barracksFireRate, view);

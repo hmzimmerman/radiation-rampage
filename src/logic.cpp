@@ -15,6 +15,7 @@
 #include "barracks.h"
 #include "bombTower.h"
 #include "constants.h"
+#include "initAudio.h"
 
 // Constructor
 Logic::Logic() {
@@ -71,6 +72,7 @@ void Logic::update(double elapsedTime){
             if(wave_manager->getActiveEnemies()[i].getX() >= window::screenWidth){
                     takeDamage(wave_manager->getActiveEnemies()[i].getDamage());
                     wave_manager->getActiveEnemies()[i].takeDamage(wave_manager->getActiveEnemies()[i].getHealth());
+                    playSound("../resource/Alarm.wav");
             }
 
             // Check if enemy is dead and remove from list
