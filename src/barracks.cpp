@@ -1,6 +1,7 @@
 #include <limits>
 #include "barracks.h"
 #include "constants.h"
+#include "initAudio.h"
 
 std::vector<Soldier> Barracks::allSoldiers;
 
@@ -153,6 +154,7 @@ void Barracks::handleSoldierRespawnTiming(double elapsedTime) {
 
         if (timeSinceDeath >= 5.0) {
             soldier.respawn();
+            playSound("../resource/BarracksSpawn.wav");
         }
 
     } else {

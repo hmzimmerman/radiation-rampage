@@ -1,6 +1,8 @@
 #include "logic.h"
 #include "view.h"
 
+#include "initAudio.h"
+
 //Using SDL and standard IO
 #include <SDL.h>
 #include <SDL_image.h>
@@ -12,6 +14,7 @@ int main(int argc, char** argv)
   /*** Initialization ***/
 
   SDL_Init( SDL_INIT_VIDEO );
+  initAudio();
   
   Logic logic = Logic();
   View view = View();
