@@ -142,11 +142,31 @@ void startScreen::render() {
         textY += lineHeight;
         renderText("- Build towers to combat enemies walking along the path", textColor, textX, textY);
         textY += lineHeight;
+        renderText("- Towers will degrade over time so make sure to keep them repaired", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- If a tower's health goes to 0, it stops firing/spawning allies", textColor, textX, textY);
+        textY += lineHeight;
         renderText("- Manage your money to buy, upgrade, and repair towers", textColor, textX, textY);
         textY += lineHeight;
+        renderText("- Laser towers are fast and target one enemy", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- Bomb towers are slow and target multiple enemies", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- Barracks towers spawn allies on the path that will stop enemies", textColor, textX, textY);
+	textY += lineHeight;
         renderText("- Environmental effects will occur that will somehow affect the game", textColor, textX, textY);
         textY += lineHeight;
-        renderText("- Towers will degrade over time so make sure to keep them repaired", textColor, textX, textY);
+        renderText("- Wind slows down/speeds enemies up", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- Acid rain makes towers degrade faster", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- Sandstorms reduce tower range", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- Radiation increases enemy health", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- Earthquakes both degrade towers faster and slow down enemies", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- Hawks can only be hit by laser towers", textColor, textX, textY);
     }
 
     if(leaderboard){
