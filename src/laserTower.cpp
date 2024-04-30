@@ -1,4 +1,5 @@
 #include "laserTower.h"
+#include "initAudio.h"
 
 LaserTower::LaserTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, double fireRate, View* view)
     : Tower(name, health, damage, range, damageType, location, buildCost, fireRate), target(nullptr), view(view), timeSinceLastAttack(0.0) {
@@ -16,6 +17,8 @@ void LaserTower::attack() {
         view->triggerAttackAnimation(centerX, centerY, target->getX(), target->getY(), DamageType::LASER);
 
         timeSinceLastAttack = 0.0;
+
+        playSound("../resource/Laser.wav");
     }
 }
 

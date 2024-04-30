@@ -1,4 +1,5 @@
 #include "bombTower.h"
+#include "initAudio.h"
 #include <memory>
 
 
@@ -52,7 +53,9 @@ void BombTower::updateTarget(std::vector<Enemy>& enemies){
                     enemy.takeDamage(getDamage());
                 }
             }
-        } 
+        }
+        //play bomb sound
+        playSound("../resource/Bomb.wav"); 
     }
 }
 
