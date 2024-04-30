@@ -15,8 +15,6 @@ private:
 public:
     Soldier(int health, int x, int y);
 
-    void attack(Enemy& enemy);
-
     void takeDamage(int damage);
 
     bool isAlive() const;

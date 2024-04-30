@@ -4,11 +4,6 @@
 Soldier::Soldier(int health, int x, int y)
     : health(health), x(x), y(y) {}
 
-void Soldier::attack(Enemy& enemy) {
-    using namespace tower;
-    enemy.takeDamage(barracksDamage);
-}
-
 void Soldier::takeDamage(int damage) {
     health -= damage;
 }

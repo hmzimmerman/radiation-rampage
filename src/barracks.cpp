@@ -32,7 +32,7 @@ void Barracks::attack() {
         if (soldier.isAlive() && !isDestroyed()) {
             target->haltMovement();
             if (isReadyToAttack(elapsedTime)) {
-                soldier.attack(*target);
+                target->takeDamage(getDamage());
                 soldier.takeDamage(target->getDamage());
             }
         }

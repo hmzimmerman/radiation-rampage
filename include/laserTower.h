@@ -26,9 +26,6 @@ public:
     void upgrade() override;
 
     int getUpgradeCost() const override;
-
-    // Getters
-    int getDamage() const override { return tower::laserDamage; }
 };
 
 #endif

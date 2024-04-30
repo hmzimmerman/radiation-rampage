@@ -25,8 +25,6 @@ public:
     void upgrade() override;
 
     int getUpgradeCost() const override;
-
-    
 };
 
 #endif
