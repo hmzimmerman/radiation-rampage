@@ -34,6 +34,7 @@ void Barracks::attack() {
             if (isReadyToAttack(elapsedTime)) {
                 target->takeDamage(getDamage());
                 soldier.takeDamage(target->getDamage());
+                playSound("../resource/Barracks.wav");
             }
         }
 
