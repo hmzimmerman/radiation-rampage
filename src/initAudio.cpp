@@ -1,7 +1,7 @@
-#include "initAudio.h"
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL.h>
 #include <iostream>
+#include <SDL.h>
+#include <SDL_mixer.h>
+#include "initAudio.h"
 
 void initAudio() {
     if (SDL_Init(SDL_INIT_AUDIO) < 0) {
