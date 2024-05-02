@@ -52,6 +52,7 @@ void Weather::updateWeather(double elapsedTime){
     }
 }
 
+//methods to set diffrent weather types
 void Weather::weatherSetNone(){
     name = "None";
     towerHpMod = 1;

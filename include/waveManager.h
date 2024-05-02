@@ -36,6 +36,8 @@ class WaveManager {
         //weather for mods to enemys
         std::shared_ptr<Weather> weather;
 
+        void setEnenmyWaves();
+
     public:
         //constructor, create the first 10 waves and add them to the enemy waves, and set time bwtween waves. also sets the weather pointer to the one saved in logic
         WaveManager(std::shared_ptr<Weather> weatherpntr);
