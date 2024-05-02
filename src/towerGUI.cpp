@@ -145,7 +145,6 @@ bool TOWERGUI::selectTowerType(int mouseX, int mouseY, View* view, Logic& logic)
                             location.towerType = currentOptions[j];
                             location.tower = tower;
                             isErrorFreeTransaction = true;
-                            //printTowerInfo();
                         }
                     }else{
                         // Transaction failed. 
@@ -204,17 +203,3 @@ bool TOWERGUI::handleTowerAction(const std::string& action, Logic& logic) {
         return false; // Failed transaction (not enough money)
     }
 }
-
-// Uncomment for testing
-/* void TOWERGUI::printTowerInfo() {
-    std::cout << "---------------------------------------" << std::endl;
-    std::cout << "Tower Information:" << std::endl;
-    for (const auto& location : towerLocations) {
-        std::cout << "Location: (" << location.x << ", " << location.y << ")" << std::endl;
-        if (location.occupied) {
-            std::cout << "Tower Type: " << location.towerType << std::endl;
-        } else {
-            std::cout << "Empty" << std::endl;
-        }
-    }
-} */
