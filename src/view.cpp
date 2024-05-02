@@ -14,7 +14,7 @@
 
 using namespace std;
 
-View::View(){
+View::View() {
     using namespace window;
     SCREEN_WIDTH = window::screenWidth;
     SCREEN_HEIGHT = window::screenHeight;
@@ -132,11 +132,11 @@ void View::renderEnemies(const std::vector<Enemy>& enemies) {
     }
 }
 
-bool View::update(Logic& logic){
+bool View::update(Logic& logic) {
     // Running is returned to update and is updated when player hits x or quits
-    // At the end return running
     SDL_Event event; 
     bool running = true;
+
     while (SDL_PollEvent(&event)!=0){
         if (event.type == SDL_QUIT) {
             running = false;
@@ -262,7 +262,7 @@ void View::handleTowerTypeSelection(const SDL_Event& event, Logic& logic) {
     }
 }
 
-void View::handleStartScreen(const SDL_Event& event){
+void View::handleStartScreen(const SDL_Event& event) {
 	if (event.type == SDL_KEYDOWN && start->getInstruct() == false && start->getLeaderboard() == false) {
 		switch (event.key.keysym.sym) {
         	case SDLK_LEFT:
@@ -377,7 +377,7 @@ void View::renderGUI() {
 }
 
 
-void View::renderHUD(const Logic& logic){
+void View::renderHUD(const Logic& logic) {
     hud->update(logic.getMoney(), logic.getHealth(), (*logic.getManager()).getCurrWave());
 	hud->render();
 }
@@ -400,7 +400,7 @@ void View::triggerAttackAnimation(int startX, int startY, int endX, int endY, Da
     }
 }
 
-void View::renderAttackAnimation(DamageType attackType){
+void View::renderAttackAnimation(DamageType attackType) {
     using namespace tower;
     if (attackType == DamageType::LASER){
         thickLineRGBA(renderer, laserAttackAnimation.startX, laserAttackAnimation.startY,
@@ -423,10 +423,7 @@ void View::renderAttackAnimation(DamageType attackType){
         if (SDL_GetTicks() - bombAttackAnimation.startTime >= 700) {
             bombAttackAnimation.active = false;
         }
-
     }
-
-
 }
 
 void View::renderSoldiers() {
@@ -545,7 +542,7 @@ void View::renderPause() {
 	TTF_CloseFont(font);
 }
 
-void View::renderWaveTime(const WaveManager& manager){
+void View::renderWaveTime(const WaveManager& manager) {
     SDL_Color textColor = { 255, 255, 255, 255 }; // White color
 
     int rectWidth = 250;
@@ -587,7 +584,7 @@ void View::renderWaveTime(const WaveManager& manager){
     TTF_CloseFont(font);
 }
 
-void View::renderWeatherName(const Weather& weather){
+void View::renderWeatherName(const Weather& weather) {
     SDL_Color textColor = { 255, 255, 255, 255 }; // White color
 
     int rectWidth = 250;
@@ -623,6 +620,16 @@ void View::renderWeatherName(const Weather& weather){
     SDL_Rect renderQuad = { x, y, textWidth, textHeight };
     SDL_RenderCopy(renderer, textTexture, nullptr, &renderQuad);
     
+    // Render the weather tint overlay
+    renderWeatherTint(weather);
+
+    // Cleanup resources
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(font);
+}
+
+void View::renderWeatherTint(const Weather& weather) {
     // Define the mapping of strings to actions
     std::map<std::string, int> map = {
         {"Acid Rain", 1},
@@ -630,12 +637,15 @@ void View::renderWeatherName(const Weather& weather){
         {"Radiation", 3},
         {"Earthquake", 4},
         {"East Wind", 5},
-	{"West Wind", 6}
+	    {"West Wind", 6}
     };
+
+    std::string name = weather.getWeatherName();
     
-   // Add tint to screen based on weather
+   // Render tint to screen based on weather
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-   switch(map[name]){
+
+    switch(map[name]) {
         case 1: // Acid Rain
             SDL_SetRenderDrawColor(renderer, 0, 255, 0, 50); // Green
             break;
@@ -651,26 +661,20 @@ void View::renderWeatherName(const Weather& weather){
         case 5: // Wind
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 50); // White
             break;
-	case 6:
+	    case 6:
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 50); // White
             break;
-	default: 
+	    default: 
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0); // No color
             break;
     }
 
     SDL_Rect overlayRect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
     SDL_RenderFillRect(renderer, &overlayRect);
-    
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
-
-    // Cleanup resources
-    SDL_FreeSurface(textSurface);
-    SDL_DestroyTexture(textTexture);
-    TTF_CloseFont(font);
 }
 
-void View::renderFailedTransMessage(){
+void View::renderFailedTransMessage() {
     SDL_SetRenderDrawColor(renderer, 220, 99, 83, 1);
     SDL_Rect messageRect = {(SCREEN_WIDTH/2)-(SCREEN_WIDTH/8), SCREEN_HEIGHT/100, SCREEN_WIDTH/4, SCREEN_HEIGHT/10};
     SDL_RenderFillRect(renderer, &messageRect);
@@ -681,11 +685,14 @@ void View::renderFailedTransMessage(){
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_Rect textRect = { messageRect.x + messageRect.w / 8 ,  messageRect.y + messageRect.h / 8 , textSurface->w, (textSurface->h ) };
     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+
+    // Cleanup resources
     SDL_FreeSurface(textSurface);
     SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(font);
 }
 
-View::~View(){
+View::~View() {
     SDL_DestroyTexture(barracksTexture);
     SDL_DestroyTexture(bombTexture);
     SDL_DestroyTexture(laserTexture);

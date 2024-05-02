@@ -7,7 +7,7 @@
 #include "constants.h"
 
 class Barracks : public Tower {
-    private:
+private:
     Enemy* target; // Current target enemy
     View* view;
 

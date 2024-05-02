@@ -1,9 +1,9 @@
-#include "enemy.h" 
-#include "constants.h" 
-#include "weather.h"
 #include <iostream>
 #include <algorithm>
 #include <memory>
+#include "enemy.h" 
+#include "constants.h" 
+#include "weather.h"
 
 const int UPDATE_DIVISOR = 2;
 

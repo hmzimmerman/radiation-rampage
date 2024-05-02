@@ -1,6 +1,3 @@
-#include "enemy.h"
-#include "waveManager.h"
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -9,6 +6,9 @@
 #include <SDL.h>
 #include <random>
 #include <memory>
+
+#include "enemy.h"
+#include "waveManager.h"
 
 //constructor
 WaveManager::WaveManager(std::shared_ptr<Weather> weatherpntr) {

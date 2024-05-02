@@ -1,7 +1,6 @@
+#include <memory>
 #include "bombTower.h"
 #include "initAudio.h"
-#include <memory>
-
 
 BombTower::BombTower(std::string name, int health, int damage, int range, DamageType damageType, const TowerLocation& location, int buildCost, int fireRate, int rangeBombEffect, View* view)
     : Tower(name, health, damage, range, damageType, location, buildCost, fireRate), rangeBombEffect(rangeBombEffect), view(view), timeSinceLastAttack(0.0){

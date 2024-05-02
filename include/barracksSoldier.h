@@ -28,7 +28,7 @@ public:
 
     int getY() const { return y; }
 
-    double getTimeSinceDeath() { return timeSinceDeath; }
+    double getTimeSinceDeath() const { return timeSinceDeath; }
 
     // Setters
     void setTimeSinceDeath(double time);

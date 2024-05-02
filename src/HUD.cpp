@@ -1,7 +1,7 @@
-#include "HUD.h"
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
+#include "HUD.h"
 
 HUD::HUD(SDL_Renderer* renderer, int screenWidth, int screenHeight) 
     : renderer(renderer), screenWidth(screenWidth), screenHeight(screenHeight),
