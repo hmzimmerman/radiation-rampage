@@ -96,5 +96,6 @@ public:
     void triggerAttackAnimation(int startX, int startY, int endX, int endY, DamageType attackType);
     void renderAttackAnimation(DamageType attackType);
     void renderWeatherName(const Weather& weather);
+    void renderWeatherTint(const Weather& weather);
 };
 #endif
