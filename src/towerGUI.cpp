@@ -50,7 +50,7 @@ void TOWERGUI::render() {
 
         // Render option text
         SDL_Color textColor = { 0, 0, 0 };
-        TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 10);
+        TTF_Font* font = TTF_OpenFont("../resource/arial.ttf", 9);
         int towerActionCoins = 0;
         if (location.occupied){
             // Upgrade tower
