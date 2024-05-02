@@ -167,6 +167,8 @@ void startScreen::render() {
         renderText("- Earthquakes both degrade towers faster and slow down enemies", textColor, textX, textY);
         textY += lineHeight;
         renderText("- Hawks can only be hit by laser towers", textColor, textX, textY);
+        textY += lineHeight;
+        renderText("- To pause the game, press the p button or minimize the screen", textColor, textX, textY);
     }
 
     if(leaderboard){
