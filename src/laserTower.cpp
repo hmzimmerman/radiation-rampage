@@ -59,7 +59,7 @@ bool LaserTower::isReadyToAttack(double elapsedTime) {
 
 int LaserTower::getUpgradeCost() const {
     using namespace tower;
-    return tower::laserUpgradeCost;
+    return (int)(tower::laserBuildCost * tower::laserUpgradeCostMod);
 }
 
 void LaserTower::upgrade() {
