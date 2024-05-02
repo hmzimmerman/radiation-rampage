@@ -627,7 +627,7 @@ void View::renderWeatherName(const Weather& weather){
         {"Radiation", 3},
         {"Earthquake", 4},
         {"East Wind", 5},
-	{"West Wind", 6}
+	    {"West Wind", 6}
     };
     
    // Add tint to screen based on weather
@@ -680,6 +680,7 @@ void View::renderFailedTransMessage(){
     SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
     SDL_FreeSurface(textSurface);
     SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(font);
 }
 
 View::~View(){
