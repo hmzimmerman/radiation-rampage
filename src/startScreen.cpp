@@ -1,6 +1,3 @@
-#include "startScreen.h"
-#include "score.h"
-
 #include <string>
 #include <vector>
 #include <iostream>
@@ -8,6 +5,9 @@
 #include <fstream>
 #include <sstream>
 #include <stdio.h>
+
+#include "startScreen.h"
+#include "score.h"
 
 startScreen::startScreen(SDL_Renderer* renderer, int screenWidth, int screenHeight)
     : renderer(renderer), screenWidth(screenWidth), screenHeight(screenHeight), selected(0), instruct(false), leaderboard(false) {

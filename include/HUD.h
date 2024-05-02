@@ -6,15 +6,6 @@
 #include <string>
 
 class HUD {
-public:
-    HUD(SDL_Renderer* renderer, int screenWidth, int screenHeight);
-
-    // Update HUD with new statistics
-    void update(int coins, int health, int wave);
-
-    // Render the HUD on the screen
-    void render();
-
 private:
     SDL_Renderer* renderer;
     SDL_Rect backgroundRect;
@@ -28,6 +19,15 @@ private:
 
     // Text rendering helper function
     void renderText(const std::string& text, int x, int y);
+
+public:
+    HUD(SDL_Renderer* renderer, int screenWidth, int screenHeight);
+
+    // Update HUD with new statistics
+    void update(int coins, int health, int wave);
+
+    // Render the HUD on the screen
+    void render();
 };
 
 #endif

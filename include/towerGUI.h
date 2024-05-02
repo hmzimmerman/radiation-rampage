@@ -28,7 +28,6 @@ public:
     void hide();
     bool selectTowerType(int mouseX, int mouseY, View* view, Logic& logic); // returns false if a transaction failed, true otherwise
     bool handleTowerAction(const std::string& action, Logic& logic); // return false if a transaction failed, true otherwiseSS
-    //void printTowerInfo();
 
     //Getters
     bool isVisible() const { return visible; }

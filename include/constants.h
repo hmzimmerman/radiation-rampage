@@ -1,8 +1,9 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
+
 #include "damage_type.h"
 
-namespace enemy{
+namespace enemy {
     // x,y pixel coordinate, slope, y-intercept of the diagonal line segment for path corners 
     constexpr int corner1X1 {100};
     constexpr int corner1Y1 {635};
@@ -40,13 +41,13 @@ namespace enemy{
     constexpr float corner5YIntercept {1119.48};
 }
 
-namespace moneyManager{
+namespace moneyManager {
     constexpr int startAmount {100};
     constexpr int slowGainAmount {5};
     constexpr int secondsBetweenSlowGain {3};
 }
 
-namespace tower{
+namespace tower {
     // tower degradation
     constexpr int secondsBetweenSlowDegrade {10};
     constexpr int slowDegradeAmount {10};
@@ -89,7 +90,7 @@ namespace tower{
     constexpr double laserUpgradeFireRate {1.5};
 }
 
-namespace window{
+namespace window {
     constexpr int screenHeight = 720;
     constexpr int screenWidth = 1280;
 }
