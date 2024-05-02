@@ -22,6 +22,22 @@ struct SelectableBox {
 };
 	
 class startScreen {
+private:
+    SDL_Renderer* renderer;
+    SDL_Texture* backgroundTexture;
+    TTF_Font* font;
+    SDL_Color textColor;
+    
+    int screenWidth;
+    int screenHeight;
+    int selected;
+    
+    bool instruct;
+    bool leaderboard;
+	
+    SelectableBox boxes[4];
+    SDL_Rect close; // Rectangle for the close button
+
 public:
     startScreen(SDL_Renderer* renderer, int screenWidth, int screenHeight);
     
@@ -43,22 +59,6 @@ public:
     const SelectableBox* getBoxes() const;
 
     std::vector<Score> readLeaderboard();
-	
-private:
-    SDL_Renderer* renderer;
-    SDL_Texture* backgroundTexture;
-    TTF_Font* font;
-    SDL_Color textColor;
-    
-    int screenWidth;
-    int screenHeight;
-    int selected;
-    
-    bool instruct;
-    bool leaderboard;
-	
-    SelectableBox boxes[4];
-    SDL_Rect close; // Rectangle for the close button
 };
 	
 #endif

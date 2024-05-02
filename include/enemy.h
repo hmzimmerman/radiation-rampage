@@ -1,9 +1,9 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "weather.h"
 #include <string>
 #include <memory>
+#include "weather.h"
 
 enum class Direction {
 	NORTH,

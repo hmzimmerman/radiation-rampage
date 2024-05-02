@@ -24,12 +24,12 @@ struct TowerLocation {
 };
 
 class TowerLocationManager {
+private:
+    static std::vector<TowerLocation> towerLocations;
+
 public:
     static std::vector<TowerLocation>& getTowerLocations();
     static void removeTower(const Tower& tower);
-
-private:
-    static std::vector<TowerLocation> towerLocations;
 };
 
 #endif
