@@ -12,7 +12,7 @@ void BombTower::attack() {
 
 int BombTower::getUpgradeCost() const {
     using namespace tower;
-    return tower::bombUpgradeCost;
+    return (int)(tower::bombBuildCost * tower::bombUpgradeCostMod);
 }
 
 void BombTower::upgrade() {

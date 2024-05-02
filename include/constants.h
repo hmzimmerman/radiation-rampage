@@ -63,6 +63,7 @@ namespace tower {
 
     constexpr int barracksUpgradeDamage {45};
     constexpr double barracksUpgradeFireRate {1};
+    constexpr double barracksUpgradeCostMod {1.3};
 
     constexpr int barracksSoldierHealth {10};
 
@@ -77,6 +78,7 @@ namespace tower {
 
     constexpr int bombUpgradeDamage {45};
     constexpr double bombUpgradeFireRate {1};
+    constexpr double bombUpgradeCostMod {1.3};
 
     constexpr int laserHealth {100};
     constexpr int laserDamage {10};
@@ -85,6 +87,7 @@ namespace tower {
     constexpr int laserBuildCost {70};
     constexpr double laserFireRate {1};
     constexpr int laserUpgradeCost {35};
+    constexpr double laserUpgradeCostMod {1.3};
 
     constexpr int laserUpgradeDamage {20};
     constexpr double laserUpgradeFireRate {1.5};
