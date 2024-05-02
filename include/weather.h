@@ -16,7 +16,6 @@ class Weather {
         const double time_between_weather = 30;
         double time_til_next_weather;
 
-
         //set the weather to diffrent types
         void weatherSetNone();
         void weatherSetAcidRain();
@@ -43,6 +42,5 @@ class Weather {
         // Reset method
 		void reset();
 };
-
 
 #endif

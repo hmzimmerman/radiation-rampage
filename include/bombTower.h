@@ -6,9 +6,9 @@
 
 class BombTower : public Tower {
 private:
+    View* view;
     int rangeBombEffect;
     double timeSinceLastAttack;
-    View* view;
     bool inBombRange(int targetX, int targetY, int otherEnemyX, int otherEnemyY) const;
 
 public:
@@ -19,8 +19,6 @@ public:
     void updateTarget(std::vector<Enemy>& enemies) override;
 
     bool isReadyToAttack(double elapsedTime);
-
-    int getRangeBombEffect() {return rangeBombEffect;}
 
     void upgrade() override;
 

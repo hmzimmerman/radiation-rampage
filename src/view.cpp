@@ -423,10 +423,7 @@ void View::renderAttackAnimation(DamageType attackType){
         if (SDL_GetTicks() - bombAttackAnimation.startTime >= 700) {
             bombAttackAnimation.active = false;
         }
-
     }
-
-
 }
 
 void View::renderSoldiers() {
