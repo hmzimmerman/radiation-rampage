@@ -54,7 +54,6 @@ class Tower {
         int getRange() const { return range; }
         const TowerLocation& getLocation() const { return location; }
         double getFireRate() const { return fireRate; }
-        int getBuildCost() const { return buildCost; }
         virtual int getUpgradeCost() const = 0;
         bool isUpgraded() const { return upgraded; }
         int getRepairCost() const;
@@ -67,7 +66,6 @@ class Tower {
         void setRange(int newRange) { range = newRange; }
         void setFireRate(double newFireRate) { fireRate = newFireRate; }
         void setUpgraded(bool upgraded) { this->upgraded = upgraded; }
-        void setBuildCost(int newBuildCost) { buildCost = newBuildCost;}
 
         static std::shared_ptr<Tower> createTower(const std::string& type, const TowerLocation& location, View* view);
 };
