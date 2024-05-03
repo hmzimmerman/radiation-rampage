@@ -261,6 +261,7 @@ void startScreen::renderText(const std::string& text, const SDL_Color& color, in
 	if(text == "X"){
 		TTF_Font* XFont = TTF_OpenFont("../resource/arial.ttf", 30);
         textSurface = TTF_RenderText_Solid(XFont, text.c_str(), color);
+        TTF_CloseFont(XFont);
 	}else{
     	textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
 	}
